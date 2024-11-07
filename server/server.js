@@ -10,9 +10,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api",(req, res) => {
-    res.status(200).json({data: 'hello from /api'})
+    res.status(200).json({message: 'hello from /api'})
 })
 
-app.listen(port, () => {
+app.listen(port, () => {  
   console.log(`Server running at http://localhost:${port}`);
 });

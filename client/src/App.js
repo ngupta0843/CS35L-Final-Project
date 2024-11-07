@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import axios from "axios";
 import "./App.css";
+import Hello from './components/Hello'
 
 function App() {
   const [test, setTest] = useState("test");
@@ -15,8 +16,9 @@ function App() {
     console.log("clicked");
     try {
       const response = await axios.get("http://localhost:8088/api");
-      console.log(response.data.data);
-      setTest(response.data.data);
+      console.log(response)
+      console.log(response.data.message);
+      setTest(response.data.message);
     } catch (error) {
       console.log(error);
     }
@@ -26,6 +28,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Hello />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
