@@ -14,7 +14,7 @@ function App() {
   const handleClick = async () => {
     console.log("clicked");
     try {
-      const response = await axios.get("http://localhost:5000/api");
+      const response = await axios.get("http://localhost:8088/api");
       console.log(response.data.data);
       setTest(response.data.data);
     } catch (error) {
