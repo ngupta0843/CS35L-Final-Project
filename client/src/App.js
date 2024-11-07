@@ -3,6 +3,8 @@ import logo from "./logo.svg";
 import axios from "axios";
 import "./App.css";
 import Hello from './components/Hello'
+import UserProfile from './pages/profile'
+import prof_pic from "./testimages/nikhil_profile_pic.png";
 
 function App() {
   const [test, setTest] = useState("test");
@@ -25,25 +27,8 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Hello />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {test}
-        <button onClick={handleClick}>Click Me</button>
-      </header>
-    </div>
+    <UserProfile username="Nikhil" profilepic={prof_pic} />
+
   );
 }
 
