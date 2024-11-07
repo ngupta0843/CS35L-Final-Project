@@ -1,4 +1,5 @@
 const Users = require("../../models/userModel.js");
+const bcrypt = require("bcryptjs");
 
 // Sign in route
 const signin = async (req, res) => {
@@ -7,6 +8,15 @@ const signin = async (req, res) => {
     const existingUser = await Users.findOne({ email, password });
     if (!existingUser) {
       return res.status(404).json({ message: "User doesn't exist" });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Invalid credentials." });
     }
     res.status(200).json({ result: existingUser });
   } catch (error) {
@@ -22,9 +32,11 @@ const signup = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
+    const hashedPassword = await bcrypt.hash(password, 12);
+    console.log(hashedPassword);
     const newUser = new Users({
       email,
-      password,
+      password: hashedPassword,
       name: `${firstName} ${lastName}`,
     });
     await newUser.save();
@@ -36,7 +48,7 @@ const signup = async (req, res) => {
 
 // Test route (for debugging purposes)
 const test = async (req, res) => {
-  console.log( "req body", req.body);
+  console.log("req body", req.body);
   const { name, email, password } = req.body;
   try {
     console.log(name, email, password);
@@ -51,6 +63,6 @@ const test = async (req, res) => {
 const testGet = async (req, res) => {
   console.log("test get", req.body);
   res.status(200).json({ message: "Test GET route" });
-}
+};
 
 module.exports = { signin, signup, test, testGet };
