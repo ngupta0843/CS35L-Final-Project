@@ -5,7 +5,7 @@ import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
 import post2 from "../testimages/post2.jpeg";
 import post3 from "../testimages/post3.jpeg";
-import './UserProfile.css';  // Import the CSS file
+import './UserProfile.css';
 
 const posts = [post1, post2, post3];
 
