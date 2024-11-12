@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import axios from "axios";
 import "./App.css";
+import { CssBaseline } from '@mui/material';
 import Hello from './components/Hello';
+import LandingPage from './pages/landing';
 // import {TextField} from "@mui/material";
 
+/*
 function App() {
   const [test, setTest] = useState("test");
   const [user, setUser] = useState({});
@@ -85,7 +88,6 @@ function App() {
     }
 
   }
-
   return (
     <div className="App">
       <header className="App-header">
@@ -110,6 +112,16 @@ function App() {
         {test}
         <button onClick={handleClick}>Click Me</button>
       </header>
+    </div>
+  );
+}
+*/
+
+function App() {
+  return (
+    <div className="App">
+      <CssBaseline /> 
+      <LandingPage />
     </div>
   );
 }
