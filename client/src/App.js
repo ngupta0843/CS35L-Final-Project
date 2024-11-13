@@ -15,7 +15,7 @@ function App() {
     <Router>
       <div className="App">
         <CssBaseline />
-        <Header />
+        {/* <Header /> */}
         <AuthButtons />
         <Routes>
           <Route index element={<LandingPage />} />

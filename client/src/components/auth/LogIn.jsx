@@ -171,6 +171,12 @@ const LogIn = memo(() => {
           fullWidth
           label="Password"
           variant="filled"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); 
+              handleSend(); 
+            }
+          }}
           onChange={(e) => {
             e.preventDefault();
             setUser({
@@ -229,7 +235,7 @@ const LogIn = memo(() => {
             "&:hover": { backgroundColor: "#e0e0e0" },
           }}
         >
-          Sign Up with Email
+          Sign In
         </Button>
 
         <Divider sx={{ width: "100%", my: 2, color: "#aaaaaa" }}>
