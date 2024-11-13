@@ -29,6 +29,7 @@ const AuthButtons = () => {
       </Button>
       <Button
         variant="outlined"
+        onClick={() => navigate("/login")}
         className="auth-button"
         sx={{
           color: "white",

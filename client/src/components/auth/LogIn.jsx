@@ -21,14 +21,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 
-const SignUp = memo(() => {
+const LogIn = memo(() => {
   const navigate = useNavigate();
   // useState hooks
   const [user, setUser] = useState({
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
@@ -50,16 +48,14 @@ const SignUp = memo(() => {
     }
     setError(false);
     try {
-      const response = await axios.post("http://localhost:8088/users/signup", {
-        firstname: user.firstname,
-        lastname: user.lastname,
+      const response = await axios.post("http://localhost:8088/users/signin", {
         email: user.email,
         password: user.password,
       });
       console.log(response);
       switch (response.status) {
-        case 201:
-          navigate("/dashboard");
+        case 200:
+          navigate("/dashboard", { state: { user: response.data.result } });
           break;
         default:
           alert("Signup Failed");
@@ -67,8 +63,8 @@ const SignUp = memo(() => {
       }
     } catch (error) {
       switch (error.response.status) {
-        case 400:
-          alert("User already exists");
+        case 404:
+          alert("Account doesn't exist");
           break;
         default:
           alert("Signup Failed");
@@ -112,8 +108,8 @@ const SignUp = memo(() => {
             variant="body1"
             sx={{ fontSize: "1.2rem", width: "100%" }}
           >
-            “This app has helped me reduce over 540 pounds, saving me from
-            morbid obesity.” - Sachit Murthy, current student at UCLA.
+            "I discovered the bootybuilder using this app and have not turned
+            back since." - Akarsh Legala, current student at UCLA
           </Typography>
         </Box>
       </Box>
@@ -132,10 +128,10 @@ const SignUp = memo(() => {
         }}
       >
         <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
-          Create an account
+          Sign into your account
         </Typography>
         <Typography variant="body2" sx={{ color: "#aaaaaa", mb: 3 }}>
-          Enter your email below to create your account
+          Enter your email below to sign in.
         </Typography>
 
         {error && (
@@ -143,71 +139,6 @@ const SignUp = memo(() => {
             Error: Please enter a valid email address.
           </Typography>
         )}
-
-        {/* first name textfield */}
-        <TextField
-          required
-          fullWidth
-          label="First Name"
-          variant="filled"
-          type="firstname"
-          placeholder="Aditya"
-          value={user.firstname}
-          onChange={(e) => {
-            e.preventDefault();
-            setUser({
-              ...user,
-              firstname: e.target.value,
-            });
-          }}
-          sx={{
-            mb: 2,
-            backgroundColor: "#333333",
-            borderRadius: 1,
-            "& .MuiFilledInput-root": {
-              color: "#ffffff",
-              "&:before": { borderBottomColor: "#666666" },
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#aaaaaa",
-              },
-            },
-          }}
-          InputLabelProps={{
-            style: { color: "#aaaaaa" },
-          }}
-        />
-        {/* last name textfield */}
-        <TextField
-          required
-          fullWidth
-          label="Last Name"
-          variant="filled"
-          type="lastname"
-          placeholder="Murthy"
-          value={user.lastname}
-          onChange={(e) => {
-            e.preventDefault();
-            setUser({
-              ...user,
-              lastname: e.target.value,
-            });
-          }}
-          sx={{
-            mb: 2,
-            backgroundColor: "#333333",
-            borderRadius: 1,
-            "& .MuiFilledInput-root": {
-              color: "#ffffff",
-              "&:before": { borderBottomColor: "#666666" },
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#aaaaaa",
-              },
-            },
-          }}
-          InputLabelProps={{
-            style: { color: "#aaaaaa" },
-          }}
-        />
         {/* email textfield */}
         <TextField
           required
@@ -298,7 +229,7 @@ const SignUp = memo(() => {
             "&:hover": { backgroundColor: "#e0e0e0" },
           }}
         >
-          Sign In with Email
+          Sign Up with Email
         </Button>
 
         <Divider sx={{ width: "100%", my: 2, color: "#aaaaaa" }}>
@@ -337,4 +268,4 @@ const SignUp = memo(() => {
   );
 });
 
-export default SignUp;
+export default LogIn;
