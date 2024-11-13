@@ -26,7 +26,7 @@ const signin = async (req, res) => {
 
 // Sign up route
 const signup = async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstname, lastname } = req.body;
   try {
     const existingUser = await Users.findOne({ email });
     if (existingUser) {
@@ -37,7 +37,7 @@ const signup = async (req, res) => {
     const newUser = new Users({
       email,
       password: hashedPassword,
-      name: `${firstName} ${lastName}`,
+      name: `${firstname} ${lastname}`,
     });
     await newUser.save();
     res.status(201).json({ message: "User created successfully" });
