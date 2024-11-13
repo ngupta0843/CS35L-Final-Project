@@ -19,8 +19,10 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import axios from "axios";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = memo(() => {
+  const navigate = useNavigate();
   // useState hooks
   const [user, setUser] = useState({
     email: "",
@@ -47,7 +49,6 @@ const SignUp = memo(() => {
       return;
     }
     setError(false);
-
     try {
       const response = await axios.post("http://localhost:8088/users/signup", {
         firstname: user.firstname,
@@ -58,7 +59,7 @@ const SignUp = memo(() => {
       console.log(response);
       switch (response.status) {
         case 201:
-          alert("Signup Successful");
+          navigate("/dashboard");
           break;
         default:
           alert("Signup Failed");
