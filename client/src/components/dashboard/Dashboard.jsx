@@ -22,13 +22,12 @@ import {
 const workoutData = [
   { date: "2023-01-01", workout: "Cardio", duration: 30 },
   { date: "2023-01-02", workout: "Strength", duration: 45 },
-  // ...more data...
+  { date: "2023-01-02", workout: "Strength", duration: 45 },
 ];
 
 const graphData = [
   { name: "Jan", uv: 4000, pv: 2400, amt: 2400 },
   { name: "Feb", uv: 3000, pv: 1398, amt: 2210 },
-  // ...more data...
 ];
 
 const Dashboard = () => {
