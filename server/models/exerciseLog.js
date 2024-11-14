@@ -6,6 +6,10 @@ const exerciseLog = mongoose.Schema({
       type: Date,
       default: Date.now,
     },
+    tag: {
+      type: String,
+      required: true,
+    },
     exercise: {
       type : String,
       required: true
@@ -21,6 +25,11 @@ const exerciseLog = mongoose.Schema({
     sets: {
       type: Number,
       required: false
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Users', 
+      required: true,
     }
   });
 
