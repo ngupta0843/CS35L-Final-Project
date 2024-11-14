@@ -56,7 +56,7 @@ const updateExercise = async (req, res) => {
 };
 
 const getUserExercises = async (req, res) => {
-    const {id} = req.params;
+    const {id} = req.body;
     try {
         const exercises = await Exercises.find({ userId: id });
         res.status(200).json(exercises);
@@ -69,6 +69,6 @@ module.exports = {
   addExercise,
   updateExercise,
   deleteExercise,
-  getUserExercises,
+  getUserExercises
 };
 
