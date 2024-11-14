@@ -19,12 +19,22 @@ const userSchema = mongoose.Schema({
   bio: {
     type: String,
   },
-  photos: {
+  profile_photo: {
     type: Array,
-  }
+  },
+  followers: {
+    type: Array,
+  },
+  following: {
+    type: JSON,
+  },
+  posts: {
+    type: JSON,
+  },
+  saved_workouts: {
+    type: JSON,
+  },
 });
-
-  
 
 const Users = mongoose.model("Users", userSchema);
 

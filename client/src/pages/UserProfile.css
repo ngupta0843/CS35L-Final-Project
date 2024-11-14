@@ -1,0 +1,99 @@
+/* Dark Mode Styles for User Profile */
+
+body {
+    background-color: #121212; /* Dark background color */
+    color: #e0e0e0; /* Light text color */
+    font-family: Arial, sans-serif;
+}
+
+/* User Profile Header */
+.user-profile-header {
+    padding: 2rem;
+    background-color: #1e1e1e; /* Dark background for the header */
+    color: #e0e0e0; /* Light text color */
+}
+
+.user-profile-header .avatar {
+    width: 120px;
+    height: 120px;
+    border: 2px solid #1e1e1e;
+    margin-right: 2rem;
+}
+
+.user-profile-header .name {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.user-profile-header .username {
+    font-size: 1rem;
+    color: #bbb;
+}
+
+.user-profile-header .stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    color: #bbb;
+}
+
+.user-profile-header .stats .stat {
+    text-align: center;
+    color: #bbb;
+}
+
+.user-profile-header .stats .stat .count {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #bbb;
+}
+
+.user-profile-header .bio {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #bbb;
+}
+
+.user-profile-header .edit-button {
+    margin-top: 1rem;
+    background-color: #6200ee;
+    color: #fff;
+}
+
+.user-profile-header .edit-button:hover {
+    background-color: #3700b3;
+}
+
+/* User Profile Posts */
+.user-profile-posts {
+    padding: 2rem;
+    background-color: #121212; /* Same dark background as body */
+}
+
+.user-profile-posts .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-profile-posts .posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.user-profile-posts .post {
+    width: 100%;
+    max-width: 30%;
+    aspect-ratio: 1; /* Keeps the aspect ratio 1:1 */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+    .user-profile-posts .post {
+        width: 100%; /* Full width on smaller screens */
+    }
+}
