@@ -109,7 +109,7 @@ const LogIn = memo(() => {
             sx={{ fontSize: "1.2rem", width: "100%" }}
           >
             "I discovered the bootybuilder using this app and have not turned
-            back since." - Akarsh Legala, current student at UCLA
+            (my) back since." - Akarsh Legala, current student at UCLA
           </Typography>
         </Box>
       </Box>

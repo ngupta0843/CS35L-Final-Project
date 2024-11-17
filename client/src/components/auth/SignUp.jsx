@@ -59,7 +59,7 @@ const SignUp = memo(() => {
       console.log(response);
       switch (response.status) {
         case 201:
-          navigate("/dashboard");
+          navigate("/profile");
           break;
         default:
           alert("Signup Failed");

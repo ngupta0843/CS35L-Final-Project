@@ -8,6 +8,7 @@ import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
 import Header from "./components/Header";
 import Dashboard from "./components/dashboard/Dashboard";
+import UserProfile from "./pages/profile.jsx";
 import AuthButtons from "./components/AuthButtons";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />}/>
           <Route path="/login" element={<LogIn />} />
         </Routes>
       </div>
