@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { spawn } = require('child_process');
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
@@ -17,6 +18,22 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 
 app.use("/users", userRoutes);
+
+app.get('/ml', (req, res) => {
+  const { indata, type } = req.query;
+
+  const pythonProcess = spawn('python', ['./ML/venv/gpt.py', indata, type]);
+
+  pythonProcess.stdout.on('data', (data) => {
+      const result = data.toString().trim();
+      res.send({ result });
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+      console.error('Error:', data.toString());
+      res.status(500).send('Error executing Python script');
+  });
+});
 
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");

@@ -8,7 +8,9 @@ import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
 import Header from "./components/Header";
 import Dashboard from "./components/dashboard/Dashboard";
+import UserProfile from "./pages/profile.jsx";
 import AuthButtons from "./components/AuthButtons";
+import ForumPage from "./pages/forum-page/ForumPage";
 
 function App() {
   return (
@@ -21,7 +23,9 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />}/>
           <Route path="/login" element={<LogIn />} />
+          <Route path="/forum" element={<ForumPage />} />
         </Routes>
       </div>
     </Router>

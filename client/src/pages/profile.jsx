@@ -1,5 +1,6 @@
 import React from "react";
-import { Avatar, Button, Typography, Stack, Box } from "@mui/material";
+import { Avatar, Button, Typography, Stack, Box, Grid } from "@mui/material";
+import { Post } from "../components/posts/post";
 import { CameraAlt, Edit } from "@mui/icons-material";
 import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
@@ -57,17 +58,20 @@ const UserProfilePosts = () => {
     return (
         <Box className="user-profile-posts">
             <Typography variant="h5" className="title">Posts</Typography>
-            <Box className="posts-container">
+            <Stack  className="posts-container">
                 {posts.map((post, index) => (
-                    <Box
+                    <Post
                         key={index}
-                        className="post"
-                        sx={{
-                            backgroundImage: `url(${post})`,
-                        }}
+                        username="Nikhil"
+                        workout="Leg Day"
+                        caption="Leg day is the best day!"
+                        photo={post}
+                        likecount={100}
+                        user={{ profile_photo: profilePic, name: "Nikhil" }}
+                        size={"small"}
                     />
                 ))}
-            </Box>
+            </Stack>
         </Box>
     );
 };
