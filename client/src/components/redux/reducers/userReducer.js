@@ -17,14 +17,12 @@ const userSlice = createSlice({
     login(state, action) {
       state.isLoggedIn = true;
 
-      // Ensure `state.user` exists
       state.user = state.user || {
         firstname: null,
         lastname: null,
         email: null,
       };
 
-      // Update `state.user` properties
       state.user.firstname = action.payload.firstname || null;
       state.user.lastname = action.payload.lastname || null;
       state.user.email = action.payload.email || null;
