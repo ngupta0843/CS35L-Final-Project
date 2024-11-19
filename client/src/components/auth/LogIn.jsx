@@ -58,15 +58,6 @@ const LogIn = memo(() => {
       });
 
       console.log(response);
-<<<<<<< HEAD
-      switch (response.status) {
-        case 200:
-          navigate("/dashboard", { state: { user: user.email } });
-          break;
-        default:
-          alert("Signup Failed");
-          break;
-=======
 
       if (response.status === 200) {
         console.log("first part");
@@ -87,7 +78,6 @@ const LogIn = memo(() => {
         }
       } else {
         alert("Signup Failed");
->>>>>>> test
       }
     } catch (error) {
       if (error.response) {

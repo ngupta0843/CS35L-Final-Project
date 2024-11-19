@@ -1,20 +1,10 @@
-<<<<<<< HEAD
-import React from 'react';
-import CountsCard from './CountsCard';
-import CategoryChart from './CategoryChart';
-import WeeklyStatCard from './WeeklyStatCard';
-import WorkoutCard from './WorkoutCard';
-import { counts } from './data';
-import { Box, Stack, Container, ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import  {useLocation} from 'react-router-dom'; 
-import DynamicLogger from './DynamicLogger';
-=======
 import React from "react";
 import CountsCard from "./CountsCard";
 import CategoryChart from "./CategoryChart";
 import WeeklyStatCard from "./WeeklyStatCard";
 import WorkoutCard from "./WorkoutCard";
 import { counts } from "./data";
+import DynamicLogger from './DynamicLogger';
 import {
   Box,
   Stack,
@@ -23,7 +13,6 @@ import {
   createTheme,
   CssBaseline,
 } from "@mui/material";
->>>>>>> test
 
 // Create a custom dark theme
 const darkTheme = createTheme({
@@ -55,16 +44,9 @@ const darkTheme = createTheme({
 });
 
 const Dashboard = () => {
-  const location = useLocation();
-  const state = location.state;
-  console.log('state', state);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-<<<<<<< HEAD
-      <Container sx={{ paddingTop: '10vh', backgroundColor: 'background.default', color: 'text.primary' }}>
-        <Box>hello, {state.user.email}</Box>
-=======
       <Container
         sx={{
           paddingTop: "10vh",
@@ -72,7 +54,6 @@ const Dashboard = () => {
           color: "text.primary",
         }}
       >
->>>>>>> test
         <Stack spacing={3}>
           {/* Counts Cards Section */}
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>

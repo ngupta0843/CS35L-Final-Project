@@ -62,12 +62,8 @@ const SignUp = memo(() => {
       console.log(response);
       switch (response.status) {
         case 201:
-<<<<<<< HEAD
-          navigate("/dashboard", {state: { user: user }});
-=======
           dispatch(login({ firstname: response.firstname, lastname: response.lastname, email: response.email }));
           navigate("/dashboard");
->>>>>>> test
           break;
         default:
           alert("Signup Failed");
