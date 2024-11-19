@@ -11,6 +11,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import UserProfile from "./pages/profile.jsx";
 import AuthButtons from "./components/AuthButtons";
 import ForumPage from "./pages/forum-page/ForumPage";
+import Mealplan from "./pages/Mealplan.jsx"
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
           <Route path="/profile" element={<UserProfile />}/>
           <Route path="/login" element={<LogIn />} />
           <Route path="/forum" element={<ForumPage />} />
+          <Route path="/mealplan" element={<Mealplan />} />
+          <Route path="/quiz" element={<div>Quiz Page Coming Soon!</div>} />
+          <Route path="/dummy-meal-plan" element={<div>Dummy Meal Plan Coming Soon!</div>} />
         </Routes>
       </div>
     </Router>
