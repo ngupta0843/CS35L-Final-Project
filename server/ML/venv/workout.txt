@@ -1,0 +1,107 @@
+Quadriceps, Hamstrings, Glutes:squats (Barbell or Bodyweight)  
+Hamstrings, Glutes, Lower Back (Erector Spinae), Traps:deadlifts  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:bench press  
+Shoulders (Deltoids), Triceps, Upper Chest:overhead press (Barbell or Dumbbell)  
+Latissimus Dorsi, Biceps, Traps, Rhomboids:pull-ups  
+Lats, Rhomboids, Traps, Biceps:barbell rows  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:dumbbell press  
+Glutes, Hamstrings, Lower Back (Erector Spinae), Core:hip thrusts  
+Biceps, Forearms:barbell curls  
+Triceps, Shoulders (Deltoids):triceps dips  
+Quadriceps, Glutes, Hamstrings:leg press  
+Glutes, Hamstrings:romanian deadlifts  
+Core (Abs, Obliques):planks  
+Core (Abs):crunches  
+Core (Abs, Obliques):Russian twists  
+Triceps, Chest (Pectorals):close-grip bench press  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:incline bench press  
+Glutes, Hamstrings, Lower Back (Erector Spinae):back extensions  
+Shoulders (Deltoids), Traps:face pulls  
+Latissimus Dorsi, Biceps:chin-ups  
+Lats, Biceps, Rhomboids:seated cable rows  
+Shoulders (Deltoids), Triceps:arnold press  
+Biceps, Forearms:hammer curls  
+Glutes, Hamstrings, Quads:walking lunges  
+Core (Abs):leg raises  
+Hamstrings, Glutes, Quadriceps:step-ups  
+Core (Abs, Obliques):side planks  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:machine chest press  
+Quadriceps, Hamstrings, Glutes:squats (Barbell or Bodyweight), leg press, walking lunges, Bulgarian split squats, step-ups, hip thrusts, goblet squats  
+Hamstrings, Glutes, Lower Back (Erector Spinae), Traps:deadlifts, romanian deadlifts, stiff-legged deadlifts, sumo deadlifts, hip thrusts, back extensions, glute bridges  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:bench press, dumbbell press, incline bench press, close-grip bench press, dips, push-ups, chest flyes  
+Shoulders (Deltoids), Triceps, Upper Chest:overhead press (Barbell or Dumbbell), Arnold press, dumbbell lateral raises, front raises, triceps dips, military press, push press  
+Latissimus Dorsi, Biceps, Traps, Rhomboids:pull-ups, chin-ups, lat pull-downs, cable rows, T-bar rows, inverted rows, dumbbell rows  
+Lats, Rhomboids, Traps, Biceps:barbell rows, seated cable rows, single-arm dumbbell rows, reverse grip rows, machine rows, bent-over dumbbell rows, rack pulls  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:dumbbell press, incline dumbbell press, machine chest press, chest flyes, cable crossovers, dumbbell pullover, push-ups  
+Glutes, Hamstrings, Lower Back (Erector Spinae), Core:hip thrusts, back extensions, glute bridges, good mornings, kettlebell swings, deadlifts, plank leg lifts  
+Biceps, Forearms:barbell curls, dumbbell curls, hammer curls, preacher curls, concentration curls, EZ bar curls, cable curls  
+Triceps, Shoulders (Deltoids):triceps dips, close-grip bench press, overhead triceps extension, skull crushers, triceps pushdowns, dumbbell kickbacks, dips  
+Quadriceps, Glutes, Hamstrings:leg press, walking lunges, Bulgarian split squats, squats (Barbell or Bodyweight), step-ups, reverse lunges, glute bridges  
+Glutes, Hamstrings:romanian deadlifts, glute bridges, hip thrusts, lunges, step-ups, cable kickbacks, kettlebell swings  
+Core (Abs, Obliques):planks, side planks, leg raises, Russian twists, mountain climbers, flutter kicks, hollow body hold  
+Core (Abs):crunches, bicycle crunches, leg raises, V-ups, flutter kicks, reverse crunches, hanging leg raises  
+Core (Abs, Obliques):Russian twists, side planks, oblique crunches, woodchoppers, standing trunk rotations, cable oblique twists, hanging side leg raises  
+Triceps, Chest (Pectorals):close-grip bench press, triceps dips, skull crushers, push-ups, dips, triceps pushdowns, bench dips  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:incline bench press, machine chest press, dumbbell press, push-ups, chest flyes, dips, cable chest press  
+Glutes, Hamstrings, Lower Back (Erector Spinae):back extensions, deadlifts, glute bridges, kettlebell swings, Romanian deadlifts, good mornings, box jumps  
+Shoulders (Deltoids), Traps:face pulls, dumbbell lateral raises, front raises, shrugs, reverse flyes, overhead press, upright rows  
+Latissimus Dorsi, Biceps:chin-ups, pull-ups, lat pull-downs, inverted rows, cable rows, dumbbell rows, barbell rows  
+Lats, Biceps, Rhomboids:seated cable rows, T-bar rows, single-arm dumbbell rows, reverse grip rows, machine rows, barbell rows, bent-over rows  
+Shoulders (Deltoids), Triceps:arnold press, military press, dumbbell press, overhead press, push press, lateral raises, front raises  
+Biceps, Forearms:hammer curls, dumbbell curls, barbell curls, concentration curls, EZ bar curls, cable curls, preacher curls  
+Glutes, Hamstrings, Quads:walking lunges, Bulgarian split squats, step-ups, squats (Barbell or Bodyweight), leg press, reverse lunges, glute bridges  
+Core (Abs):leg raises, crunches, planks, side planks, mountain climbers, flutter kicks, hanging leg raises  
+Hamstrings, Glutes, Quadriceps:step-ups, walking lunges, Bulgarian split squats, squats (Barbell or Bodyweight), leg press, glute bridges, Romanian deadlifts  
+Core (Abs, Obliques):side planks, Russian twists, bicycle crunches, woodchoppers, standing trunk rotations, cable oblique twists, hanging side leg raises  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:machine chest press, dumbbell press, incline dumbbell press, cable crossovers, chest flyes, push-ups, dips  
+Quads, Hamstrings, Glutes, Calves:leg press, squats (Barbell or Bodyweight), step-ups, Bulgarian split squats, walking lunges, calf raises, leg extensions  
+Shoulders (Deltoids), Triceps, Upper Chest:overhead press (Barbell or Dumbbell), Arnold press, military press, push press, dumbbell front raises, dumbbell lateral raises, dips  
+Biceps, Forearms:barbell curls, dumbbell curls, concentration curls, preacher curls, hammer curls, cable curls, EZ bar curls  
+Glutes, Hamstrings:glute bridges, kettlebell swings, Romanian deadlifts, hip thrusts, walking lunges, cable kickbacks, step-ups  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:push-ups, dumbbell press, incline dumbbell press, dips, close-grip bench press, chest flyes, cable chest press  
+Lats, Rhomboids, Traps, Biceps:pull-ups, lat pull-downs, T-bar rows, barbell rows, dumbbell rows, cable rows, chin-ups  
+Core (Abs):planks, leg raises, Russian twists, V-ups, bicycle crunches, hanging leg raises, flutter kicks  
+Shoulders (Deltoids), Traps:face pulls, dumbbell lateral raises, front raises, shrugs, reverse flyes, upright rows, overhead press  
+Lats, Biceps:seated cable rows, T-bar rows, single-arm dumbbell rows, reverse grip rows, barbell rows, cable lat pull-downs, chin-ups  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:machine chest press, push-ups, incline bench press, cable chest press, chest flyes, dips, dumbbell press  
+Quadriceps, Glutes, Hamstrings:squats (Barbell or Bodyweight), Bulgarian split squats, leg press, lunges, step-ups, glute bridges, Romanian deadlifts  
+Glutes, Hamstrings, Core:hip thrusts, glute bridges, back extensions, kettlebell swings, Romanian deadlifts, deadlifts, good mornings  
+Core (Abs, Obliques):side planks, Russian twists, leg raises, bicycle crunches, mountain climbers, flutter kicks, hanging leg raises  
+Triceps, Shoulders (Deltoids):overhead triceps extension, triceps dips, skull crushers, push-ups, dumbbell kickbacks, close-grip bench press, triceps pushdowns  
+Biceps, Forearms:barbell curls, dumbbell curls, preacher curls, hammer curls, concentration curls, cable curls, EZ bar curls  
+Chest (Pectorals), Shoulders (Deltoids), Triceps:incline bench press, machine chest press, dumbbell press, chest flyes, dips, push-ups, cable crossovers  
+Glutes, Hamstrings, Quads:squats (Barbell or Bodyweight), leg press, Bulgarian split squats, walking lunges, Romanian deadlifts, step-ups, glute bridges  
+Quadriceps, Hamstrings, Glutes, Calves, Lower Back:squats (Barbell or Bodyweight), leg press, walking lunges, Bulgarian split squats, step-ups, hip thrusts, goblet squats, front squats, reverse lunges, sumo squats  
+Hamstrings, Glutes, Lower Back (Erector Spinae), Traps, Core:deadlifts, romanian deadlifts, stiff-legged deadlifts, sumo deadlifts, hip thrusts, back extensions, glute bridges, kettlebell swings, good mornings, rack pulls  
+Chest (Pectorals), Shoulders (Deltoids), Triceps, Upper Chest, Lats:bench press, dumbbell press, incline bench press, close-grip bench press, dips, push-ups, chest flyes, dumbbell pullover, cable crossovers, decline press  
+Shoulders (Deltoids), Triceps, Upper Chest, Biceps, Traps:overhead press (Barbell or Dumbbell), Arnold press, dumbbell lateral raises, front raises, triceps dips, military press, push press, upright rows, reverse flyes, face pulls  
+Latissimus Dorsi, Biceps, Traps, Rhomboids, Forearms:pull-ups, chin-ups, lat pull-downs, cable rows, T-bar rows, inverted rows, dumbbell rows, barbell rows, machine rows, seated cable rows  
+Lats, Rhomboids, Traps, Biceps, Shoulders (Deltoids):barbell rows, seated cable rows, single-arm dumbbell rows, reverse grip rows, machine rows, bent-over dumbbell rows, rack pulls, face pulls, dumbbell reverse flyes, incline dumbbell rows  
+Chest (Pectorals), Shoulders (Deltoids), Triceps, Upper Chest, Core:dumbbell press, incline dumbbell press, machine chest press, chest flyes, cable crossovers, dumbbell pullover, push-ups, dips, chest dips, plate presses  
+Glutes, Hamstrings, Lower Back (Erector Spinae), Core, Quads:hip thrusts, back extensions, glute bridges, good mornings, kettlebell swings, deadlifts, Romanian deadlifts, box jumps, plank leg lifts, single-leg Romanian deadlifts  
+Biceps, Forearms, Shoulders (Deltoids), Chest (Pectorals), Traps:barbell curls, dumbbell curls, hammer curls, preacher curls, concentration curls, EZ bar curls, cable curls, overhead curls, incline dumbbell curls, cable rope curls  
+Triceps, Shoulders (Deltoids), Upper Chest, Biceps, Core:triceps dips, close-grip bench press, overhead triceps extension, skull crushers, triceps pushdowns, dumbbell kickbacks, dips, push-ups, chest dips, landmine press  
+Quadriceps, Glutes, Hamstrings, Calves, Core:leg press, walking lunges, Bulgarian split squats, squats (Barbell or Bodyweight), step-ups, reverse lunges, glute bridges, Romanian deadlifts, calf raises, seated leg curls  
+Glutes, Hamstrings, Lower Back (Erector Spinae), Core, Quads:romanian deadlifts, glute bridges, hip thrusts, lunges, step-ups, cable kickbacks, kettlebell swings, box jumps, leg curls, sumo deadlifts  
+Core (Abs, Obliques), Lower Back, Glutes, Quads, Hamstrings:planks, side planks, leg raises, Russian twists, mountain climbers, flutter kicks, hollow body hold, hanging leg raises, bicycle crunches, reverse crunches  
+Core (Abs, Obliques), Lower Back, Glutes, Traps, Shoulders (Deltoids):crunches, bicycle crunches, leg raises, V-ups, flutter kicks, reverse crunches, hanging leg raises, side crunches, woodchoppers, hanging side leg raises  
+Core (Abs, Obliques), Lower Back, Glutes, Traps, Lats:Russian twists, side planks, oblique crunches, woodchoppers, standing trunk rotations, cable oblique twists, hanging leg raises, cable woodchoppers, dragon flags, crunch sit-ups  
+Triceps, Chest (Pectorals), Shoulders (Deltoids), Upper Chest, Biceps:close-grip bench press, triceps dips, skull crushers, push-ups, dips, triceps pushdowns, bench dips, cable chest press, overhead triceps extensions, landmine press  
+Chest (Pectorals), Shoulders (Deltoids), Triceps, Upper Chest, Lats:incline bench press, machine chest press, dumbbell press, push-ups, chest flyes, dips, cable chest press, dumbbell chest press, dumbbell bench press, landmine chest press  
+Glutes, Hamstrings, Lower Back (Erector Spinae), Core, Quads:back extensions, deadlifts, glute bridges, kettlebell swings, Romanian deadlifts, good mornings, box jumps, lunges, calf raises, glute kickbacks  
+Shoulders (Deltoids), Traps, Upper Chest, Lats, Core:face pulls, dumbbell lateral raises, front raises, shrugs, reverse flyes, overhead press, upright rows, dumbbell rear delt raises, Arnold press, dumbbell front raises  
+Latissimus Dorsi, Biceps, Traps, Rhomboids, Shoulders (Deltoids):chin-ups, pull-ups, lat pull-downs, inverted rows, cable rows, dumbbell rows, barbell rows, machine rows, seated rows, chest-supported rows  
+Chest (Pectorals), Shoulders (Deltoids), Triceps, Lats, Core:seated chest press, incline dumbbell press, dips, chest flyes, cable chest press, push-ups, cable chest flyes, standing chest press, plate presses, machine flyes  
+Quadriceps, Glutes, Hamstrings, Calves, Core:walking lunges, Bulgarian split squats, step-ups, squats (Barbell or Bodyweight), leg press, reverse lunges, glute bridges, Romanian deadlifts, calf raises, single-leg squats  
+Core (Abs), Glutes, Hamstrings, Lats, Biceps:side planks, Russian twists, bicycle crunches, woodchoppers, standing trunk rotations, cable oblique twists, hanging side leg raises, hanging leg raises, side crunches, hanging knee raises  
+Triceps, Shoulders (Deltoids), Biceps, Chest (Pectorals), Upper Chest:arnold press, military press, dumbbell press, overhead press, push press, lateral raises, front raises, dips, chest flyes, skull crushers  
+Biceps, Forearms, Shoulders (Deltoids), Upper Chest, Traps:hammer curls, dumbbell curls, barbell curls, concentration curls, preacher curls, EZ bar curls, cable curls, triceps dips, chest flyes, machine curls  
+Glutes, Hamstrings, Quads, Calves, Lower Back:hip thrusts, glute bridges, step-ups, walking lunges, Bulgarian split squats, deadlifts, sumo squats, box jumps, calf raises, kettlebell swings  
+Chest (Pectorals), Shoulders (Deltoids), Triceps, Upper Chest, Lats:dumbbell press, incline dumbbell press, cable crossovers, chest flyes, dumbbell pullover, push-ups, dips, machine chest press, chest dips, landmine press  
+Glutes, Hamstrings, Lower Back (Erector Spinae), Core, Quads:deadlifts, Romanian deadlifts, kettlebell swings, glute bridges, glute kickbacks, box jumps, reverse lunges, single-leg squats, Romanian deadlifts, leg press  
+Shoulders (Deltoids), Traps, Core, Upper Chest, Lats:barbell shrugs, overhead press, dumbbell lateral raises, dumbbell front raises, upright rows, dumbbell reverse flyes, arnold press, push press, rear delt flyes, landmine press  
+Chest (Pectorals), Shoulders (Deltoids), Triceps, Upper Chest, Biceps:machine chest press, dumbbell press, incline bench press, chest flyes, dips, push-ups, cable chest press, dumbbell chest press, dumbbell flyes, dips  
+Core (Abs, Obliques), Glutes, Hamstrings, Quads, Lower Back:leg press, squats, walking lunges, reverse lunges, kettlebell swings, glute bridges, good mornings, side planks, Romanian deadlifts, box jumps  
+Shoulders (Deltoids), Traps, Lats, Biceps, Forearms:barbell rows, dumbbell rows, pull-ups, lat pull-downs, seated cable rows, reverse flyes, barbell curls, face pulls, chest-supported rows, landmine rows  
+Lats, Rhomboids, Traps, Biceps, Shoulders (Deltoids):pull-ups, chin-ups, lat pull-downs, barbell rows, dumbbell rows, cable rows, machine rows, reverse flyes, barbell shrugs, seated rows  
+Core (Abs), Glutes, Hamstrings, Quads, Calves:leg press, Bulgarian split squats, squats (Barbell or Bodyweight), walking lunges, step-ups, glute bridges, hamstring curls, calf

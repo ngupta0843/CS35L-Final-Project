@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useReducer } from "react";
 import {
   Container,
   Box,
@@ -20,8 +20,11 @@ import axios from "axios";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/reducers/userReducer.js";
 
 const LogIn = memo(() => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // useState hooks
   const [user, setUser] = useState({
@@ -47,12 +50,15 @@ const LogIn = memo(() => {
       return;
     }
     setError(false);
+
     try {
       const response = await axios.post("http://localhost:8088/users/signin", {
         email: user.email,
         password: user.password,
       });
+
       console.log(response);
+<<<<<<< HEAD
       switch (response.status) {
         case 200:
           navigate("/dashboard", { state: { user: user.email } });
@@ -60,15 +66,42 @@ const LogIn = memo(() => {
         default:
           alert("Signup Failed");
           break;
+=======
+
+      if (response.status === 200) {
+        console.log("first part");
+        console.log("API response data:", response.data);
+
+        try {
+          console.log(response.data.result.name, response.data.result.email);
+          dispatch(
+            login({
+              firstname: response.data.result.name,
+              email: response.data.result.email,
+            })
+          );
+          console.log("second part");
+          navigate("/dashboard");
+        } catch (dispatchError) {
+          console.error("Dispatch error:", dispatchError);
+        }
+      } else {
+        alert("Signup Failed");
+>>>>>>> test
       }
     } catch (error) {
-      switch (error.response.status) {
-        case 404:
-          alert("Account doesn't exist");
-          break;
-        default:
-          alert("Signup Failed");
-          break;
+      if (error.response) {
+        switch (error.response.status) {
+          case 404:
+            alert("Account doesn't exist");
+            break;
+          default:
+            alert("Signup Failed");
+            break;
+        }
+      } else {
+        console.error("Network or server error:", error);
+        alert("Something went wrong. Please try again later.");
       }
     }
   };
@@ -109,7 +142,7 @@ const LogIn = memo(() => {
             sx={{ fontSize: "1.2rem", width: "100%" }}
           >
             "I discovered the bootybuilder using this app and have not turned
-            back since." - Akarsh Legala, current student at UCLA
+            (my) back since." - Akarsh Legala, current student at UCLA
           </Typography>
         </Box>
       </Box>
@@ -173,8 +206,8 @@ const LogIn = memo(() => {
           variant="filled"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              e.preventDefault(); 
-              handleSend(); 
+              e.preventDefault();
+              handleSend();
             }
           }}
           onChange={(e) => {
