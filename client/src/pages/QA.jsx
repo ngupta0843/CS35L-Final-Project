@@ -1,32 +1,47 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { set } from 'mongoose';
+import React, { useState } from "react";
+import axios from "axios";
+import { set } from "mongoose";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  FormControlLabel,
+  Switch,
+  Paper,
+  Icon,
+} from "@mui/material";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 const QA = () => {
-  const [data_text, set_data] = useState('');
+  const [data_text, set_data] = useState("");
   const [type_text, set_type] = useState("d");
-  const [result, setResult] = useState('?');
-  
+  const [result, setResult] = useState("?");
+
   const handleToggleChange = () => {
-    set_type(type_text => (type_text === "w" ? "d" : "w"));
+    set_type((type_text) => (type_text === "w" ? "d" : "w"));
   };
 
   const calculate = async () => {
     if (!data_text) {
-      alert('Please enter valid text!');
+      alert("Please enter valid text!");
       return;
     }
-  
+
     try {
       const url = `/ml`;
       console.log(`Making request to: ${url}`);
-      const response = await axios.post("http://localhost:8088" + url, { indata: data_text, type: type_text });
+      const response = await axios.post("http://localhost:8088" + url, {
+        indata: data_text,
+        type: type_text,
+      });
       console.log(response);
       setResult(response.data.result);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  /*
+    /*
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -38,39 +53,137 @@ const QA = () => {
       });
     */
   };
-  
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
-      <h1>Generate Fitness Plan</h1>
-      <div>
-        <label htmlFor="num1">Enter Fitness Goals/Themes:</label>
-        <input
-          type="text"
-          id="data"
+    <Container
+      disableGutters
+      maxWidth={"xl"}
+      sx={{
+        backgroundColor: "#11172a",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 4,
+      }}
+    >
+      <Typography
+        variant="h3"
+        align="center"
+        gutterBottom
+        sx={{ color: "#929eb2", fontWeight: "bold" }}
+      >
+        Generate Fitness Plan
+      </Typography>
+
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 4,
+          backgroundColor: "#21293b",
+          borderRadius: 4,
+          width: "70%",
+        }}
+      >
+        <Icon
+          component={FitnessCenterIcon}
+          sx={{ color: "#929eb2", scale: 2, mb: 3 }}
+        />
+        <Typography
+          variant="h5"
+          align="left"
+          gutterBottom
+          sx={{ color: "#929eb2" }}
+        >
+          Enter Fitness Goals or Themes:
+        </Typography>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="E.g., Build muscle, weight loss"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              backgroundColor: "#11172a",
+              "&:hover fieldset": {
+                borderColor: "#696bee",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#696bee",
+              },
+              "& .MuiInputBase-input": {
+                color: "white",
+              },
+            },
+            marginBottom: 2,
+          }}
           value={data_text}
           onChange={(e) => set_data(e.target.value)}
-          placeholder="Enter goals/themes"
         />
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <label htmlFor="toggleSwitch">Workout or Diet:</label>
-        <input
-          type="checkbox"
-          id="toggleSwitch"
-          checked={type_text === "d"}
-          onChange={handleToggleChange}
+
+        <FormControlLabel
+          control={
+            <Switch
+              sx={{}}
+              checked={type_text === "d"}
+              onChange={handleToggleChange}
+              color="primary"
+            />
+          }
+          label={type_text === "d" ? "Diet" : "Workout"}
+          sx={{ color: "white", marginBottom: 2 }}
         />
-        <span>{type_text}</span>
-      </div>
+        <br />
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={calculate}
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              backgroundColor: "#696bee",
+              "&:hover": {
+                backgroundColor: "#6e6ee0",
+              },
+              color: "white",
+              fontWeight: "bold",
+              marginBottom: 2,
+            }}
+          >
+            Generate Plan
+          </Button>
+        </Box>
 
-      <div>
-        <button onClick={calculate}>Calculate</button>
-      </div>
-
-      {/* Display the result */}
-      <h2>Plan: <span>{result}</span></h2>
-    </div>
+        <Box
+          sx={{
+            marginTop: 2,
+            padding: 2,
+            backgroundColor: "#11172a",
+            borderRadius: 1,
+            textAlign: "center",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: "bold", color: "#929eb2" }}
+          >
+            Plan:
+          </Typography>
+          <Typography variant="body1" sx={{ color: "#929eb2" }}>
+            {result}
+          </Typography>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
