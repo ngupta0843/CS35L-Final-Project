@@ -13,6 +13,7 @@ function ForumPage() {
             caption: 'hello',
             likesCount: 100,
             post_img: sachit,
+            workout: "squats",
         },
         {
             id: 2,
@@ -36,6 +37,7 @@ function ForumPage() {
                     likecount={post.likesCount}
                     user={{profile_photo: post.profile_icon}}
                     photo={post.post_img}
+                    workout={post.workout}
                 />
             ))}
             </Stack>
