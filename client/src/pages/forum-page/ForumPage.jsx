@@ -1,5 +1,5 @@
 import React from "react";
-import {Post} from './Post';
+import Post from './Post';
 import nikhil from '../../testimages/nikhil_profile_pic.png';
 import sachit from '../../testimages/post1.jpeg';
 import { Avatar, Stack } from "@mui/material";
@@ -21,7 +21,6 @@ function ForumPage() {
             profile_icon: nikhil,
             caption: 'hi',
             likesCount: 200,
-            post_img: sachit,
         }
     ];
 

@@ -1,41 +1,3 @@
-// import React from 'react';
-// import { 
-//     Card, 
-//     CardHeader, 
-//     CardMedia, 
-//     CardContent,
-//     Typography, 
-//     Avatar, 
-//     IconButton
-// } from '@mui/material';
-// import PostActions from './PostActions';
-
-// function Post({ username, location, profile_icon, caption, likesCount, timeAgo, post_img }){
-//     return(
-//         <Card sx={{ marginBottom: 2 }}>
-//       <CardHeader
-//         avatar={<Avatar alt={username} src={profile_icon} />}
-//         title={username}
-//         subheader={location}
-//       />
-//       <CardMedia component="img" height="400" image={post_img} alt="Post Image" />
-//       <CardContent>
-//         <PostActions />
-//         <Typography variant="body2" color="text.secondary">
-//           {likesCount} Likes
-//         </Typography>
-//         <Typography variant="body2" color="text.secondary">
-//           {timeAgo}
-//         </Typography>
-//         <Typography variant="body1">
-//           <strong>{username}</strong> {caption}
-//         </Typography>
-//       </CardContent>
-//     </Card>
-//     );
-// }
-
-// export default Post;
 
 import React from 'react';
 import PostActions from './PostActions';
@@ -56,6 +18,7 @@ const getPostSize = (size) => {
 };
 
 const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
+    const isPhotoPost = !!photo;  // it's a photopost if there is a photo
     return (
       <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
         <Card sx={{ width: getPostSize(size) }}>
@@ -69,14 +32,17 @@ const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
             title={username}
             subheader={workout}
           />
-          <CardMedia
-            component="img"
-            height={getPostSize(size)}
-            aspectRatio="1"
-            image={photo}
-            alt="Post"
-            sx={{objectFit: 'square' }} // Makes sure the image scales well within the card
-          />
+          {isPhotoPost && ( // render only if it's a photopost
+              <CardMedia
+                component="img"
+                height={getPostSize(size)}
+                aspectRatio="1"
+                image={photo}
+                alt="Post"
+                sx={{objectFit: 'square' }} // Makes sure the image scales well within the card
+              />
+            )}
+          
           <CardContent>
             <PostActions />
             <Typography variant="body2" color="text.secondary">
@@ -91,4 +57,4 @@ const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
     );
   };
 
-export {Post};
+export default Post;
