@@ -54,7 +54,7 @@ const createPost = async (req, res) => {
     catch (error) {
         res.status(500).json({message: "Something went wrong creating your post."});
     }
-}
+};
 
 
 const deletePost = async (req, res) => {
@@ -78,29 +78,39 @@ const deletePost = async (req, res) => {
     //     user.posts = user.posts.filter((postId) => post !== postId);
     //     await user.save();  // Save the updated user
     // }
-}
+};
 
 const updatePost = async(req, res) => {
     try {
         const { postId, pUser, pMessage, pTitle } = req.body
 
         const post = await Post.findOne({ postId });
+        // post couldn't be found by postId
         if(!post){
             res.status(404).json({message: "Post could not be found."});
         }
+
+        // bad user
         if(post.userId != pUser){
-            res.status(200).json({message: "Edit access to post denied."})
+            res.status(403).json({message: "Edit access to post denied."});
             return;
         }
+
+        //update post
         post.message = pMessage;
         post.title = pTitle;
         await post.save();
 
-    }
-    catch (error) {
+        // if successful
+        return res.status(200).json({message: "Post updated successfully." });
 
     }
-}
+    catch (error) {
+        // catch unexpected errors
+        console.error(error);  // log error for debugging
+        return res.status(500).json({ message: "Something went wrong while updating the post :(" });
+    }
+};
 
 module.exports = {
     createPost,
