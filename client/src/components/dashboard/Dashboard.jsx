@@ -18,6 +18,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { useSelector } from "react-redux";
 
 const workoutData = [
   { date: "2023-01-01", workout: "Cardio", duration: 30 },
@@ -32,13 +33,18 @@ const graphData = [
 ];
 
 const Dashboard = () => {
+  const user = useSelector((state) => state.user);
+  console.log(user);
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
         {/* Workout Plans */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-            <Typography variant="h6" gutterBottom> Hello,  </Typography>
+            <Typography variant="h6" gutterBottom>
+              {" "}
+              Hello, {user.firstname}{" "}
+            </Typography>
             <Typography variant="h6" gutterBottom>
               Workout Plans
             </Typography>

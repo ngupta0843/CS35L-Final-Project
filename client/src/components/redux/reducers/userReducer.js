@@ -16,16 +16,22 @@ const userSlice = createSlice({
   reducers: {
     login(state, action) {
       state.isLoggedIn = true;
-      state.user.firstname = action.payload.firstname;
-      state.user.lastname = action.payload.lastname;
-      state.user.email = action.payload.email;
-      // state.token = action.payload.token;
+
+      // Ensure `state.user` exists
+      state.user = state.user || {
+        firstname: null,
+        lastname: null,
+        email: null,
+      };
+
+      // Update `state.user` properties
+      state.user.firstname = action.payload.firstname || null;
+      state.user.lastname = action.payload.lastname || null;
+      state.user.email = action.payload.email || null;
     },
     logout(state) {
       state.isLoggedIn = false;
       state.user = { firstname: null, lastname: null, email: null };
-
-      // state.token = null;
     },
   },
 });
