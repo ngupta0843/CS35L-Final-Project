@@ -1,0 +1,27 @@
+name: Prevent package-lock.json and node_modules from being pushed
+
+on:
+  push:
+    branches:
+      - '**'  # Trigger on push to any branch
+  pull_request:
+    branches:
+      - '**'  # Trigger on PRs targeting any branch
+
+jobs:
+  check-no-lock-or-modules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for package-lock.json or node_modules
+        run: |
+          # Check if package-lock.json or node_modules is staged for commit
+          if git diff --cached --name-only | grep -E '^(package-lock\.json|node_modules/)'; then
+            echo "Error: package-lock.json or node_modules are staged for commit."
+            echo "These should not be pushed to any branch."
+            exit 1
+          fi
+        shell: bash
