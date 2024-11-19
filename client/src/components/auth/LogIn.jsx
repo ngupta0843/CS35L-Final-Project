@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useReducer } from "react";
 import {
   Container,
   Box,
@@ -20,8 +20,11 @@ import axios from "axios";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/reducers/userReducer.js";
 
 const LogIn = memo(() => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // useState hooks
   const [user, setUser] = useState({
@@ -55,6 +58,7 @@ const LogIn = memo(() => {
       console.log(response);
       switch (response.status) {
         case 200:
+          dispatch(login({ firstname: response.data.result.name, email: response.data.result.email }));
           navigate("/dashboard", { state: { user: response.data.result } });
           break;
         default:
