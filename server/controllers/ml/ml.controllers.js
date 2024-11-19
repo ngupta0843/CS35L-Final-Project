@@ -15,7 +15,7 @@ const callgpt = (req, res) => {
     }
 
     // Run the shell command to activate the virtual environment and run the Python script
-    const command = `source ML/venv/bin/activate && python3 ML/venv/gpt.py ${indata} ${type}`;
+    const command = `source ML/venv/bin/activate && python3 ML/venv/gpt.py \"${indata}\" ${type}`;
 
     exec(command, (error, stdout, stderr) => {
         if (error) {
