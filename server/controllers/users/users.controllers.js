@@ -4,8 +4,9 @@ const bcrypt = require("bcryptjs");
 // Sign in route
 const signin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   try {
-    const existingUser = await Users.findOne({ email, password });
+    const existingUser = await Users.findOne({ email });
     if (!existingUser) {
       return res.status(404).json({ message: "User doesn't exist" });
     }
@@ -18,7 +19,21 @@ const signin = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid credentials." });
     }
-    res.status(200).json({ result: existingUser });
+    res
+      .status(200)
+      .json({
+        result: {
+          name: existingUser.name,
+          email: existingUser.email,
+          id: existingUser.id,
+          bio: existingUser.bio,
+          profile_photo: existingUser.profile_photo,
+          followers: existingUser.followers,
+          following: existingUser.following,
+          posts: existingUser.posts,
+          saved_workouts: existingUser.saved_workouts,
+        },
+      });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -26,7 +41,7 @@ const signin = async (req, res) => {
 
 // Sign up route
 const signup = async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstname, lastname } = req.body;
   try {
     const existingUser = await Users.findOne({ email });
     if (existingUser) {
@@ -37,7 +52,7 @@ const signup = async (req, res) => {
     const newUser = new Users({
       email,
       password: hashedPassword,
-      name: `${firstName} ${lastName}`,
+      name: `${firstname} ${lastname}`,
     });
     await newUser.save();
     res.status(201).json({ message: "User created successfully" });

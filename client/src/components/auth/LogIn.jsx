@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useReducer } from "react";
 import {
   Container,
   Box,
@@ -21,17 +21,15 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {login} from '../redux/reducers/userReducer.js';
+import { login } from "../redux/reducers/userReducer.js";
 
-const SignUp = memo(() => {
+const LogIn = memo(() => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // useState hooks
   const [user, setUser] = useState({
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
@@ -52,31 +50,48 @@ const SignUp = memo(() => {
       return;
     }
     setError(false);
+
     try {
-      const response = await axios.post("http://localhost:8088/users/signup", {
-        firstname: user.firstname,
-        lastname: user.lastname,
+      const response = await axios.post("http://localhost:8088/users/signin", {
         email: user.email,
         password: user.password,
       });
+
       console.log(response);
-      switch (response.status) {
-        case 201:
-          dispatch(login({ firstname: response.firstname, lastname: response.lastname, email: response.email }));
+
+      if (response.status === 200) {
+        console.log("first part");
+        console.log("API response data:", response.data);
+
+        try {
+          console.log(response.data.result.name, response.data.result.email);
+          dispatch(
+            login({
+              firstname: response.data.result.name,
+              email: response.data.result.email,
+            })
+          );
+          console.log("second part");
           navigate("/dashboard");
-          break;
-        default:
-          alert("Signup Failed");
-          break;
+        } catch (dispatchError) {
+          console.error("Dispatch error:", dispatchError);
+        }
+      } else {
+        alert("Signup Failed");
       }
     } catch (error) {
-      switch (error.response.status) {
-        case 400:
-          alert("User already exists");
-          break;
-        default:
-          alert("Signup Failed");
-          break;
+      if (error.response) {
+        switch (error.response.status) {
+          case 404:
+            alert("Account doesn't exist");
+            break;
+          default:
+            alert("Signup Failed");
+            break;
+        }
+      } else {
+        console.error("Network or server error:", error);
+        alert("Something went wrong. Please try again later.");
       }
     }
   };
@@ -116,8 +131,8 @@ const SignUp = memo(() => {
             variant="body1"
             sx={{ fontSize: "1.2rem", width: "100%" }}
           >
-            “This app has helped me reduce over 540 pounds, saving me from
-            morbid obesity.” - Sachit Murthy, current student at UCLA.
+            "I discovered the bootybuilder using this app and have not turned
+            (my) back since." - Akarsh Legala, current student at UCLA
           </Typography>
         </Box>
       </Box>
@@ -136,10 +151,10 @@ const SignUp = memo(() => {
         }}
       >
         <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
-          Create an account
+          Sign into your account
         </Typography>
         <Typography variant="body2" sx={{ color: "#aaaaaa", mb: 3 }}>
-          Enter your email below to create your account
+          Enter your email below to sign in.
         </Typography>
 
         {error && (
@@ -147,71 +162,6 @@ const SignUp = memo(() => {
             Error: Please enter a valid email address.
           </Typography>
         )}
-
-        {/* first name textfield */}
-        <TextField
-          required
-          fullWidth
-          label="First Name"
-          variant="filled"
-          type="firstname"
-          placeholder="Aditya"
-          value={user.firstname}
-          onChange={(e) => {
-            e.preventDefault();
-            setUser({
-              ...user,
-              firstname: e.target.value,
-            });
-          }}
-          sx={{
-            mb: 2,
-            backgroundColor: "#333333",
-            borderRadius: 1,
-            "& .MuiFilledInput-root": {
-              color: "#ffffff",
-              "&:before": { borderBottomColor: "#666666" },
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#aaaaaa",
-              },
-            },
-          }}
-          InputLabelProps={{
-            style: { color: "#aaaaaa" },
-          }}
-        />
-        {/* last name textfield */}
-        <TextField
-          required
-          fullWidth
-          label="Last Name"
-          variant="filled"
-          type="lastname"
-          placeholder="Murthy"
-          value={user.lastname}
-          onChange={(e) => {
-            e.preventDefault();
-            setUser({
-              ...user,
-              lastname: e.target.value,
-            });
-          }}
-          sx={{
-            mb: 2,
-            backgroundColor: "#333333",
-            borderRadius: 1,
-            "& .MuiFilledInput-root": {
-              color: "#ffffff",
-              "&:before": { borderBottomColor: "#666666" },
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#aaaaaa",
-              },
-            },
-          }}
-          InputLabelProps={{
-            style: { color: "#aaaaaa" },
-          }}
-        />
         {/* email textfield */}
         <TextField
           required
@@ -244,6 +194,12 @@ const SignUp = memo(() => {
           fullWidth
           label="Password"
           variant="filled"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
           onChange={(e) => {
             e.preventDefault();
             setUser({
@@ -302,7 +258,7 @@ const SignUp = memo(() => {
             "&:hover": { backgroundColor: "#e0e0e0" },
           }}
         >
-          Sign Up with Email
+          Sign In
         </Button>
 
         <Divider sx={{ width: "100%", my: 2, color: "#aaaaaa" }}>
@@ -341,4 +297,4 @@ const SignUp = memo(() => {
   );
 });
 
-export default SignUp;
+export default LogIn;
