@@ -17,8 +17,7 @@ const getPostSize = (size) => {
   }
 };
 
-const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
-    const isPhotoPost = !!photo;  // it's a photopost if there is a photo
+const PhotoPost = ({ username, workout, caption, photo, likecount, user, size }) => {
     return (
       <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
         <Card sx={{ width: getPostSize(size) }}>
@@ -32,16 +31,15 @@ const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
             title={username}
             subheader={workout}
           />
-          {isPhotoPost && ( // render only if it's a photopost
-              <CardMedia
-                component="img"
-                height={getPostSize(size)}
-                aspectRatio="1"
-                image={photo}
-                alt="Post"
-                sx={{objectFit: 'square' }} // Makes sure the image scales well within the card
-              />
-            )}
+          <CardMedia
+            component="img"
+            height={getPostSize(size)}
+            aspectRatio="1"
+            image={photo}
+            alt="Post"
+            sx={{objectFit: 'square' }} // Makes sure the image scales well within the card
+          />
+            
           
           <CardContent>
             <PostActions />
@@ -54,6 +52,47 @@ const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
           </CardContent>
         </Card>
       </Box>
+    );
+  };
+
+  const TextPost = ({ username, workout, caption, likecount, user, size }) => {
+    return (
+      <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
+        <Card sx={{ width: getPostSize(size) }}>
+          <CardHeader
+            avatar={
+              <Avatar
+                src={user.profile_photo}
+                alt={user.name}
+              />
+            }
+            title={username}
+            subheader={workout}
+          />
+          <CardContent>
+            <Typography variant="body1" color="textPrimary">
+              {caption}
+            </Typography>
+            <PostActions />
+            <Typography variant="body2" color="text.secondary">
+              {likecount} Likes
+            </Typography>
+            <Typography variant="body1">
+              <strong>{username}</strong>
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+    );
+  };
+
+  const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
+    const isPhotoPost = !!photo;
+
+    return isPhotoPost ? (
+      <PhotoPost username={username} workout={workout} caption={caption} photo={photo} likecount={likecount} user={user} size={size} />
+    ): (
+      <TextPost username={username} workout={workout} caption={caption} likecount={likecount} user={user} size={size} />
     );
   };
 
