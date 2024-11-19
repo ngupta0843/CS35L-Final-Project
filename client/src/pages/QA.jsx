@@ -1,193 +1,189 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Box, Typography, TextField, Switch, FormControlLabel, Button, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter'; // Ensure you import necessary icon
-import Icon from '@mui/material/Icon';
-
-const capitalizeWords = (str) => {
-  return str
-    .split(/[\s\-\/]/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-};
+import React, { useState } from "react";
+import axios from "axios";
+import { set } from "mongoose";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  FormControlLabel,
+  Switch,
+  Paper,
+  Icon,
+} from "@mui/material";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 const QA = () => {
-  const [data_text, set_data] = useState('');
+  const [data_text, set_data] = useState("");
   const [type_text, set_type] = useState("d");
-  const [result, setResult] = useState('?');
+  const [result, setResult] = useState("?");
 
-  const handleToggleChange = (event, newType) => {
-    if (newType) {
-      set_type(newType);
-    }
+  const handleToggleChange = () => {
+    set_type((type_text) => (type_text === "w" ? "d" : "w"));
   };
 
   const calculate = async () => {
     console.log(`Data: ${data_text}, Type: ${type_text}`);
     if (!data_text) {
-      alert('Please enter valid text!');
+      alert("Please enter valid text!");
       return;
     }
-  
+
     try {
       const url = `/ml`;
       console.log(`Making request to: ${url}`);
-      const response = await axios.post("http://localhost:8088" + url, { indata: data_text, type: type_text });
+      const response = await axios.post("http://localhost:8088" + url, {
+        indata: data_text,
+        type: type_text,
+      });
       console.log(response);
       setResult(response.data.result);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
+    /*
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        setResult(data.result);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setResult('Error');
+      });
+    */
   };
 
   return (
     <Container
-      maxWidth="xl"
       disableGutters
+      maxWidth={"xl"}
       sx={{
+        backgroundColor: "#11172a",
+        minHeight: "100vh",
         display: "flex",
-        height: "100vh",
-        backgroundColor: "#121212",
-        width: "100%",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 4,
       }}
     >
-      {/* Left Section */}
-      <Box
+      <Typography
+        variant="h3"
+        align="center"
+        gutterBottom
+        sx={{ color: "#929eb2", fontWeight: "bold" }}
+      >
+        Generate Fitness Plan
+      </Typography>
+
+      <Paper
+        elevation={3}
         sx={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 3,
-          color: "#ffffff",
-          backgroundColor: "#121212",
+          padding: 4,
+          backgroundColor: "#21293b",
+          borderRadius: 4,
+          width: "70%",
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
-          AI-Generated Workout
+        <Icon
+          component={FitnessCenterIcon}
+          sx={{ color: "#929eb2", scale: 2, mb: 3 }}
+        />
+        <Typography
+          variant="h5"
+          align="left"
+          gutterBottom
+          sx={{ color: "#929eb2" }}
+        >
+          Enter Fitness Goals or Themes:
         </Typography>
-        <Typography variant="body2" sx={{ color: "#aaaaaa", mb: 3 }}>
-          Enter the muscle groups you'd like to target below
-        </Typography>
-  
-        {/* Data Entry */}
         <TextField
-          required
           fullWidth
-          multiline
-          minRows={4}
-          label="Enter Workout or Diet Data"
-          variant="filled"
-          value={data_text}
-          onChange={(e) => set_data(e.target.value)}
+          variant="outlined"
+          placeholder="E.g., Build muscle, weight loss"
           sx={{
-            mb: 2,
-            backgroundColor: "#333333",
-            borderRadius: 1,
-            "& .MuiFilledInput-root": {
-              color: "#ffffff",
-              "&:before": { borderBottomColor: "#666666" },
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#aaaaaa",
+            "& .MuiOutlinedInput-root": {
+              backgroundColor: "#11172a",
+              "&:hover fieldset": {
+                borderColor: "#696bee",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#696bee",
+              },
+              "& .MuiInputBase-input": {
+                color: "white",
               },
             },
+            marginBottom: 2,
           }}
-          InputLabelProps={{
-            style: { color: "#aaaaaa" },
-          }}
+          value={data_text}
+          onChange={(e) => set_data(e.target.value)}
         />
-  
-        {/* Toggle Button for Workout/Diet */}
-        <ToggleButtonGroup
-          value={type_text}
-          exclusive
-          onChange={handleToggleChange}
-          sx={{ mb: 2 }}
-        >
-          <ToggleButton value="d" sx={{ color: "#ffffff", borderColor: "#666666" }}>Workout</ToggleButton>
-          <ToggleButton value="w" sx={{ color: "#ffffff", borderColor: "#666666" }}>Diet</ToggleButton>
-        </ToggleButtonGroup>
-  
-        <Button
-          fullWidth
-          onClick={calculate}
-          variant="contained"
+
+        <FormControlLabel
+          control={
+            <Switch
+              sx={{}}
+              checked={type_text === "d"}
+              onChange={handleToggleChange}
+              color="primary"
+            />
+          }
+          label={type_text === "d" ? "Diet" : "Workout"}
+          sx={{ color: "white", marginBottom: 2 }}
+        />
+        <br />
+        <Box
           sx={{
-            mb: 3,
-            backgroundColor: "#ffffff",
-            color: "#000000",
-            fontWeight: "bold",
-            "&:hover": { backgroundColor: "#e0e0e0" },
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          Get Result
-        </Button>
-      </Box>
-  
-      {/* Right Section - Results */}
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 3,
-          backgroundColor: "#1c1c1c",
-        }}
-      >
-        {result !== '?' ? (
-          // Display Result
-          <Paper
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={calculate}
             sx={{
-              p: 3,
-              backgroundColor: "#333333",
-              color: "#ffffff",
-              borderRadius: 2,
+              justifyContent: "center",
+              alignItems: "center",
               width: "100%",
-              maxWidth: "600px",
-              boxSizing: "border-box",
+              backgroundColor: "#696bee",
+              "&:hover": {
+                backgroundColor: "#6e6ee0",
+              },
+              color: "white",
+              fontWeight: "bold",
+              marginBottom: 2,
             }}
           >
-            <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left", fontSize: "2rem" }}>
-              Result
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.5rem" }}>
-              {result ? (
-                <ul style={{ paddingLeft: "20px", textAlign: "left", fontSize: "1.5rem" }}>
-                  {result
-                    .replace(/[{}"']/g, "") // Remove unwanted characters
-                    .split(',') // Split by commas
-                    .map((item, index) => (
-                      <li key={index} style={{ marginBottom: "8px" }}>
-                        {capitalizeWords(item.trim())} {/* Capitalize each word */}
-                      </li>
-                    ))}
-                </ul>
-              ) : (
-                <Typography variant="body2" sx={{ color: "#aaaaaa" }}>
-                  No results to display.
-                </Typography>
-              )}
-            </Typography>
-          </Paper>
-        ) : (
-          // Original content when no result is displayed
-          <>
-            <Icon
-              component={FitnessCenterIcon}
-              sx={{ fontSize: "5rem", color: "#ffffff" }}
-            />
-            <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
-              Fitness is my Passion
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.2rem", width: "100%" }}>
-              “This app has helped me reduce over 540 pounds, saving me from
-              morbid obesity.” - Sachit Murthy, current student at UCLA.
-            </Typography>
-          </>
-        )}
-      </Box>
+            Generate Plan
+          </Button>
+        </Box>
+
+        <Box
+          sx={{
+            marginTop: 2,
+            padding: 2,
+            backgroundColor: "#11172a",
+            borderRadius: 1,
+            textAlign: "center",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: "bold", color: "#929eb2" }}
+          >
+            Plan:
+          </Typography>
+          <Typography variant="body1" sx={{ color: "#929eb2" }}>
+            {result}
+          </Typography>
+        </Box>
+      </Paper>
     </Container>
   );
 };
