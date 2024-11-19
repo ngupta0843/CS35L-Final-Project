@@ -5,6 +5,8 @@ import WeeklyStatCard from './WeeklyStatCard';
 import WorkoutCard from './WorkoutCard';
 import { counts } from './data';
 import { Box, Stack, Container, ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import  {useLocation} from 'react-router-dom'; 
+import DynamicLogger from './DynamicLogger';
 
 // Create a custom dark theme
 const darkTheme = createTheme({
@@ -36,10 +38,14 @@ const darkTheme = createTheme({
 });
 
 const Dashboard = () => {
+  const location = useLocation();
+  const state = location.state;
+  console.log('state', state);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Container sx={{ paddingTop: '10vh', backgroundColor: 'background.default', color: 'text.primary' }}>
+        <Box>hello, {state.user.email}</Box>
         <Stack spacing={3}>
           {/* Counts Cards Section */}
           <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
@@ -70,6 +76,9 @@ const Dashboard = () => {
           {/* Workout Card Section */}
           <Box sx={{ backgroundColor: 'background.paper', borderRadius: 2, padding: 2 }}>
             <WorkoutCard />
+          </Box>
+          <Box sx={{ backgroundColor: 'background.paper', borderRadius: 2, padding: 2 }}>
+            <DynamicLogger></DynamicLogger>
           </Box>
         </Stack>
       </Container>

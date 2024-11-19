@@ -55,7 +55,7 @@ const LogIn = memo(() => {
       console.log(response);
       switch (response.status) {
         case 200:
-          navigate("/dashboard", { state: { user: response.data.result } });
+          navigate("/dashboard", { state: { user: user.email } });
           break;
         default:
           alert("Signup Failed");
