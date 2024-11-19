@@ -24,6 +24,7 @@ const QA = () => {
   };
 
   const calculate = async () => {
+    console.log(`Data: ${data_text}, Type: ${type_text}`);
     if (!data_text) {
       alert("Please enter valid text!");
       return;
