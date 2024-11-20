@@ -21,7 +21,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {login} from '../redux/reducers/userReducer.js';
+import { login } from "../redux/reducers/userReducer.js";
 
 const SignUp = memo(() => {
   const dispatch = useDispatch();
@@ -62,8 +62,19 @@ const SignUp = memo(() => {
       console.log(response);
       switch (response.status) {
         case 201:
-          dispatch(login({ firstname: response.firstname, lastname: response.lastname, email: response.email }));
-          navigate("/dashboard");
+          try {
+            dispatch(
+              login({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email
+              })
+            );
+            navigate("/dashboard");
+          } catch (dispatchError) {
+            console.error("Dispatch error:", dispatchError);
+          }
+
           break;
         default:
           alert("Signup Failed");
