@@ -1,10 +1,13 @@
 
 # Node modules
 client/node_modules/
+client/package-lock.json
 client/package.json
 server/node_modules/
 ../node_modules/
+../package-lock.json
 ../package.json
+package-lock.json
 node_modules/
 package.json
 

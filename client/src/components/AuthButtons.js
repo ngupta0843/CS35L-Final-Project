@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import "./AuthButtons.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,10 +10,12 @@ const AuthButtons = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
-    <Box className="auth-buttons" sx={{ position: "absolute", top: 20, right: 20 }}>
+    <Box
+      className="auth-buttons"
+      sx={{ position: "absolute", top: 20, right: 20 }}
+    >
       <Button
-        component={Link} // Make this button a link
-        to="/" // Navigate to home page
+        onClick={() => navigate("/")}
         variant="outlined"
         className="auth-button"
         sx={{
@@ -32,6 +33,7 @@ const AuthButtons = () => {
       </Button>
       <Button
         variant="outlined"
+        onClick={() => navigate("/login")}
         className="auth-button"
         sx={{
           display: user.isLoggedIn && "none",
@@ -48,8 +50,6 @@ const AuthButtons = () => {
         Login
       </Button>
       <Button
-        component={Link} // Make this button a link
-        to="/signup" // Navigate to signup page
         variant="outlined"
         onClick={() => {
           dispatch(logout());
@@ -73,6 +73,7 @@ const AuthButtons = () => {
       <Button
         variant="outlined"
         className="auth-button"
+        onClick={() => navigate("/signup")}
         sx={{
           color: "white",
           borderColor: "white",
