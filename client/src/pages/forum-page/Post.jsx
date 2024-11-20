@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PostActions from './PostActions';
-
+import './Post.css'
 import { Box, Card, CardMedia, CardContent, CardHeader, Avatar, Typography } from '@mui/material';
 
 const getPostSize = (size) => {
@@ -19,8 +19,14 @@ const getPostSize = (size) => {
 
 const PhotoPost = ({ username, workout, caption, photo, likecount, user, size }) => {
     return (
-      <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
-        <Card sx={{ width: getPostSize(size) }}>
+      <Box sx={{ width: getPostSize(size), margin: '0 auto'}}>
+        <Card 
+          sx={{ width: getPostSize(size), 
+          backgroundColor: 'black', 
+          color: 'white', 
+          border: '2px solid black', 
+          borderRadius: '10px'}}>
+            
           <CardHeader
             avatar={
               <Avatar
@@ -28,8 +34,10 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
                 alt={user.name}
               />
             }
-            title={username}
+            title={<strong>{username}</strong>}
             subheader={workout}
+            titleTypographyProps={{ sx: { color: 'white' } }}
+            subheaderTypographyProps={{ sx: { color: 'white' } }}
           />
           <CardMedia
             component="img"
@@ -43,7 +51,7 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
           
           <CardContent>
             <PostActions />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="white">
               {likecount} Likes
             </Typography>
             <Typography variant="body1">
@@ -58,7 +66,13 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
   const TextPost = ({ username, workout, caption, likecount, user, size }) => {
     return (
       <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
-        <Card sx={{ width: getPostSize(size) }}>
+        <Card sx={{ 
+          width: getPostSize(size), 
+          backgroundColor: 'black', 
+          color: 'white', 
+          border: '2px solid black', 
+          borderRadius: '10px'}}>
+
           <CardHeader
             avatar={
               <Avatar
@@ -66,15 +80,17 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
                 alt={user.name}
               />
             }
-            title={username}
+            title={<strong>{username}</strong>}
             subheader={workout}
+            titleTypographyProps={{ sx: { fontweight: 'bold', color: 'white' } }}
+            subheaderTypographyProps={{ sx: { color: 'white' } }}
           />
           <CardContent>
-            <Typography variant="body1" color="textPrimary">
+            <Typography variant="body1" color="white">
               {caption}
             </Typography>
             <PostActions />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="white">
               {likecount} Likes
             </Typography>
             <Typography variant="body1">
