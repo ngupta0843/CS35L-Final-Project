@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { set } from 'mongoose';
+import React, { useState } from "react";
+import axios from "axios";
+import { set } from "mongoose";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  FormControlLabel,
+  Switch,
+  Paper,
+  Icon,
+} from "@mui/material";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 const QA = () => {
-  const [data_text, set_data] = useState('');
+  const [data_text, set_data] = useState("");
   const [type_text, set_type] = useState("d");
-  const [result, setResult] = useState('?');
-  
+  const [result, setResult] = useState("?");
+
   const handleToggleChange = () => {
-    set_type(type_text => (type_text === "w" ? "d" : "w"));
+    set_type((type_text) => (type_text === "w" ? "d" : "w"));
   };
 
   const calculate = async () => {
+    console.log(`Data: ${data_text}, Type: ${type_text}`);
     if (!data_text) {
-      alert('Please enter valid text!');
+      alert("Please enter valid text!");
       return;
     }
-  
+
     try {
       const url = `/ml`;
       console.log(`Making request to: ${url}`);
-      const response = await axios.post("http://localhost:8088" + url, { indata: data_text, type: type_text });
+      const response = await axios.post("http://localhost:8088" + url, {
+        indata: data_text,
+        type: type_text,
+      });
       console.log(response);
       setResult(response.data.result);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  /*
+    /*
     fetch(url)
       .then(response => response.json())
       .then(data => {
