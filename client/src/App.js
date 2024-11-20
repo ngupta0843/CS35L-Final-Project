@@ -10,6 +10,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import UserProfile from "./pages/profile";
 import AuthButtons from "./components/AuthButtons";
 import QA from "./pages/QA";
+import QA from "./pages/QA";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<LogIn />} />
-        <Route path="/fitness-planner" element={<QA />} />
+        <Route path="/fitness-planner" element={<QA/>} />
       </Routes>
     </Router>
   );
