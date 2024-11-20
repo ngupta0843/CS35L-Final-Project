@@ -1,0 +1,27 @@
+name: Prevent node_modules from being pushed
+
+on:
+  push:
+    branches:
+      - '**'  # Trigger on push to any branch
+  pull_request:
+    branches:
+      - '**'  # Trigger on PRs targeting any branch
+
+jobs:
+  check-no-lock-or-modules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for node_modules
+        run: |
+          # Check if node_modules is staged for commit
+          if git diff --cached --name-only | grep -E '^(node_modules/)'; then
+            echo "Error: node_modules are staged for commit."
+            echo "These should not be pushed to any branch."
+            exit 1
+          fi
+        shell: bash

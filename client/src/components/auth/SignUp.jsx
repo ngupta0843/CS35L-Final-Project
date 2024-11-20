@@ -20,8 +20,11 @@ import axios from "axios";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/reducers/userReducer.js";
 
 const SignUp = memo(() => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // useState hooks
   const [user, setUser] = useState({
@@ -59,7 +62,19 @@ const SignUp = memo(() => {
       console.log(response);
       switch (response.status) {
         case 201:
-          navigate("/forum");
+          try {
+            dispatch(
+              login({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email
+              })
+            );
+            navigate("/dashboard");
+          } catch (dispatchError) {
+            console.error("Dispatch error:", dispatchError);
+          }
+
           break;
         default:
           alert("Signup Failed");
@@ -298,7 +313,7 @@ const SignUp = memo(() => {
             "&:hover": { backgroundColor: "#e0e0e0" },
           }}
         >
-          Sign In with Email
+          Sign Up with Email
         </Button>
 
         <Divider sx={{ width: "100%", my: 2, color: "#aaaaaa" }}>
