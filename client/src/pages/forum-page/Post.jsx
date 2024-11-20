@@ -13,7 +13,7 @@ const getPostSize = (size) => {
     case 'large':
       return '100%';
     default:
-      return '80%';
+      return '70%';
   }
 };
 
@@ -24,7 +24,7 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
           sx={{ width: getPostSize(size), 
           backgroundColor: 'black', 
           color: 'white', 
-          border: '2px solid black', 
+          border: '2px solid white', 
           borderRadius: '10px'}}>
             
           <CardHeader
@@ -51,11 +51,19 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
           
           <CardContent>
             <PostActions />
-            <Typography variant="body2" color="white">
-              {likecount} Likes
+            <Typography variant="body2" color="white" marginLeft={1}>
+              {likecount}
             </Typography>
-            <Typography variant="body1">
-              <strong>{username}</strong> {caption}
+            <Typography 
+              variant="body1" 
+              color="white" 
+              sx={{
+                wordWrap: "break-word",
+                overflowWrap: "break-word", 
+                whiteSpace: "normal", 
+              }}>
+                <strong>{username}</strong>
+                <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
             </Typography>
           </CardContent>
         </Card>
@@ -70,7 +78,7 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
           width: getPostSize(size), 
           backgroundColor: 'black', 
           color: 'white', 
-          border: '2px solid black', 
+          border: '2px solid white', 
           borderRadius: '10px'}}>
 
           <CardHeader
@@ -86,15 +94,19 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
             subheaderTypographyProps={{ sx: { color: 'white' } }}
           />
           <CardContent>
-            <Typography variant="body1" color="white">
-              {caption}
+            <Typography 
+              variant="body1" 
+              color="white" 
+              sx={{
+                wordWrap: "break-word",
+                overflowWrap: "break-word", 
+                whiteSpace: "normal", 
+              }}>
+                {caption}
             </Typography>
             <PostActions />
-            <Typography variant="body2" color="white">
-              {likecount} Likes
-            </Typography>
-            <Typography variant="body1">
-              <strong>{username}</strong>
+            <Typography variant="body2" color="white" marginLeft={1}>
+              {likecount}
             </Typography>
           </CardContent>
         </Card>
