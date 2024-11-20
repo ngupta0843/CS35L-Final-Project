@@ -1,17 +1,14 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import "./AuthButtons.css";
-import { useNavigate } from "react-router-dom";
 
 const AuthButtons = () => {
-  const navigate = useNavigate();
   return (
-    <Box
-      className="auth-buttons"
-      sx={{ position: "absolute", top: 20, right: 20 }}
-    >
+    <Box className="auth-buttons" sx={{ position: "absolute", top: 20, right: 20 }}>
       <Button
-        onClick={() => navigate("/")}
+        component={Link} // Make this button a link
+        to="/" // Navigate to home page
         variant="outlined"
         className="auth-button"
         sx={{
@@ -28,9 +25,9 @@ const AuthButtons = () => {
         Home
       </Button>
       <Button
-        hidden={true}
+        component={Link} // Make this button a link
+        to="/login" // Navigate to login page
         variant="outlined"
-        onClick={() => navigate("/login")}
         className="auth-button"
         sx={{
           color: "white",
@@ -46,9 +43,10 @@ const AuthButtons = () => {
         Login
       </Button>
       <Button
+        component={Link} // Make this button a link
+        to="/signup" // Navigate to signup page
         variant="outlined"
         className="auth-button"
-        onClick={() => navigate("/signup")}
         sx={{
           color: "white",
           borderColor: "white",
