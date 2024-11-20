@@ -15,6 +15,10 @@ const AuthButtons = () => {
   const toggleDrawer = (open) => () => {
     setIsDrawerOpen(open);
   }
+  const handleNavigation = (action) => {
+    setIsDrawerOpen(false); 
+    action();
+  };
 
   const menuItems = [
     { text: "Home", action: () => navigate("/") },
@@ -53,7 +57,7 @@ const AuthButtons = () => {
         {menuItems.map(
           (item, index) =>
             (!item.hide || item.hide === undefined) && (
-              <ListItem button key={index} onClick={item.action}>
+              <ListItem button key={index} onClick={() => handleNavigation(item.action)}>
                 <ListItemText primary={item.text} className="auth-button" />
               </ListItem>
             )
