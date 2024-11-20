@@ -1,0 +1,61 @@
+name: Build and Test Client and Server
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '23.1.0'  # may need to be changed based on 
+
+      - name: Install dependencies
+        run: |
+          cd client && npm install
+          cd ../server && npm install
+
+      - name: Start Client-side
+        run: |
+          cd client
+          nohup npm start &
+        continue-on-error: true
+
+      - name: Start Server-side
+        run: |
+          cd server
+          nohup npm run dev &
+        continue-on-error: true 
+
+      - name: Wait for processes to start
+        run: sleep 10  # Adjust sleep time based on expected startup time
+
+      - name: Check if client is running
+        run: |
+          if ! pgrep -f "npm start" > /dev/null; then
+            echo "Client-side failed to start"
+            exit 1
+          fi
+
+      - name: Check if server is running
+        run: |
+          if ! pgrep -f "npm run dev" > /dev/null; then
+            echo "Server-side failed to start"
+            exit 1
+          fi
+
+      - name: Cleanup background processes
+        run: |
+          pkill -f "npm start"
+          pkill -f "npm run dev"

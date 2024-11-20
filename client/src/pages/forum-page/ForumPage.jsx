@@ -1,5 +1,5 @@
 import React from "react";
-import {Post} from './Post';
+import Post from './Post';
 import nikhil from '../../testimages/nikhil_profile_pic.png';
 import sachit from '../../testimages/post1.jpeg';
 import { Avatar, Stack } from "@mui/material";
@@ -13,6 +13,7 @@ function ForumPage() {
             caption: 'hello',
             likesCount: 100,
             post_img: sachit,
+            workout: "squats",
         },
         {
             id: 2,
@@ -21,7 +22,6 @@ function ForumPage() {
             profile_icon: nikhil,
             caption: 'hi',
             likesCount: 200,
-            post_img: sachit,
         }
     ];
 
@@ -37,6 +37,7 @@ function ForumPage() {
                     likecount={post.likesCount}
                     user={{profile_photo: post.profile_icon}}
                     photo={post.post_img}
+                    workout={post.workout}
                 />
             ))}
             </Stack>

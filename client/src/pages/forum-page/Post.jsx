@@ -1,41 +1,3 @@
-// import React from 'react';
-// import { 
-//     Card, 
-//     CardHeader, 
-//     CardMedia, 
-//     CardContent,
-//     Typography, 
-//     Avatar, 
-//     IconButton
-// } from '@mui/material';
-// import PostActions from './PostActions';
-
-// function Post({ username, location, profile_icon, caption, likesCount, timeAgo, post_img }){
-//     return(
-//         <Card sx={{ marginBottom: 2 }}>
-//       <CardHeader
-//         avatar={<Avatar alt={username} src={profile_icon} />}
-//         title={username}
-//         subheader={location}
-//       />
-//       <CardMedia component="img" height="400" image={post_img} alt="Post Image" />
-//       <CardContent>
-//         <PostActions />
-//         <Typography variant="body2" color="text.secondary">
-//           {likesCount} Likes
-//         </Typography>
-//         <Typography variant="body2" color="text.secondary">
-//           {timeAgo}
-//         </Typography>
-//         <Typography variant="body1">
-//           <strong>{username}</strong> {caption}
-//         </Typography>
-//       </CardContent>
-//     </Card>
-//     );
-// }
-
-// export default Post;
 
 import React from 'react';
 import PostActions from './PostActions';
@@ -55,7 +17,7 @@ const getPostSize = (size) => {
   }
 };
 
-const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
+const PhotoPost = ({ username, workout, caption, photo, likecount, user, size }) => {
     return (
       <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
         <Card sx={{ width: getPostSize(size) }}>
@@ -77,6 +39,8 @@ const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
             alt="Post"
             sx={{objectFit: 'square' }} // Makes sure the image scales well within the card
           />
+            
+          
           <CardContent>
             <PostActions />
             <Typography variant="body2" color="text.secondary">
@@ -91,4 +55,45 @@ const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
     );
   };
 
-export {Post};
+  const TextPost = ({ username, workout, caption, likecount, user, size }) => {
+    return (
+      <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
+        <Card sx={{ width: getPostSize(size) }}>
+          <CardHeader
+            avatar={
+              <Avatar
+                src={user.profile_photo}
+                alt={user.name}
+              />
+            }
+            title={username}
+            subheader={workout}
+          />
+          <CardContent>
+            <Typography variant="body1" color="textPrimary">
+              {caption}
+            </Typography>
+            <PostActions />
+            <Typography variant="body2" color="text.secondary">
+              {likecount} Likes
+            </Typography>
+            <Typography variant="body1">
+              <strong>{username}</strong>
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+    );
+  };
+
+  const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
+    const isPhotoPost = !!photo;
+
+    return isPhotoPost ? (
+      <PhotoPost username={username} workout={workout} caption={caption} photo={photo} likecount={likecount} user={user} size={size} />
+    ): (
+      <TextPost username={username} workout={workout} caption={caption} likecount={likecount} user={user} size={size} />
+    );
+  };
+
+export default Post;
