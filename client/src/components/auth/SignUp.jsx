@@ -70,7 +70,7 @@ const SignUp = memo(() => {
                 email: user.email
               })
             );
-            navigate("/dashboard");
+            navigate("/fitness-planner");
           } catch (dispatchError) {
             console.error("Dispatch error:", dispatchError);
           }
