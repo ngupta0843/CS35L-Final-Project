@@ -39,7 +39,7 @@ const fadeProps = useSpring({
   opacity: isFading ? 1 : 0,  // Fade in and out based on the isFading state
   from: { opacity: 0 },
   reset: true,
-  config: { friction: 50, tension: 100, mass: 1 },
+  config: { friction: 50, tension: 50, mass: 1 },
   onRest: () => {
     if (isFading) {
       setIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
