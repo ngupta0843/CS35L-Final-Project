@@ -19,21 +19,19 @@ const signin = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid credentials." });
     }
-    res
-      .status(200)
-      .json({
-        result: {
-          name: existingUser.name,
-          email: existingUser.email,
-          id: existingUser.id,
-          bio: existingUser.bio,
-          profile_photo: existingUser.profile_photo,
-          followers: existingUser.followers,
-          following: existingUser.following,
-          posts: existingUser.posts,
-          saved_workouts: existingUser.saved_workouts,
-        },
-      });
+    res.status(200).json({
+      result: {
+        name: existingUser.name,
+        email: existingUser.email,
+        id: existingUser.id,
+        bio: existingUser.bio,
+        profile_photo: existingUser.profile_photo,
+        followers: existingUser.followers,
+        following: existingUser.following,
+        posts: existingUser.posts,
+        saved_workouts: existingUser.saved_workouts,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -80,4 +78,13 @@ const testGet = async (req, res) => {
   res.status(200).json({ message: "Test GET route" });
 };
 
-module.exports = { signin, signup, test, testGet };
+const getUserList = async (req, res) => {
+  try {
+    const users = await Users.find({}, "name email");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+module.exports = { signin, signup, test, testGet, getUserList };
