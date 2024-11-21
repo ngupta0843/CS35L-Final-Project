@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 
 // function imports
+import ForumPage from "./pages/forum-page/ForumPage";
 import LandingPage from "./pages/landing";
 import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
@@ -11,7 +12,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import UserProfile from "./pages/profile.jsx";
 import AuthButtons from "./components/AuthButtons";
 import QA from "./pages/QA";
-import ForumPage from "./pages/forum-page/ForumPage.jsx";
 
 function App() {
   return (

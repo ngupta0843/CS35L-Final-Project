@@ -4,10 +4,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 
 function PostActions() {
-    const [liked, setLiked] = useState(false);
-    const handleLike = () => {
-        setLiked(!liked);
-    };
+  const [liked, setLiked] = useState(false);
+  const handleLike = () => {
+    setLiked(!liked);
+  };
 
     return(
         <div style={{display: 'flex', justifyContent: 'space-between' }}>

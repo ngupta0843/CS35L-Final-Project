@@ -69,11 +69,30 @@ const AuthButtons = () => {
       sx={{ position: "absolute", top: 20, right: 80 }}
     >
       <Button
+        variant="outlined"
+        onClick={() => navigate("/forum")}
+        className="auth-button"
+        sx={{
+          display: !user.isLoggedIn && "none",
+          color: "white",
+          borderColor: "white",
+          marginLeft: 2,
+          "&:hover": {
+            backgroundColor: "#fff",
+            color: "#121212",
+            boxShadow: "0 0 15px rgba(255, 255, 255, 1)",
+          },
+        }}
+      >
+        Forum
+      </Button>
+      <Button
         onClick={() => navigate("/")}
         variant="outlined"
         className="auth-button"
         sx={{
           color: "white",
+          display: user.isLoggedIn && "none",
           borderColor: "white",
           marginLeft: 2,
           "&:hover": {
@@ -129,6 +148,7 @@ const AuthButtons = () => {
         className="auth-button"
         onClick={() => navigate("/signup")}
         sx={{
+          display: user.isLoggedIn && "none",
           color: "white",
           borderColor: "white",
           marginLeft: 2,
