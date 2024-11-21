@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PostActions from './PostActions';
-
+import './Post.css'
 import { Box, Card, CardMedia, CardContent, CardHeader, Avatar, Typography } from '@mui/material';
 
 const getPostSize = (size) => {
@@ -13,14 +13,20 @@ const getPostSize = (size) => {
     case 'large':
       return '100%';
     default:
-      return '80%';
+      return '70%';
   }
 };
 
 const PhotoPost = ({ username, workout, caption, photo, likecount, user, size }) => {
     return (
-      <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
-        <Card sx={{ width: getPostSize(size) }}>
+      <Box sx={{ width: getPostSize(size), margin: '0 auto'}}>
+        <Card 
+          sx={{ width: getPostSize(size), 
+          backgroundColor: 'black', 
+          color: 'white', 
+          border: '2px solid white', 
+          borderRadius: '10px'}}>
+            
           <CardHeader
             avatar={
               <Avatar
@@ -28,8 +34,10 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
                 alt={user.name}
               />
             }
-            title={username}
+            title={<strong>{username}</strong>}
             subheader={workout}
+            titleTypographyProps={{ sx: { color: 'white' } }}
+            subheaderTypographyProps={{ sx: { color: 'white' } }}
           />
           <CardMedia
             component="img"
@@ -43,11 +51,19 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
           
           <CardContent>
             <PostActions />
-            <Typography variant="body2" color="text.secondary">
-              {likecount} Likes
+            <Typography variant="body2" color="white" marginLeft={1}>
+              {likecount}
             </Typography>
-            <Typography variant="body1">
-              <strong>{username}</strong> {caption}
+            <Typography 
+              variant="body1" 
+              color="white" 
+              sx={{
+                wordWrap: "break-word",
+                overflowWrap: "break-word", 
+                whiteSpace: "normal", 
+              }}>
+                <strong>{username}</strong>
+                <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
             </Typography>
           </CardContent>
         </Card>
@@ -58,7 +74,13 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
   const TextPost = ({ username, workout, caption, likecount, user, size }) => {
     return (
       <Box sx={{ width: getPostSize(size), margin: '0 auto' }}>
-        <Card sx={{ width: getPostSize(size) }}>
+        <Card sx={{ 
+          width: getPostSize(size), 
+          backgroundColor: 'black', 
+          color: 'white', 
+          border: '2px solid white', 
+          borderRadius: '10px'}}>
+
           <CardHeader
             avatar={
               <Avatar
@@ -66,19 +88,25 @@ const PhotoPost = ({ username, workout, caption, photo, likecount, user, size })
                 alt={user.name}
               />
             }
-            title={username}
+            title={<strong>{username}</strong>}
             subheader={workout}
+            titleTypographyProps={{ sx: { fontweight: 'bold', color: 'white' } }}
+            subheaderTypographyProps={{ sx: { color: 'white' } }}
           />
           <CardContent>
-            <Typography variant="body1" color="textPrimary">
-              {caption}
+            <Typography 
+              variant="body1" 
+              color="white" 
+              sx={{
+                wordWrap: "break-word",
+                overflowWrap: "break-word", 
+                whiteSpace: "normal", 
+              }}>
+                {caption}
             </Typography>
             <PostActions />
-            <Typography variant="body2" color="text.secondary">
-              {likecount} Likes
-            </Typography>
-            <Typography variant="body1">
-              <strong>{username}</strong>
+            <Typography variant="body2" color="white" marginLeft={1}>
+              {likecount}
             </Typography>
           </CardContent>
         </Card>
