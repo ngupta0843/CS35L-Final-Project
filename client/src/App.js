@@ -24,8 +24,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<LogIn />} />
-        <Route path="/fitness-planner" element={<QA />} />
-        <Route path="/forum" element={<ForumPage />} />
+        <Route path="/fitness-planner" element={<QA/>} />
+        <Route path="/forum" element={<ForumPage/>} />
       </Routes>
     </Router>
   );

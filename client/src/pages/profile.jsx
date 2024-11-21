@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, Button, Typography, Stack, Box, Grid } from "@mui/material";
 import { Post } from "../components/posts/post";
 import { CameraAlt, Edit } from "@mui/icons-material";
@@ -6,11 +6,12 @@ import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
 import post2 from "../testimages/post2.jpeg";
 import post3 from "../testimages/post3.jpeg";
+import SocialMediaPostUpload from "./upload_post";
 import './UserProfile.css';
 
 const posts = [post1, post2, post3];
 
-const UserProfileHeader = () => {
+const UserProfileHeader = ({ onCreatePostClick }) => {
     return (
         <Box className="user-profile-header">
             <Stack direction="row" spacing={4} alignItems="center">
@@ -48,6 +49,16 @@ const UserProfileHeader = () => {
                     >
                         Edit Profile
                     </Button>
+                    {/* Button to open modal for creating a post */}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<CameraAlt />}
+                        sx={{ marginTop: 2 }}
+                        onClick={onCreatePostClick}
+                    >
+                        Create a Post
+                    </Button>
                 </Box>
             </Stack>
         </Box>
@@ -58,7 +69,7 @@ const UserProfilePosts = () => {
     return (
         <Box className="user-profile-posts">
             <Typography variant="h5" className="title">Posts</Typography>
-            <Stack  className="posts-container">
+            <Stack className="posts-container">
                 {posts.map((post, index) => (
                     <Post
                         key={index}
@@ -77,10 +88,23 @@ const UserProfilePosts = () => {
 };
 
 const UserProfile = () => {
+    const [openPostModal, setOpenPostModal] = useState(false); // State to control modal visibility
+
+    const handleOpenModal = () => {
+        setOpenPostModal(true); // Open the modal
+    };
+
+    const handleCloseModal = () => {
+        setOpenPostModal(false); // Close the modal
+    };
+
     return (
         <div>
-            <UserProfileHeader />
+            <UserProfileHeader onCreatePostClick={handleOpenModal} /> {/* Pass modal trigger to header */}
             <UserProfilePosts />
+            
+            {/* The modal for creating a new post */}
+            <SocialMediaPostUpload open={openPostModal} onClose={handleCloseModal} />
         </div>
     );
 };
