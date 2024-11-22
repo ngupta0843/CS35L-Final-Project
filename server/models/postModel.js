@@ -1,17 +1,21 @@
 const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema({
+  postID: {
+    type: String,
+    required: true
+  },
   username: {
     type: String,
     required: true
   },
   workout: {
     type: String,
-    required: true
+    required: false
   },
   caption: {
     type: String,
-    required: false
+    required: true
   },
   likecount: {
     type: Number,
@@ -20,7 +24,10 @@ const postSchema = mongoose.Schema({
   photo: {
     type: String // filepath of photo
   },
-  isPhotoPost: {
+  text: {
+    type: String
+  },
+  isTextPost: {
     type: Boolean,
     default: false
   },
@@ -33,7 +40,6 @@ const postSchema = mongoose.Schema({
     type: Array,
     default: []
   }
-
 });
 
 const Posts = mongoose.model("Posts", postSchema);

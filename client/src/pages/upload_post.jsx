@@ -40,21 +40,13 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
   };
 
   const handleSubmit = async () => {
-    console.log({
-      workoutTitle,
-      caption,
-      postContent, // Send post content separately
-      isTextPost: isTextPost ? "Text post" : "Photo post",
-      photo
-    });
-    console.log("user's email is " + user.email);
-    const response = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
-    const userSchema = response.data;
+    const responseUserSchema = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
+    const userSchema = responseUserSchema.data;
+    const postID = user.email + userSchema.profile_photo.length;
+    //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
+    const response = await axios.post("http://localhost:8088/posts/createPost?postID=" + postID + "&postText=" + postContent + "&postImage=" + photo + "&postAuthor=" + user.email + "&postCaption=" + caption + "&postisText=" + isTextPost + "&postWorkoutTitle=" + workoutTitle);
     console.log(response);
-    console.log(userSchema);
-    console.log("user name is " + userSchema.firstname + " " + userSchema.lastname);
-    console.log("number of posts is " + userSchema.posts.length);
-    //onClose(); // Close the modal after submitting
+    onClose(); // Close the modal after submitting
   };
 
   return (
