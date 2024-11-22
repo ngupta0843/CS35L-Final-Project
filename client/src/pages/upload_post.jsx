@@ -14,6 +14,8 @@ import {
   CardMedia 
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import axios from "axios";
+import {useSelector} from "react-redux";
 
 const SocialMediaPostUpload = ({ open, onClose }) => {
   const [isTextPost, setIsTextPost] = useState(false); // State to track if it's a text or photo post
@@ -21,6 +23,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
   const [caption, setCaption] = useState(''); // State for the caption
   const [postContent, setPostContent] = useState(''); // State for the post content
   const [photo, setPhoto] = useState(null);
+  const user = useSelector((state) => state.user);
 
   const handleSwitchChange = () => {
     setIsTextPost(!isTextPost);
@@ -43,7 +46,10 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
       isTextPost: isTextPost ? "Text post" : "Photo post",
       photo
     });
-    onClose(); // Close the modal after submitting
+    console.log("user's email is " + user.email);
+    const response = axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
+    console.log(response);
+    //onClose(); // Close the modal after submitting
   };
 
   return (
