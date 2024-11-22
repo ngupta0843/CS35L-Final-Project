@@ -11,7 +11,8 @@ import {
   FormControlLabel, 
   Switch, 
   Card, 
-  CardMedia 
+  CardMedia, 
+  useMediaQuery
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import axios from "axios";
@@ -38,7 +39,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log({
       workoutTitle,
       caption,
@@ -47,8 +48,12 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
       photo
     });
     console.log("user's email is " + user.email);
-    const response = axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
+    const response = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
+    const userSchema = response.data;
     console.log(response);
+    console.log(userSchema);
+    console.log("user name is " + userSchema.firstname + " " + userSchema.lastname);
+    console.log("number of posts is " + userSchema.posts.length);
     //onClose(); // Close the modal after submitting
   };
 
