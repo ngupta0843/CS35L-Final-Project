@@ -14,7 +14,7 @@ function PostActions({ username, caption, initialLikeCount }) {
       const fetchPostID = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8088/posts/getPost?username=${username}&caption=${caption}`
+            'http://localhost:8088/posts/getPost?username=${username}&caption=${caption}'
           );
           setPostID(response.data.postID); 
         } catch (error) {
@@ -32,7 +32,7 @@ function PostActions({ username, caption, initialLikeCount }) {
       }
   
       try {
-        await axios.post(`http://localhost:8088/posts/likePost`, { postID });
+        await axios.post('http://localhost:8088/posts/likePost?postID=${postID}');
         setLikeCount((prev) => prev + 1);
         setLiked(!liked);
       } catch (error) {

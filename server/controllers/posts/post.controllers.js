@@ -2,8 +2,8 @@ const Posts = require("../../models/postModel.js");
 
 const getPost = async(req, res) => {
     try{
-        const { username, cpation} = req.query;
-        const post = await Posts.findOne({ username: username})
+        const { username, caption} = req.query;
+        const post = await Posts.findOne({ username: username, caption: caption})
 
         if (!post){
             return res.status(404).json({message: "Post not found"});
@@ -17,7 +17,7 @@ const getPost = async(req, res) => {
 
 const likePost = async(req, res) => {
     try{
-        const { postId } = req.body;
+        const { postId } = req.query;
         if (!postId) { 
             console.log(req);
             return res.status(400).json({ error: "Bad Post ID." });
