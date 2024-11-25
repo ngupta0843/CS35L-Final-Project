@@ -25,6 +25,9 @@ const userSchema = mongoose.Schema({
   followers: {
     type: Array,
   },
+  follower_requests: {
+    type: Array,
+  },
   following: {
     type: JSON,
   },
@@ -39,4 +42,3 @@ const userSchema = mongoose.Schema({
 const Users = mongoose.model("Users", userSchema);
 
 module.exports = Users;
-
