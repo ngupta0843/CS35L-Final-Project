@@ -11,9 +11,12 @@ import {
   FormControlLabel, 
   Switch, 
   Card, 
-  CardMedia 
+  CardMedia, 
+  useMediaQuery
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import axios from "axios";
+import {useSelector} from "react-redux";
 
 const SocialMediaPostUpload = ({ open, onClose }) => {
   const [isTextPost, setIsTextPost] = useState(false); // State to track if it's a text or photo post
@@ -21,6 +24,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
   const [caption, setCaption] = useState(''); // State for the caption
   const [postContent, setPostContent] = useState(''); // State for the post content
   const [photo, setPhoto] = useState(null);
+  const user = useSelector((state) => state.user);
 
   const handleSwitchChange = () => {
     setIsTextPost(!isTextPost);
@@ -35,14 +39,13 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log({
-      workoutTitle,
-      caption,
-      postContent, // Send post content separately
-      isTextPost: isTextPost ? "Text post" : "Photo post",
-      photo
-    });
+  const handleSubmit = async () => {
+    const responseUserSchema = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
+    const userSchema = responseUserSchema.data;
+    const postID = user.email + userSchema.profile_photo.length;
+    //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
+    const response = await axios.post("http://localhost:8088/posts/createPost?postID=" + postID + "&postText=" + postContent + "&postImage=" + photo + "&postAuthor=" + user.email + "&postCaption=" + caption + "&postisText=" + isTextPost + "&postWorkoutTitle=" + workoutTitle);
+    console.log(response);
     onClose(); // Close the modal after submitting
   };
 

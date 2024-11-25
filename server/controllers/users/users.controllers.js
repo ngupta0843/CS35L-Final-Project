@@ -1,3 +1,4 @@
+const { get } = require("mongoose");
 const Users = require("../../models/userModel.js");
 const bcrypt = require("bcryptjs");
 
@@ -87,4 +88,10 @@ const getUserList = async (req, res) => {
   }
 };
 
-module.exports = { signin, signup, test, testGet, getUserList };
+const getCurrentUser = async (req, res) => {
+  const {id} = req.query;
+  const users = await Users.findOne({email:id}, {});
+  res.status(200).json(users);
+}
+
+module.exports = { signin, signup, test, testGet, getUserList, getCurrentUser };
