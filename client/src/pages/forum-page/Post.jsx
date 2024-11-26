@@ -124,7 +124,7 @@ const TextPost = ({ username, workout, caption, likecount, user, size }) => {
   );
 };
 
-const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
+const Post = ({ username, workout, caption, photo, likecount, user, size, index }) => {
   const isPhotoPost = !!photo;
 
   return isPhotoPost ? (
