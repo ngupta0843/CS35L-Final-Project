@@ -26,14 +26,7 @@ function ForumPage() {
       <Stack spacing={3}>
         {posts.map((post, index) => (
           <Post
-            key={post.id}
-            username={post.username}
-            location={post.location}
-            caption={post.caption}
-            likecount={post.likesCount}
-            user={{ profile_photo: post.profile_icon }}
-            photo={post.post_img}
-            workout={post.workout}
+            post={post}
           />
         ))}
       </Stack>
