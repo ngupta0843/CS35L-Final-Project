@@ -25,11 +25,8 @@ const userSchema = mongoose.Schema({
   followers: {
     type: Array,
   },
-  follower_requests: {
-    type: Array,
-  },
   following: {
-    type: JSON,
+    type: Array,
   },
   posts: {
     type: JSON,
