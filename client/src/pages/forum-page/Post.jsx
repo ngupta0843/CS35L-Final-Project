@@ -24,16 +24,15 @@ const getPostSize = (size) => {
   }
 };
 
-const PhotoPost = ({
-  username,
-  workout,
-  caption,
-  photo,
-  likecount,
-  user,
-  size,
-}) => {
-  return (
+function Post({ post, size="medium" }) {
+  const { username, workout, caption, photo, likecount, isTextPost } = post;
+  console.log(post);
+  const default_profile_photo = "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg"
+  var profilePhoto = post.photo || default_profile_photo;
+  if (profilePhoto === "null") {
+    profilePhoto = default_profile_photo;
+  }
+  return(
     <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
       <Card
         sx={{
@@ -45,64 +44,30 @@ const PhotoPost = ({
         }}
       >
         <CardHeader
-          avatar={<Avatar src={user.profile_photo} alt={user.name} />}
-          title={<strong>{username}</strong>}
-          subheader={workout}
-          titleTypographyProps={{ sx: { color: "white" } }}
-          subheaderTypographyProps={{ sx: { color: "white" } }}
-        />
-        <CardMedia
-          component="img"
-          height={getPostSize(size)}
-          aspectRatio="1"
-          image={photo}
-          alt="Post"
-          sx={{ objectFit: "square" }} // Makes sure the image scales well within the card
-        />
-
-        <CardContent>
-          <PostActions username={username} caption={caption} initialLikeCount={likecount} />
-          <Typography variant="body2" color="white" marginLeft={1}>
-            {likecount}
-          </Typography>
-          <Typography
-            variant="body1"
-            color="white"
-            sx={{
-              wordWrap: "break-word",
-              overflowWrap: "break-word",
-              whiteSpace: "normal",
-            }}
-          >
-            <strong>{username}</strong>
-            <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
-          </Typography>
-        </CardContent>
-      </Card>
-    </Box>
-  );
-};
-
-const TextPost = ({ username, workout, caption, likecount, user, size }) => {
-  return (
-    <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
-      <Card
-        sx={{
-          width: getPostSize(size),
-          backgroundColor: "black",
-          color: "white",
-          border: "2px solid white",
-          borderRadius: "10px",
-        }}
-      >
-        <CardHeader
-          avatar={<Avatar src={user.profile_photo} alt={user.name} />}
+          avatar={<Avatar src={profilePhoto} alt={username} />}
           title={<strong>{username}</strong>}
           subheader={workout}
           titleTypographyProps={{ sx: { fontweight: "bold", color: "white" } }}
           subheaderTypographyProps={{ sx: { color: "white" } }}
         />
+        {!isTextPost && (
+          <CardMedia
+          component="img"
+          height={getPostSize(size)}
+          aspectRatio="1"
+          image={photo}
+          alt="Post"
+          sx={{ objectFit: "square" }}
+        />)}
         <CardContent>
+          {!isTextPost && (
+            <><PostActions
+            username={username}
+            caption={caption}
+            initialLikeCount={likecount} /><Typography variant="body2" color="white" marginLeft={1}>
+              {likecount}
+            </Typography></>
+          )}
           <Typography
             variant="body1"
             color="white"
@@ -112,41 +77,25 @@ const TextPost = ({ username, workout, caption, likecount, user, size }) => {
               whiteSpace: "normal",
             }}
           >
-            {caption}
+            {!isTextPost && (
+              <>
+              <strong>{username}</strong>
+              <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
+              </>
+            ) || caption}
           </Typography>
-          <PostActions username={username} caption={caption} initialLikeCount={likecount} />
-          <Typography variant="body2" color="white" marginLeft={1}>
-            {likecount}
-          </Typography>
+          {isTextPost && (
+            <>
+              <PostActions username={username} caption={caption} initialLikeCount={likecount} />
+              <Typography variant="body2" color="white" marginLeft={1}>
+                {likecount}
+              </Typography>
+            </>
+            )}
         </CardContent>
       </Card>
     </Box>
-  );
-};
-
-const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
-  const isPhotoPost = !!photo;
-
-  return isPhotoPost ? (
-    <PhotoPost
-      username={username}
-      workout={workout}
-      caption={caption}
-      photo={photo}
-      likecount={likecount}
-      user={user}
-      size={size}
-    />
-  ) : (
-    <TextPost
-      username={username}
-      workout={workout}
-      caption={caption}
-      likecount={likecount}
-      user={user}
-      size={size}
-    />
-  );
-};
+  );      
+}
 
 export default Post;

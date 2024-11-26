@@ -21,6 +21,10 @@ const postSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  likedUsers: {
+    type: Array,
+    default: []
+  },
   photo: {
     type: String // filepath of photo
   },
@@ -44,5 +48,5 @@ const postSchema = mongoose.Schema({
 
 const Posts = mongoose.model("Posts", postSchema);
 
-module.exports = Posts;
+module.exports = Posts, postSchema;
 
