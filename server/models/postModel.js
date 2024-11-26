@@ -21,6 +21,10 @@ const postSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  likedUsers: {
+    type: Array,
+    default: []
+  },
   photo: {
     type: String // filepath of photo
   },
