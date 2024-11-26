@@ -61,12 +61,8 @@ function Post({ post, size="medium" }) {
         />)}
         <CardContent>
           {!isTextPost && (
-            <><PostActions
-            username={username}
-            caption={caption}
-            initialLikeCount={likecount} /><Typography variant="body2" color="white" marginLeft={1}>
-              {likecount}
-            </Typography></>
+            <PostActions
+            post={post} />
           )}
           <Typography
             variant="body1"
@@ -86,10 +82,7 @@ function Post({ post, size="medium" }) {
           </Typography>
           {isTextPost && (
             <>
-              <PostActions username={username} caption={caption} initialLikeCount={likecount} />
-              <Typography variant="body2" color="white" marginLeft={1}>
-                {likecount}
-              </Typography>
+              <PostActions post={post} />
             </>
             )}
         </CardContent>
