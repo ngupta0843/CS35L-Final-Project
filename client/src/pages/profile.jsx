@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Avatar,
   Button,
@@ -13,6 +13,7 @@ import {
   IconButton,
   Icon,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import { Post } from "../components/posts/post";
@@ -24,26 +25,49 @@ import post3 from "../testimages/post3.jpeg";
 import SocialMediaPostUpload from "./upload_post";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { toast } from "react-toastify";
 import "./UserProfile.css";
 
 const posts = [post1, post2, post3];
 
 const UserProfileHeader = ({ onCreatePostClick }) => {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const currentUser = useSelector((state) => state.user);
 
   const getUserList = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8088/users/getUserList`
       );
+
       console.log(response.data);
       setUsers(response.data);
     } catch (error) {
       console.log("error from searching: ", error);
+    }
+  };
+
+  const sendFriendRequest = async () => {
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:8088/users/sendFriendRequest", {
+        cur_user: currentUser.email,
+        req_user: selectedUser.email,
+      });
+      toast.success("Friend request sent!");
+    } catch (error) {
+      console.log("error from searching: ", error);
+      if (error.response.status === 400) {
+        toast.error("You are already friends with this user!");
+      }
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -51,8 +75,10 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
       <Stack direction="row" spacing={4} alignItems="center">
         <Avatar alt="Nikhil" src={profilePic} className="avatar" />
         <Box>
-          <Typography className="name">Nikhil</Typography>
-          <Typography className="username">@nikhil_singh</Typography>
+          <Typography className="name">
+            {currentUser.firstname} {currentUser.lastname}
+          </Typography>
+          <Typography className="username">{currentUser.email}</Typography>
           <Stack
             direction="row"
             spacing={4}
@@ -158,9 +184,7 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
                 </IconButton>
               </Box>
 
-              
               <DialogContent sx={{ px: 3, py: 2 }}>
-                
                 <Autocomplete
                   options={users}
                   getOptionLabel={(option) =>
@@ -175,7 +199,11 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   )}
-                  onChange={(event, value) => setSelectedUser(value)}
+                  onChange={(e, value) => {
+                    e.preventDefault();
+                    setSelectedUser(value);
+                    console.log(value);
+                  }}
                   renderOption={(props, option) => (
                     <Box
                       {...props}
@@ -190,9 +218,15 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
                         "&:hover": { backgroundColor: "#f5f5f5" },
                       }}
                     >
-                      <Avatar sx={{ bgcolor: "#1976d2" }}>
-                        {option.name ? option.name[0].toUpperCase() : "U"}
-                      </Avatar>
+                      {/* might have to debug this in the future if it gives issues with pfp loading */}
+                      {!loading ? (
+                        <Avatar sx={{ bgcolor: "#1976d2" }}>
+                          {option.name ? option.name[0].toUpperCase() : "U"}
+                        </Avatar>
+                      ) : (
+                        <CircularProgress />
+                      )}
+
                       <Stack>
                         <Typography variant="body1">{option.name}</Typography>
                         <Typography variant="body2" color="textSecondary">
@@ -213,13 +247,32 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
                           ? selectedUser.name[0].toUpperCase()
                           : "U"}
                       </Avatar>
-                      <Stack>
-                        <Typography variant="body1">
-                          {selectedUser.name}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          {selectedUser.email}
-                        </Typography>
+                      <Stack sx={{ flex: 1 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{ display: "flex", flexDirection: "column" }}
+                          >
+                            <Typography variant="body1">
+                              {selectedUser.name}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                              {selectedUser.email}
+                            </Typography>
+                          </Box>
+                          <Button
+                            sx={{ ml: "auto" }}
+                            onClick={sendFriendRequest}
+                          >
+                            Send a Friend Request
+                          </Button>
+                        </Box>
                       </Stack>
                     </Stack>
                   </Box>

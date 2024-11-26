@@ -18,7 +18,7 @@ function PostActions({ username, caption, initialLikeCount }) {
           );
           setPostID(response.data.postID); 
         } catch (error) {
-          console.error("Error fetching postID:", error);
+            console.error("Error fetching postID:", error);
         }
       };
   

@@ -4,7 +4,6 @@ const getPost = async(req, res) => {
     try{
         const { username, caption} = req.query;
         const post = await Posts.findOne({ username: username, caption: caption})
-
         if (!post){
             return res.status(404).json({message: "Post not found"});
         }

@@ -89,9 +89,43 @@ const getUserList = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  const {id} = req.query;
-  const users = await Users.findOne({email:id}, {});
+  const { id } = req.query;
+  const users = await Users.findOne({ email: id }, {});
   res.status(200).json(users);
-}
+};
 
-module.exports = { signin, signup, test, testGet, getUserList, getCurrentUser };
+const sendFriendRequest = async (req, res) => {
+  const { cur_user, req_user } = req.body;
+  try {
+    const user = await Users.findOne({ email: cur_user });
+    if (user.followers.includes(req_user)) {
+      return res.status(400).json({ message: "Friend request already sent" });
+    }
+    user.followers.push(req_user);
+    await user.save();
+    return res.status(201).json({ message: "Friend request sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await Users.findOne({ email: id }, {});
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+module.exports = {
+  signin,
+  signup,
+  test,
+  testGet,
+  getUserList,
+  getCurrentUser,
+  sendFriendRequest,
+  getUser,
+};
