@@ -155,11 +155,10 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
               maxWidth="md"
               sx={{
                 "& .MuiDialog-paper": {
-                  borderRadius: 8, // Rounded corners for a polished look
+                  borderRadius: 8,
                 },
               }}
             >
-              {/* Header */}
               <Box
                 sx={{
                   display: "flex",
@@ -257,7 +256,14 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
                           }}
                         >
                           <Box
-                            sx={{ display: "flex", flexDirection: "column" }}
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              console.log(selectedUser);
+                            }}
                           >
                             <Typography variant="body1">
                               {selectedUser.name}
