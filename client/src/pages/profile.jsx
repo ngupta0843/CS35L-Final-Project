@@ -14,6 +14,7 @@ import {
   Icon,
   Autocomplete,
   CircularProgress,
+  Card
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import { Post } from "../components/posts/post";
@@ -288,25 +289,36 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
 
 const UserProfilePosts = () => {
   return (
-    <Box className="user-profile-posts">
-      <Typography variant="h5" className="title">
+    <Box className="user-profile-posts" sx={{ width: '100%', padding: 2 }}>
+      <Typography variant="h5" className="title" sx={{ marginBottom: 2 }}>
         Posts
       </Typography>
-      <Stack className="posts-container">
+      <Card
+        sx={{
+          width:'140%',
+          backgroundColor: 'black',
+          color: 'white',
+          borderRadius: 1,
+        }}>
+      <Grid container spacing={1} justifyContent="flex-start">
         {posts.map((post, index) => (
-          <Post
-            key={index}
-            username="Nikhil"
-            workout="Leg Day"
-            caption="Leg day is the best day!"
-            photo={post}
-            likecount={100}
-            user={{ profile_photo: profilePic, name: "Nikhil" }}
-            size={"small"}
-          />
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Post
+              key={index}
+              username="Nikhil"
+              workout="Leg Day"
+              caption="Leg day is the best day!"
+              photo={post}
+              likecount={100}
+              user={{ profile_photo: profilePic, name: "Nikhil" }}
+              size={"small"}
+            />
+            </Grid>
         ))}
-      </Stack>
+      </Grid>
+      </Card>
     </Box>
+    
   );
 };
 
