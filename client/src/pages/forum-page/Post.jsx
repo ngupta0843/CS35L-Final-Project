@@ -36,7 +36,7 @@ function Post({ post, size="medium" }) {
     <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
       <Card
         sx={{
-          width: getPostSize(size),
+          width: "1000px",
           backgroundColor: "black",
           color: "white",
           border: "2px solid white",

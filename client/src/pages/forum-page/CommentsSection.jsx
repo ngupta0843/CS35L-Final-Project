@@ -35,7 +35,7 @@ const CommentsSection = () => {
     };
 
     return (
-        <Box sx={{ mt: 3, p: 2, borderRadius: 2, backgroundColor: '#f5f5f5' }}>
+        <Box sx={{ mt: 3, p: 2, borderRadius: 2, backgroundColor: '#121212', color: '#ffffff' }}>
             <Typography variant="h5" gutterBottom>
                 Comments
             </Typography>
@@ -46,6 +46,7 @@ const CommentsSection = () => {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Write a comment..."
+                    sx={{ input: { color: '#ffffff' }, backgroundColor: '#333333', borderRadius: 1 }}
                 />
                 <Button
                     variant="contained"
@@ -57,11 +58,11 @@ const CommentsSection = () => {
                 </Button>
             </Box>
             {comments.map((comment, index) => (
-                <Card key={index} sx={{ mb: 2 }}>
+                <Card key={index} sx={{ mb: 2, backgroundColor: '#1e1e1e', color: '#ffffff' }}>
                     <CardContent>
                         <Typography variant="body1">{comment.text}</Typography>
                         <Box display="flex" gap={1} mt={1}>
-                            <IconButton onClick={() => handleLikeComment(index)}>
+                            <IconButton onClick={() => handleLikeComment(index)} sx={{ color: '#ffffff' }}>
                                 <ThumbUpAltOutlinedIcon />
                                 <Typography variant="caption" sx={{ ml: 0.5 }}>
                                     {comment.likes}
@@ -93,6 +94,7 @@ const ReplySection = ({ commentIndex, replies, handleReply, handleLikeReply }) =
                     value={newReply}
                     onChange={(e) => setNewReply(e.target.value)}
                     placeholder="Write a reply..."
+                    sx={{ input: { color: '#ffffff' }, backgroundColor: '#333333', borderRadius: 1 }}
                 />
                 <Button
                     variant="contained"
@@ -106,11 +108,11 @@ const ReplySection = ({ commentIndex, replies, handleReply, handleLikeReply }) =
                 </Button>
             </Box>
             {replies.map((reply, replyIndex) => (
-                <Card key={replyIndex} sx={{ mt: 2, backgroundColor: '#eeeeee' }}>
+                <Card key={replyIndex} sx={{ mt: 2, backgroundColor: '#1e1e1e', color: '#ffffff' }}>
                     <CardContent>
                         <Typography variant="body2">{reply.text}</Typography>
                         <Box display="flex" gap={1} mt={1}>
-                            <IconButton onClick={() => handleLikeReply(commentIndex, replyIndex)}>
+                            <IconButton onClick={() => handleLikeReply(commentIndex, replyIndex)} sx={{ color: '#ffffff' }}>
                                 <ThumbUpAltOutlinedIcon />
                                 <Typography variant="caption" sx={{ ml: 0.5 }}>
                                     {reply.likes}
