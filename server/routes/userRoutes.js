@@ -1,9 +1,5 @@
 const express = require("express");
 
-<<<<<<< HEAD
-const {signin, signup, test, testGet} = require("../controllers/users/users.controllers.js");
-const {addExercise, updateExercise, deleteExercise, getUserExercises} = require("../controllers/users/exercises.controllers.js");
-=======
 const {
   signin,
   signup,
@@ -14,7 +10,12 @@ const {
   sendFriendRequest,
   getUser,
 } = require("../controllers/users/users.controllers.js");
->>>>>>> test
+const {
+  addExercise, 
+  updateExercise, 
+  deleteExercise, 
+  getUserExercises
+} = require("../controllers/users/exercises.controllers.js");
 
 const router = express.Router();
 
@@ -27,13 +28,9 @@ router.get("/currentUser", getCurrentUser);
 router.post("/sendFriendRequest", sendFriendRequest);
 router.post("/getUser/:id", getUser);
 
-<<<<<<< HEAD
 router.post("/exercises/:userId", addExercise);
 router.put("/exercises/:userId", updateExercise);
 router.delete("/exercises/:userId", deleteExercise);
 router.get("/exercises/:userId", getUserExercises);
 
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> test
