@@ -10,9 +10,11 @@ import {
   Stack,
   Container,
   ThemeProvider,
-  createTheme,
   CssBaseline,
-} from "@mui/material";
+  Typography
+} from '@mui/material/';
+import {createTheme} from '@mui/material/styles'
+import { useSelector } from "react-redux";
 
 // Create a custom dark theme
 const darkTheme = createTheme({
@@ -44,6 +46,8 @@ const darkTheme = createTheme({
 });
 
 const Dashboard = () => {
+  const user = useSelector((state) => state.user)
+  console.log('user in dashboard: ',user);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -54,6 +58,7 @@ const Dashboard = () => {
           color: "text.primary",
         }}
       >
+        <Typography variant="h5" align="left" gutterBottom>Welcome, {user.firstname}</Typography>
         <Stack spacing={3}>
           {/* Counts Cards Section */}
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>

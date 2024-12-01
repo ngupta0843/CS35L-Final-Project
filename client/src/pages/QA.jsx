@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Box, Typography, TextField, Switch, FormControlLabel, Button, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter'; // Ensure you import necessary icon
 import Icon from '@mui/material/Icon';
+import loadinggif from '../testimages/loading.gif';
 
 const capitalizeWords = (str) => {
   return str
@@ -172,20 +173,7 @@ const QA = () => {
             </Typography>
           </Paper>
         ) : (
-          // Original content when no result is displayed
-          <>
-            <Icon
-              component={FitnessCenterIcon}
-              sx={{ fontSize: "5rem", color: "#ffffff" }}
-            />
-            <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
-              Fitness is my Passion
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.2rem", width: "100%" }}>
-              “This app has helped me reduce over 540 pounds, saving me from
-              morbid obesity.” - Sachit Murthy, current student at UCLA.
-            </Typography>
-          </>
+          <img src={loadinggif} alt="loading" style={{ width: "200px"}} />
         )}
       </Box>
     </Container>
