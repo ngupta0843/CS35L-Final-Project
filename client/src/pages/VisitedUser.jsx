@@ -109,6 +109,47 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
               Enjoying life, traveling, and capturing moments 📸
             </Typography>
           </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              gap: 2,
+            }}
+          >
+            <Button
+              variant="contained"
+              className="edit-button"
+              startIcon={<Edit />}
+            >
+              Edit Profile
+            </Button>
+            {/* Button to open modal for creating a post */}
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CameraAlt />}
+              sx={{ marginTop: 2 }}
+              onClick={onCreatePostClick}
+            >
+              Create a Post
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CameraAlt />}
+              sx={{
+                marginTop: 2,
+              }}
+              onClick={() => {
+                getUserList();
+                setOpen((prev) => !prev);
+              }}
+            >
+              Search for users
+            </Button>
+            
+          </Box>
         </Box>
       </Stack>
     </Box>
