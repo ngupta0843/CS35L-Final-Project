@@ -12,6 +12,7 @@ const addExercise = async (req, res) => {
       weight,
       reps,
       sets,
+      color,
       userId,
     });
     await newExercise.save();
@@ -35,6 +36,7 @@ const updateExercise = async (req, res) => {
         weight,
         reps,
         sets,
+        color,
         userId,
       },
       { new: true }

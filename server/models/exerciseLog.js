@@ -18,6 +18,10 @@ const exerciseLog = mongoose.Schema({
       type: Number,
       required: true
     },
+    color: {
+      type: String,
+      required: true
+    },
     reps: {
       type: Number,
       required: false
