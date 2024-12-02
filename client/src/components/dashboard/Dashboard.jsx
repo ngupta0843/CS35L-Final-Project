@@ -4,6 +4,7 @@ import CategoryChart from "./CategoryChart";
 import WeeklyStatCard from "./WeeklyStatCard";
 import WorkoutCard from "./WorkoutCard";
 import { counts } from "./data";
+import FitnessCalendar from "./FitnessCalendar";
 import {
   Box,
   Stack,
@@ -119,6 +120,16 @@ const Dashboard = () => {
           </Box>
         </Stack>
       </Container>
+      <Container maxWidth="lg">
+      <Box sx={{ marginTop: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Fitness Dashboard
+        </Typography>
+
+        {/* Fitness Calendar */}
+        <FitnessCalendar />
+      </Box>
+    </Container>
     </ThemeProvider>
   );
 };
