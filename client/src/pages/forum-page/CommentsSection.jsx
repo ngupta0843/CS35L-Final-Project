@@ -6,28 +6,26 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import axios from 'axios';
 
-const CommentsSection = ({ postID }) => {
+const CommentsSection = ({ postID, commentorEmail }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [hideComments, setHideComments] = useState(false);
 
     console.log(postID);
 
-    // Fetch comments when the component mounts
     useEffect(() => {
         handleGetComments();
-    }, []); // Empty dependency array ensures this runs only once when the component loads
+    }, []); 
 
     const handleAddComment = async () => {
         if (newComment.trim()) {
             try {
                 await axios.post("http://localhost:8088/comment/createComment", {
-                    userEmail: 'kashtest@gmail.com', // Replace with the actual user ID
+                    userEmail: commentorEmail,
                     commentMessage: newComment,
-                    parentPost: postID, // Replace with the actual parent post ID
+                    parentPost: postID,
                 });
 
-                // Fetch comments again to update the list
                 handleGetComments();
 
                 setNewComment(""); // Clear the input field
@@ -40,7 +38,7 @@ const CommentsSection = ({ postID }) => {
     const handleGetComments = async () => {
         try {
             const response = await axios.post("http://localhost:8088/comment/getComments", {
-                postID: postID, // Replace with your actual post ID
+                postID: postID,
             });
             console.log("Fetched comments:", response.data);
 

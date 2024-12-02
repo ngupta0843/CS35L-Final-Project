@@ -68,7 +68,7 @@ function PostActions({ post }) {
       {/* Comments Section */}
       {showComments && (
         <div style={{ marginTop: "10px", width: "100%" }}>
-          <CommentsSection postID={post.postID}/>
+          <CommentsSection postID={post.postID} commentorEmail={user.email}/>
         </div>
       )}
     </div>
