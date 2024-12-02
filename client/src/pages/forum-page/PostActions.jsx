@@ -4,11 +4,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import CommentsSection from "./CommentsSection";
 
 function PostActions({ post }) {
   const user = useSelector((state) => state.user);
   const [liked, setLiked] = useState(post.likedUsers.includes(user.email));
   const [likeCount, setLikeCount] = useState(post.likecount);
+  const [showComments, setShowComments] = useState(false); // Toggle state for comments
   const postID = post._id;
 
   const handleLike = async () => {
@@ -34,9 +36,9 @@ function PostActions({ post }) {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
       {/* Like Button */}
-      <div>
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <Tooltip title="Like">
           <IconButton
             onClick={handleLike}
@@ -45,23 +47,30 @@ function PostActions({ post }) {
             <FavoriteIcon />
           </IconButton>
         </Tooltip>
-      </div>
 
-      {/* Like Count */}
-      <div>
+        {/* Like Count */}
         <Typography variant="body2" color="white" sx={{ marginTop: 0 }}>
           {likeCount}
         </Typography>
-      </div>
 
-      {/* Comment Button */}
-      <div>
+        {/* Comment Button */}
         <Tooltip title="Comment">
-          <IconButton color="default" sx={{ color: "white" }}>
+          <IconButton
+            color="default"
+            sx={{ color: "white" }}
+            onClick={() => setShowComments(!showComments)}
+          >
             <CommentIcon />
           </IconButton>
         </Tooltip>
       </div>
+
+      {/* Comments Section */}
+      {showComments && (
+        <div style={{ marginTop: "10px", width: "100%" }}>
+          <CommentsSection />
+        </div>
+      )}
     </div>
   );
 }
