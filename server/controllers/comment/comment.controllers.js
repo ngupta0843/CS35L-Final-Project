@@ -16,23 +16,24 @@ const generateUniquePostID = async () => {
 };
 
 const createComment = async (req, res) => {
-    const { userId, commentMessage, parentPost } = req.body;
+    const { userEmail, commentMessage, parentPost } = req.body;
     console.log(req.body);
     try {
-        const user = await Users.findOne({ id: userId});
+        const user = await Users.findOne({ email: userEmail});
         if(!user){
             return res.status(404).json({message: "User can not be found."});
         }
-
+        
         const post = await Posts.findOne({ postID: parentPost});
         if(!post) {
             return res.status(404).json({message: "Post can not be found."});
         }
+        //print("found post");
 
         const newComment = new Comment({
             username: user.name,
             userID: user.id,
-            commentID: generateUniquePostID(),
+            commentID: await generateUniquePostID(),
             message: commentMessage,
             parentPostID: parentPost,
             createdAt: new Date(),
@@ -55,6 +56,8 @@ const createComment = async (req, res) => {
             post.comments.push(saveComment.commentID);
         }
 
+        await post.save();
+
         await user.save();
 
         return res.status(201).json({ 
@@ -63,7 +66,7 @@ const createComment = async (req, res) => {
 
     } 
     catch (error) {
-        res.status(500).json({message: "Something went wrong creating your post."});
+        res.status(500).json({message: error.message});
     }
 }
 
@@ -112,8 +115,30 @@ const updateComment = async(req, res) => {
     }
 }
 
+const getComments = async (req, res) => {
+    const { postID } = req.body;
+
+    try {
+        // Find the post by its ID
+        const post = await Posts.findOne({ postID });
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        // Find all comments related to this post
+        const comments = await Comment.find({ commentID: { $in: post.comments } });
+
+        // Send the comments back to the client
+        return res.status(200).json(comments);
+    } catch (error) {
+        console.error("Error fetching comments for post:", error.message);
+        return res.status(500).json({ message: "Something went wrong while fetching comments." });
+    }
+};
+
 module.exports = {
     createComment,
     deleteComment,
     updateComment,
+    getComments,
 }

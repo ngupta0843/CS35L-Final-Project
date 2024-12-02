@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const commentsSchema = mongoose.Schema({
+const commentSchema = mongoose.Schema({
   username: {
     type: String,
   },
@@ -21,6 +21,11 @@ const commentsSchema = mongoose.Schema({
   message: {
     type: String,
     required: true,
+  },
+  likes : {
+    type: Number,
+    required: true,
+    default: 0,
   },
   createdAt: {
     type: Date,
