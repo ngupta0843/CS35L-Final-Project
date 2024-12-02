@@ -122,9 +122,6 @@ const Dashboard = () => {
       </Container>
       <Container maxWidth="lg">
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Fitness Dashboard
-        </Typography>
 
         {/* Fitness Calendar */}
         <FitnessCalendar />

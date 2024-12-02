@@ -1,74 +1,96 @@
+// FitnessCalendar.jsx
 
 import React, { useState } from "react";
 import styled from "styled-components";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers";
-import { CircularProgress } from "@mui/material";
+import { Card, Typography, Box } from "@mui/material";
+import dayjs from "dayjs";
 
 // Styled components
-const CalendarContainer = styled.div`
-  flex: 1;
-  max-width: 800px;
+const CalendarContainer = styled(Box)`
   display: flex;
   justify-content: center;
-  padding: 22px 0px;
-  overflow-y: scroll;
+  padding: 20px;
+  margin-top: 20px;
+  gap: 20px;
 `;
 
-const Left = styled.div`
-  flex: 0.3;
-  height: fit-content;
-  padding: 18px;
-  border: 1px solid ${({ theme }) => theme.text_primary + 20};
-  border-radius: 14px;
-  box-shadow: 1px 6px 20px 0px ${({ theme }) => theme.primary + 15};
-  margin-right: 20px;
+const CalendarWrapper = styled(Box)`
+  flex: 1;
 `;
 
-const Title = styled.div`
-  font-weight: 600;
+const WorkoutWrapper = styled(Box)`
+  flex: 0.35;
+  max-width: 400px;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #333;  /* Dark background */
+  color: white;  /* White text color */
+`;
+
+const WorkoutTitle = styled(Typography)`
+  font-weight: bold;
   font-size: 18px;
-  margin-bottom: 10px;
 `;
 
-// Local data: Example workouts for a week
-const localWorkouts = [
-  { date: "2024-12-01", workout: "Yoga Session" },
-  { date: "2024-12-03", workout: "Strength Training" },
-  { date: "2024-12-05", workout: "Cardio: Running" },
-  { date: "2024-12-07", workout: "HIIT Training" },
-  { date: "2024-12-09", workout: "Rest Day" },
+const WorkoutDescription = styled(Typography)`
+  font-size: 14px;
+  margin-top: 10px;
+`;
+
+const mockWorkouts = [
+  {
+    date: "2024-12-01",
+    title: "Morning Yoga",
+    description: "A full body stretch and relaxation session.",
+  },
+  {
+    date: "2024-12-02",
+    title: "Cardio Workout",
+    description: "High-intensity interval training (HIIT) session.",
+  },
 ];
 
 const FitnessCalendar = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [workoutsForSelectedDate, setWorkoutsForSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(dayjs()); // Initialize with current date
+  const [workoutDescription, setWorkoutDescription] = useState("No workouts done today!");
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    const workout = localWorkouts.find(workout => workout.date === date.format("YYYY-MM-DD"));
-    setWorkoutsForSelectedDate(workout ? workout.workout : "No workout planned");
+  // Handle the date change
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate);
+
+    const workoutForSelectedDate = mockWorkouts.find(workout =>
+      dayjs(workout.date).isSame(newDate, "day")
+    );
+
+    if (workoutForSelectedDate) {
+      setWorkoutDescription(`${workoutForSelectedDate.title}: ${workoutForSelectedDate.description}`);
+    } else {
+      setWorkoutDescription("No workouts done today!");
+    }
   };
 
   return (
     <CalendarContainer>
-      <Left>
-        <Title>Workout Calendar</Title>
+      {/* Calendar Section */}
+      <CalendarWrapper>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateCalendar onChange={handleDateChange} />
+          <DateCalendar
+            value={selectedDate}
+            onChange={handleDateChange}
+          />
         </LocalizationProvider>
-        <div>
-          {selectedDate ? (
-            <div>
-              <h3>Workout for {selectedDate.format("MMMM D, YYYY")}</h3>
-              <p>{workoutsForSelectedDate}</p>
-            </div>
-          ) : (
-            <CircularProgress />
-          )}
-        </div>
-      </Left>
+      </CalendarWrapper>
+
+      {/* Workout Details Section */}
+      <WorkoutWrapper>
+        <WorkoutTitle>Workout for {selectedDate.format("MMMM D, YYYY")}</WorkoutTitle>
+        <WorkoutDescription>{workoutDescription}</WorkoutDescription>
+      </WorkoutWrapper>
     </CalendarContainer>
   );
 };
