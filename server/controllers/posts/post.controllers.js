@@ -20,10 +20,6 @@ const getPost = async (req, res) => {
 const likePost = async (req, res) => {
   try {
     const { postId, user } = req.body;
-    console.log(
-      "+++++++++++++++++++++++++++++++++++++++++++++= post id: ",
-      postId
-    );
     if (!postId) {
       console.log(req);
       return res.status(400).json({ error: "Bad Post ID." });
