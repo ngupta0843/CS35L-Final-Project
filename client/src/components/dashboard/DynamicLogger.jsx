@@ -5,7 +5,7 @@ import axios from "axios";
 
 const DynamicLogger = () => {
   const user = useSelector((state) => state.user);
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState(["j","k"]);
   const [newLog, setNewLog] = useState({
     tag: "",
     exercise: "",
@@ -36,14 +36,14 @@ const DynamicLogger = () => {
   const handleAddLog = async () => {
     try {
       let object = {
-        tag: "Push Day",
-        exercise: " Bench Press",
-        weight: 100,
-        reps: 10,
-        sets: 3,
-        color: "Blue",
-        userId: "nikhil@gmail.com",
-        date: "11/2",
+        tag: newLog.tag,
+        exercise: newLog.exercise,
+        weight: newLog.weight,
+        reps: newLog.reps,
+        sets: newLog.sets,
+        color: newLog.color,
+        userId: user.email,
+        date: new Date(newLog.date).toLocaleDateString(),
       }
       const logWithEmail = { ...newLog, userId: user.email };
       console.log(user.email);
@@ -52,18 +52,10 @@ const DynamicLogger = () => {
         );
 
         console.log(response.data)
-      // const addedLog = response.data;
-      // setLogs([...logs, addedLog]);
-      // setNewLog({
-      //   tag: "",
-      //   exerciseName: "",
-      //   weight: 0,
-      //   reps: 0,
-      //   sets: 0,
-      //   color: "",
-      //   userId: email,
-      //   date: "",
-      // });
+        const updatedLog = response.data;
+
+      setLogs([...logs, updatedLog]);
+      console.log(logs);
     } catch (error) {
       console.error("Error adding exercise", error);
     }
