@@ -19,14 +19,14 @@ const DynamicLogger = () => {
 
   const [editLog, setEditLog] = useState(null);
 
-  useEffect(() => {
-    const fetchLogs = async () => {
-      const response = await fetch(`/api/getExercise?userId=${user.email}`);
-      const data = await response.json();
-      setLogs(data);
-    };
-    fetchLogs();
-  }, [user.email]);
+  // useEffect(() => {
+  //   const fetchLogs = async () => {
+  //     const response = await fetch(`/api/getExercise?userId=${user.email}`);
+  //     const data = await response.json();
+  //     setLogs([data]);
+  //   };
+  //   fetchLogs();
+  // }, [user.email]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
