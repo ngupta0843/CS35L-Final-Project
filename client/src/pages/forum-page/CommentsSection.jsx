@@ -44,7 +44,9 @@ const CommentsSection = ({ postID, commentorEmail }) => {
 
             setComments(response.data.map(comment => ({
                 text: comment.message,
-                likes: 0,
+                likes: comment.likes,
+                username: comment.username,
+                commentID: comment.commentID,
                 replies: [],
                 hideReplies: false,
             })));
@@ -57,10 +59,22 @@ const CommentsSection = ({ postID, commentorEmail }) => {
         setHideComments(!hideComments);
     };
 
-    const handleLikeComment = (index) => {
-        const updatedComments = [...comments];
-        updatedComments[index].likes++;
-        setComments(updatedComments);
+    const handleLikeComment = async (index) => {
+        try {
+            const updatedComments = [...comments];
+            updatedComments[index].likes++;
+            setComments(updatedComments);
+            const newLikes  =  updatedComments[index].likes
+            const commentID = updatedComments[index].commentID
+            const response = await axios.post("http://localhost:8088/comment/likeComment", {
+                commentID: commentID,
+                likeCounter: newLikes,
+            });
+            console.log("Updated comment:", response.data);
+
+        } catch (error) {
+            console.log("bye");
+        }
     };
 
     return (
@@ -99,7 +113,12 @@ const CommentsSection = ({ postID, commentorEmail }) => {
                     {comments.map((comment, index) => (
                         <Card key={index} sx={{ mb: 2, backgroundColor: '#1e1e1e', color: '#ffffff' }}>
                             <CardContent>
-                                <Typography variant="body1">{comment.text}</Typography>
+                                <Typography>
+                                    <strong style={{ fontSize: "14px" }}>{comment.username}</strong>
+                                </Typography>
+                                <Typography variant="body1">
+                                     {comment.text}
+                                </Typography>
                                 <Box display="flex" gap={1} mt={1} alignItems="center">
                                     <IconButton onClick={() => handleLikeComment(index)} sx={{ color: '#ffffff' }}>
                                         <ThumbUpAltOutlinedIcon />

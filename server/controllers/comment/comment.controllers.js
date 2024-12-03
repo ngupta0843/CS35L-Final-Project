@@ -136,9 +136,27 @@ const getComments = async (req, res) => {
     }
 };
 
+const likeComment = async (req, res) => {
+    const { commentID, likeCounter } = req.body;
+    try {
+        const comment = await Comment.findOne({ commentID });
+        if (!comment) {
+            return res.status(404).json({messgae: "Comment not found"});
+        }
+        comment.likes = likeCounter;
+        await comment.save();
+        
+        return res.status(200).json("Comment saved succesfully");
+
+    } catch (error) {
+        return res.status(500).json({ message: "Something went wrong while liking the comments." });
+    }
+}
+
 module.exports = {
     createComment,
     deleteComment,
     updateComment,
     getComments,
+    likeComment,
 }
