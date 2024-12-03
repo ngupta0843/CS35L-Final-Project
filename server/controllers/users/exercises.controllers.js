@@ -1,76 +1,69 @@
-const Exercises = require("../../models/exerciseLog.js");
+const ExerciseLog = require("../../models/exerciseLog.js");
 
-//add a new exercise to the database
-
-const addExercise = async (req, res) => {
-  const { tag, exercise, weight, reps, sets, userId } = req.body;
-  id = req.params.userId;
+exports.createExerciseLog = async (req, res) => {
   try {
-    const newExercise = new Exercises({
-      tag,
-      exercise,
-      weight,
-      reps,
-      sets,
-      color,
-      userId,
+    console.log(req.body.data)
+    const { tag, exercise, weight, reps, sets, color, userId, date } = req.body.data;
+    console.log(tag, exercise, weight, reps, sets, color, userId, date);
+    const newExercise = new ExerciseLog({
+      tag: tag,
+      exercise: exercise,
+      weight: weight,
+      reps: reps,
+      sets: sets,
+      color: color,
+      userId: userId,
+      date: date,
     });
     await newExercise.save();
     res.status(201).json(newExercise);
-    console.log("Exercise added successfully");
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to add exercise" });
+    res.status(500).json({ message: 'Error creating exercise log', error });
   }
 };
 
-const updateExercise = async (req, res) => {
-  const { tag, exercise, weight, reps, sets, userId } = req.body;
-  const {id} = req.params;
+exports.updateExerciseLog = async (req, res) => {
+  const { tag, exercise, weight, reps, sets, color, userId, date } = req.body.data; 
+  const { id } = req.params;
   try {
-    const updatedExercise = await Exercises.findByIdAndUpdate(
+    const updatedExercise = await ExerciseLog.findByIdAndUpdate(
       id,
-      {
-        tag,
-        exercise,
-        weight,
-        reps,
-        sets,
-        color,
-        userId,
-      },
+      { tag, exercise, weight, reps, sets, color, userId, date },
       { new: true }
     );
-    res.status(200).json(updatedExercise);
-    } catch (error) {
-        res.status(500).json({ message: "Failed to update exercise" });
+    if (!updatedExercise) {
+      return res.status(404).json({ message: 'Exercise log not found' });
     }
+    res.json(updatedExercise);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating exercise log', error });
+  }
 };
 
-  const deleteExercise = async (req, res) => {
-    const {id} = req.params;
-    try {
-        await Exercises.findByIdAndDelete(id);
-        res.status(200).json({ message: "Exercise deleted successfully" });
-    } catch (error) {
-        res.status(500).json({ message: "Failed to delete exercise" });
+exports.deleteExerciseLog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedLog = await ExerciseLog.findByIdAndDelete(id);
+
+    if (!deletedLog) {
+      return res.status(404).json({ message: 'Exercise log not found' });
     }
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting exercise log', error });
+  }
 };
 
-const getUserExercises = async (req, res) => {
-    const {id} = req.body;
-    try {
-        const exercises = await Exercises.find({ userId: id });
-        res.status(200).json(exercises);
-    } catch (error) {
-        res.status(500).json({ message: "Failed to get exercises" });
-    }
+exports.getUserExercises = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const logs = await ExerciseLog.find({ userId });
+    res.json(logs);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching exercise logs', error });
+  }
 };
 
-module.exports = {
-  addExercise,
-  updateExercise,
-  deleteExercise,
-  getUserExercises
-};
+
 
