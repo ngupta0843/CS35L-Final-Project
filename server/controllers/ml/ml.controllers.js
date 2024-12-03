@@ -18,15 +18,17 @@ const callgpt = (req, res) => {
     const command = `source ML/venv/bin/activate && python3 ML/venv/gpt.py \"${indata}\" ${type}`;
 
     exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing command: ${error}`);
-            return res.status(500).send({ error: error.message });
+        //making sure that if there's a warning, it will still return the result
+        if (!stdout) { 
+            if (error) {
+                console.error(`Error executing command: ${error}`);
+                return res.status(500).send({ error: error.message });
+            }
+            if (stderr) {
+                console.error(`stderr: ${stderr}`);
+                return res.status(500).send({ error: stderr });
+            }
         }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return res.status(500).send({ error: stderr });
-        }
-
         console.log("Python script result:", stdout);
         res.status(200).json({ result: stdout.trim() });
     });
