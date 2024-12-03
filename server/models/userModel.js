@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
     type: Array,
   },
   following: {
-    type: JSON,
+    type: Array,
   },
   posts: {
     type: JSON,
@@ -39,4 +39,3 @@ const userSchema = mongoose.Schema({
 const Users = mongoose.model("Users", userSchema);
 
 module.exports = Users;
-

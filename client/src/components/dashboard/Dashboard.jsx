@@ -9,10 +9,10 @@ import {
   Stack,
   Container,
   ThemeProvider,
-  createTheme,
   CssBaseline,
   Typography
-} from "@mui/material";
+} from '@mui/material/';
+import {createTheme} from '@mui/material/styles'
 import { useSelector } from "react-redux";
 
 // Create a custom dark theme
