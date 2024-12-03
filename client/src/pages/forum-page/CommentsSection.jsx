@@ -4,6 +4,7 @@ import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import axios from 'axios';
 
@@ -293,6 +294,24 @@ const CommentsSection = ({ postID, commentorEmail }) => {
     setComments(updatedComments);
   };
 
+    const handleDeleteComment = async (index) => {
+    const commentID = comments[index].commentID;
+    const commentUserEmail = comments[index].userEmail
+
+    try {
+        await axios.post("http://localhost:8088/comment/deleteComment", {
+        commentID: commentID,
+        commentUserEmail: commentUserEmail,
+        });
+
+        // Remove the comment from the frontend state
+        const updatedComments = comments.filter((_, i) => i !== index);
+        setComments(updatedComments);
+    } catch (error) {
+        console.error("Error deleting comment:", error.response?.data || error.message);
+    }
+    };
+
   return (
     <Box sx={{ mt: 3, p: 2, borderRadius: 2, backgroundColor: "#121212", color: "#ffffff" }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
@@ -330,7 +349,7 @@ const CommentsSection = ({ postID, commentorEmail }) => {
             <Card key={comment.commentID} sx={{ mb: 2, backgroundColor: "#1e1e1e", color: "#ffffff" }}>
               <CardContent>
                 <Typography>
-                  <strong style={{ fontSize: "14px" }}>{comment.username}</strong>:
+                  <strong style={{ fontSize: "14px" }}>{comment.username}</strong>
                 </Typography>
                 {comment.isEditing ? (
                   <Box display="flex" gap={1} alignItems="center">
@@ -345,7 +364,7 @@ const CommentsSection = ({ postID, commentorEmail }) => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => handleConfirmEdit(index)} // Calls confirm handler
+                      onClick={() => handleConfirmEdit(index)}
                     >
                       Confirm
                     </Button>
@@ -355,15 +374,23 @@ const CommentsSection = ({ postID, commentorEmail }) => {
                   <Typography variant="body1">{comment.text}</Typography>
                 )}
                 <Box display="flex" gap={1} mt={1} alignItems="center">
-                  <IconButton onClick={() => handleLikeComment(index)} sx={{ color: "#ffffff" }}>
-                    <ThumbUpAltOutlinedIcon />
-                    <Typography variant="caption" sx={{ ml: 0.5 }}>
-                      {comment.likes}
-                    </Typography>
-                  </IconButton>
+                    {comment.userEmail !== commentorEmail && (
+                        <IconButton onClick={() => handleLikeComment(index)} sx={{ color: "#ffffff" }}>
+                            <ThumbUpAltOutlinedIcon />
+                            <Typography variant="caption" sx={{ ml: 0.5 }}>
+                            {comment.likes}
+                            </Typography>
+                        </IconButton>
+                    )}
+                  
                   {comment.userEmail === commentorEmail && !comment.isEditing && (
                     <IconButton onClick={() => handleEditComment(index)} sx={{ color: "#ffffff" }}>
                       <EditOutlinedIcon />
+                    </IconButton>
+                  )}
+                  {comment.userEmail === commentorEmail && (
+                    <IconButton onClick={() => handleDeleteComment(index)} sx={{ color: "#ffffff" }}>
+                      <DeleteOutlinedIcon/>
                     </IconButton>
                   )}
                 </Box>
