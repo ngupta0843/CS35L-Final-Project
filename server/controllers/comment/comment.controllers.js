@@ -32,7 +32,7 @@ const createComment = async (req, res) => {
 
         const newComment = new Comment({
             username: user.name,
-            userID: user.id,
+            userEmail: user.email,
             commentID: await generateUniquePostID(),
             message: commentMessage,
             parentPostID: parentPost,
@@ -93,17 +93,13 @@ const deleteComment = async (req, res) => {
     }
 }
 
-const updateComment = async(req, res) => {
+const editComment = async(req, res) => {
     try {
-        const {commentID, commentUser, commentMessage} = req.body
+        const {commentID, commentMessage} = req.body
 
         const comment = await Comment.findOne({ commentID });
         if(!comment){
             res.status(404).json({message: "Post could not be found."});
-        }
-        if(comment.userId != commentUser){
-            res.status(200).json({message: "Edit access to post denied."})
-            return;
         }
         comment.message = commentMessage;
         comment.updatedAt = new Date();
@@ -111,7 +107,7 @@ const updateComment = async(req, res) => {
 
     }
     catch (error) {
-        res.status(500).json({message: "Something went wrong deleting your post."});
+        res.status(500).json({message: "Something went wrong editing your post."});
     }
 }
 
@@ -156,7 +152,7 @@ const likeComment = async (req, res) => {
 module.exports = {
     createComment,
     deleteComment,
-    updateComment,
+    editComment,
     getComments,
     likeComment,
 }
