@@ -5,7 +5,7 @@ import axios from "axios";
 
 const DynamicLogger = () => {
   const user = useSelector((state) => state.user);
-  const [logs, setLogs] = useState(["j","k"]);
+  const [logs, setLogs] = useState([]);
   const [newLog, setNewLog] = useState({
     tag: "",
     exercise: "",
@@ -45,7 +45,6 @@ const DynamicLogger = () => {
         userId: user.email,
         date: new Date(newLog.date).toLocaleDateString(),
       }
-      const logWithEmail = { ...newLog, userId: user.email };
       console.log(user.email);
       const response = await axios.post(
         "http://localhost:8088/api/addExercise", {data: object}
@@ -62,8 +61,12 @@ const DynamicLogger = () => {
   };
 
   const handleDeleteLog = async (id) => {
-    await axios.delete(`http://localhost:8088/api/exercise-log/${id}`);
-    setLogs(logs.filter((log) => log._id !== id));
+    try {
+      await axios.delete(`http://localhost:8088/api/deleteExercise/${id}`);
+      setLogs(logs.filter((log) => log._id !== id));
+    } catch (error) {
+      console.error("Error deleting log:", error);
+    }
   };
 
   const handleEditLog = (log) => {
@@ -80,24 +83,18 @@ const DynamicLogger = () => {
   };
 
   const handleUpdateLog = async () => {
-    const logWithEmail = { ...newLog, userId: user.email };
+    try{
     const response = await axios.put(
-      `http://localhost:8088/api/exercise-log/${editLog._id}`,
-      logWithEmail
+      `http://localhost:8088/api/editExercise/${editLog._id}`,
+      { data: newLog}
     );
     const updatedLog = response.data;
 
     setLogs(logs.map((log) => (log._id === updatedLog._id ? updatedLog : log)));
     setEditLog(null);
-    setNewLog({
-      tag: "",
-      exerciseName: "",
-      weight: 0,
-      reps: 0,
-      sets: 0,
-      color: "",
-      date: "",
-    });
+  } catch (error) {
+    console.error("Error updating log:", error);
+  }
   };
 
   return (
