@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ExerciseLog from "./WorkoutComponent";
 import { useSelector } from "react-redux";
+import styles from "./DynamicLoggerStyles.module.css";
 import axios from "axios";
 
 const DynamicLogger = () => {
@@ -107,8 +108,9 @@ const DynamicLogger = () => {
 
   return (
     <div>
-      <div>
+      <div className={styles.form}>
         <input
+          className={styles.input}
           type="text"
           name="tag"
           value={newLog.tag}
@@ -116,6 +118,7 @@ const DynamicLogger = () => {
           placeholder="Tag (e.g., Push Day)"
         />
         <input
+          className={styles.input}
           type="text"
           name="exercise"
           value={newLog.exercise}
@@ -123,6 +126,7 @@ const DynamicLogger = () => {
           placeholder="Exercise Name"
         />
         <input
+          className={styles.input}
           type="number"
           name="weight"
           value={newLog.weight}
@@ -130,6 +134,7 @@ const DynamicLogger = () => {
           placeholder="Weight"
         />
         <input
+         className={styles.input}
           type="number"
           name="reps"
           value={newLog.reps}
@@ -137,6 +142,7 @@ const DynamicLogger = () => {
           placeholder="Reps"
         />
         <input
+        className={styles.input}
           type="number"
           name="sets"
           value={newLog.sets}
@@ -144,6 +150,7 @@ const DynamicLogger = () => {
           placeholder="Sets"
         />
         <input
+          className={styles.input}
           type="text"
           name="color"
           value={newLog.color}
@@ -151,6 +158,7 @@ const DynamicLogger = () => {
           placeholder="Color"
         />
         <input
+          className={styles.input}
           type="date"
           name="date"
           value={newLog.date}
@@ -164,7 +172,7 @@ const DynamicLogger = () => {
         )}
       </div>
 
-      <div>
+      <div className={styles.logContainer}>
         {logs.map((log) => (
           <ExerciseLog
             key={log._id}

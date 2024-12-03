@@ -21,15 +21,15 @@ const ExerciseLog = ({ log, onDelete, onEdit }) => {
       sx={{
         borderRadius: "8px",
         boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
-        marginBottom: "16px",
+        // marginBottom: "16px",
         overflow: "hidden",
         backgroundColor: `${borderColor}20`,
         padding: "16px",
-        margin: "16px 0",
+        margin: "16px",
         borderLeft: `6px solid ${borderColor}`, 
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
+        gap: "20px",
       }}
     >
       <Typography variant="h5" sx={{ color: borderColor, fontWeight: "bold" }}>
