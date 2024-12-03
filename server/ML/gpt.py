@@ -8,9 +8,11 @@ warnings.filterwarnings("ignore", category=UserWarning, message="Hardware accele
 import numpy as np
 import sys
 import torch
-from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
+from transformers import pipeline
 import argparse
 import os
+import random
+from copy import deepcopy
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -43,8 +45,17 @@ elif fitness_goal == "d":
     questions.append(f"What dishes or recipes would you recommend for someone with these dietary goals: {data}?")
 
 context = ""
-with open(context_file_path, "r") as f:
-    context = f.read()
+possible_answers = set()
+#reading the context file line by line
+with open(context_file_path, "r") as file:
+    for line in file:
+        context += line
+        for options in line.strip().split(":")[1].split(","):
+            if options[0] == " ":
+                options = options[1:]
+            if options[-1] == " ":
+                options = options[:-1]
+            possible_answers.add(options)
 
 model_name = "Intel/dynamic_tinybert"
 
@@ -57,4 +68,24 @@ answers = set()
 for i in questions:
     res = nlp(question=i, context=context)
     answers.add(res["answer"])
-print(answers)
+answers_copy = deepcopy(answers)
+for i in answers_copy:
+    if i not in possible_answers:
+        answers.remove(i)
+total = 30
+reps = [2, 3, 5, 6, 10, 15]
+to_thirty = [True, False]
+final_answers = []
+for i in answers:
+    rep_selection = random.choice(reps)
+    final_answers.append((
+                        str(30 // rep_selection) + " sets of " + str(rep_selection) + " reps" + " of " + i if (random.choice(to_thirty)) 
+                        else i + " until failure for " + str(rep_selection) + " reps") 
+                        if fitness_goal == "w" else i)
+final_answers_copy = deepcopy(final_answers)
+for i in final_answers_copy:
+    if not i[0].isdigit() and i[0].islower():
+        temp = i[0].upper() + i[1:]
+        final_answers.remove(i)
+        final_answers.append(temp)
+print(set(final_answers))
