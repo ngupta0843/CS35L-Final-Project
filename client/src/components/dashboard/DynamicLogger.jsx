@@ -19,14 +19,22 @@ const DynamicLogger = () => {
 
   const [editLog, setEditLog] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchLogs = async () => {
-  //     const response = await fetch(`/api/getExercise?userId=${user.email}`);
-  //     const data = await response.json();
-  //     setLogs([data]);
-  //   };
-  //   fetchLogs();
-  // }, [user.email]);
+  useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        console.log(user.email);
+        const response = await axios.get(
+          `http://localhost:8088/api/getExercise/${user.email}`
+        );
+        setLogs(response.data);
+      } catch (error) {
+        console.error("Error fetching exercise logs:", error);
+      }
+    };
+    if (user.email) {
+      fetchLogs();
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -57,7 +57,7 @@ exports.deleteExerciseLog = async (req, res) => {
 
 exports.getUserExercises = async (req, res) => {
   try {
-    const { userId } = req.query;
+    const { userId } = req.params;
     const logs = await ExerciseLog.find({ userId });
     res.json(logs);
   } catch (error) {
