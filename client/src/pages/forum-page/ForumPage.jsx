@@ -23,7 +23,7 @@ function ForumPage() {
 
   return (
     <Box className="forum-page" sx={{ flex: 1, padding: 5, paddingLeft: 40 }}>
-      <Stack spacing={3}>
+      <Stack direction="row" spacing={3}>
         {posts.map((post, index) => (
           <Post
             post={post}
