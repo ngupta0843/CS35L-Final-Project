@@ -12,7 +12,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import UserProfile from "./pages/profile.jsx";
 import AuthButtons from "./components/AuthButtons";
 import QA from "./pages/QA";
-import WorkoutLog from './components/dashboard/WorkoutLog.jsx'
+import WorkoutLog from './components/dashboard/Logger/WorkoutLog.jsx'
 
 function App() {
   return (
