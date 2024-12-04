@@ -1,3 +1,4 @@
+const { get } = require("mongoose");
 const Users = require("../../models/userModel.js");
 const bcrypt = require("bcryptjs");
 
@@ -19,21 +20,19 @@ const signin = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid credentials." });
     }
-    res
-      .status(200)
-      .json({
-        result: {
-          name: existingUser.name,
-          email: existingUser.email,
-          id: existingUser.id,
-          bio: existingUser.bio,
-          profile_photo: existingUser.profile_photo,
-          followers: existingUser.followers,
-          following: existingUser.following,
-          posts: existingUser.posts,
-          saved_workouts: existingUser.saved_workouts,
-        },
-      });
+    res.status(200).json({
+      result: {
+        name: existingUser.name,
+        email: existingUser.email,
+        id: existingUser.id,
+        bio: existingUser.bio,
+        profile_photo: existingUser.profile_photo,
+        followers: existingUser.followers,
+        following: existingUser.following,
+        posts: existingUser.posts,
+        saved_workouts: existingUser.saved_workouts,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -80,4 +79,53 @@ const testGet = async (req, res) => {
   res.status(200).json({ message: "Test GET route" });
 };
 
-module.exports = { signin, signup, test, testGet };
+const getUserList = async (req, res) => {
+  try {
+    const users = await Users.find({}, "name email");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+const getCurrentUser = async (req, res) => {
+  const { id } = req.query;
+  const users = await Users.findOne({ email: id }, {});
+  res.status(200).json(users);
+};
+
+const sendFriendRequest = async (req, res) => {
+  const { cur_user, req_user } = req.body;
+  try {
+    const user = await Users.findOne({ email: cur_user });
+    if (user.followers.includes(req_user)) {
+      return res.status(400).json({ message: "Friend request already sent" });
+    }
+    user.followers.push(req_user);
+    await user.save();
+    return res.status(201).json({ message: "Friend request sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await Users.findOne({ email: id }, {});
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+module.exports = {
+  signin,
+  signup,
+  test,
+  testGet,
+  getUserList,
+  getCurrentUser,
+  sendFriendRequest,
+  getUser,
+};

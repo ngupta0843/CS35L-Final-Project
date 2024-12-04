@@ -7,6 +7,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes.js");
 const mlRoutes = require("./routes/mlRoutes.js");
+const postRoutes = require("./routes/postRoutes.js");
+const exercisesRoutes = require("./routes/exercisesRoutes.js")
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 
 app.use("/users", userRoutes);
 app.use("/ml", mlRoutes);
+app.use("/posts", postRoutes);
+app.use("/exercise", exercisesRoutes);
 
 /*
 app.get('/ml', (req, res) => {
