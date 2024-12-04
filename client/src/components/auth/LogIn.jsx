@@ -40,7 +40,6 @@ const LogIn = memo(() => {
       ...user,
       email: e.target.value,
     });
-    console.log(user);
   };
 
   const handleSend = async () => {
@@ -67,8 +66,10 @@ const LogIn = memo(() => {
           console.log(response.data.result.name, response.data.result.email);
           dispatch(
             login({
-              firstname: response.data.result.name,
+              firstname: response.data.result.name.split(" ")[0],
+              lastname: response.data.result.name.split(" ")[1],
               email: response.data.result.email,
+              bio: response.data.result.bio,
             })
           );
           console.log("second part");
