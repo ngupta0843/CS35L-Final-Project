@@ -7,9 +7,14 @@ const StatCard = ({ title, value, description, color }) => (
       backgroundColor: "background.paper",
       borderRadius: 4,
       boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+      padding: "20px",
+      height: "200px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
     }}
   >
-    <CardContent>
+    <CardContent sx={{ padding: 0 }}>
       <Typography variant="h6" gutterBottom>
         {title}
       </Typography>
