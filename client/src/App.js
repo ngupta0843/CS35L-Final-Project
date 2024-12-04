@@ -24,7 +24,7 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/profile/:id" element={<UserProfile />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/fitness-planner" element={<QA/>} />
         <Route path="/forum" element={<ForumPage/>} />
