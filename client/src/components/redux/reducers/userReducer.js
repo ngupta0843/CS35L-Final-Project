@@ -7,6 +7,7 @@ const initialState = {
     firstname: null,
     lastname: null,
     email: null,
+    bio: null,
   },
   // token: null,
 };
@@ -32,8 +33,13 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.user = { firstname: null, lastname: null, email: null };
     },
+    updateUser(state, action) {
+      state.user.firstname = action.payload.firstname || state.user.firstname;
+      state.user.lastname = action.payload.lastname || state.user.lastname;
+      state.user.bio = action.payload.bio || state.user.bio;
+    },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, updateUser } = userSlice.actions;
 export default userSlice.reducer;

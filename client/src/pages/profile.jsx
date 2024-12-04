@@ -14,7 +14,7 @@ import {
   Icon,
   Autocomplete,
   CircularProgress,
-  Card
+  Card,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import Post from "./forum-page/Post.jsx";
@@ -24,16 +24,25 @@ import post1 from "../testimages/post1.jpeg";
 import post2 from "../testimages/post2.jpeg";
 import post3 from "../testimages/post3.jpeg";
 import SocialMediaPostUpload from "./upload_post";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UserProfile.css";
 import { useParams, useNavigate } from "react-router-dom";
+import { updateUser } from "../components/redux/reducers/userReducer.js";
 
 const posts = [post1, post2, post3];
 
 const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
+  const [profile, setProfile] = useState({
+    firstname: currentUser.firstname || "",
+    lastname: currentUser.lastname || "",
+    bio: currentUser.bio || "",
+  });
+  const [editOpen, setEditOpen] = useState(false);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,10 +56,42 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
         `http://localhost:8088/users/getUserList`
       );
 
-      console.log(response.data);
       setUsers(response.data);
     } catch (error) {
       console.log("error from searching: ", error);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      let user = {
+        firstname: profile.firstname,
+        lastname: profile.lastname,
+        bio: profile.bio,
+        email: currentUser.email,
+      };
+      const request = await axios.put(
+        "http://localhost:8088/users/updateProfile",
+        { data: user }
+      );
+      console.log(request.data);
+
+      try {
+        dispatch(
+          updateUser({
+            firstname: request.data.user.name.split(" ")[0],
+            lastname: request.data.user.name.split(" ")[1],
+            bio: request.data.user.bio,
+          })
+        );
+        toast.success("Profile updated successfully!");
+      } catch (dispatchError) {
+        console.log("Dispatch error: ", dispatchError);
+        toast.error("Error updating profile");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error updating profile");
     }
   };
 
@@ -107,7 +148,7 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
           </Stack>
           <Box sx={{ marginTop: 3 }} className="bio">
             <Typography variant="body1">
-              Enjoying life, traveling, and capturing moments 📸
+              {currentUser.bio || "No bio yet!"}
             </Typography>
           </Box>
           {button && (
@@ -123,6 +164,7 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 variant="contained"
                 className="edit-button"
                 startIcon={<Edit />}
+                onClick={() => setEditOpen(true)}
               >
                 Edit Profile
               </Button>
@@ -150,6 +192,96 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               >
                 Search for users
               </Button>
+
+              <Dialog
+                open={editOpen}
+                onClose={() => setEditOpen(false)}
+                fullWidth
+                maxWidth="md"
+                sx={{
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    px: 3,
+                    py: 2,
+                    borderBottom: "1px solid #e0e0e0",
+                  }}
+                >
+                  <DialogTitle
+                    sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
+                  >
+                    Edit your Profile
+                  </DialogTitle>
+
+                  <IconButton
+                    onClick={() => setEditOpen(false)}
+                    sx={{ color: "#9e9e9e", "&:hover": { color: "#000" } }}
+                  >
+                    <Icon component={CloseFullscreenIcon} />
+                  </IconButton>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    height: "auto",
+                    padding: 3,
+                  }}
+                >
+                  <TextField
+                    value={profile.firstname}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setProfile({ ...profile, firstname: e.target.value });
+                    }}
+                    label="First Name"
+                    variant="outlined"
+                    sx={{ width: "80%", mt: 2 }}
+                  />
+                  <TextField
+                    value={profile.lastname}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setProfile({ ...profile, lastname: e.target.value });
+                    }}
+                    label="Last Name"
+                    variant="outlined"
+                    sx={{ width: "80%", mt: 2 }}
+                  />
+                  <TextField
+                    value={profile.bio}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setProfile({ ...profile, bio: e.target.value });
+                    }}
+                    label="Bio"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    sx={{ width: "80%", mt: 2 }}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 3 }}
+                    onClick={() => {
+                      handleSaveProfile();
+                      setEditOpen(false);
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Dialog>
+
               <Dialog
                 open={open}
                 onClose={() => setOpen(false)}
@@ -296,24 +428,25 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   );
 };
 
-const UserProfilePosts = ({username}) => {
+const UserProfilePosts = ({ username }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosts = async() => {
-    try{
-      const response = await axios.get("http://localhost:8088/posts/getUserPosts?username=" + username);
-      setPosts(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-      setLoading(false);
-    }
-  };
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8088/posts/getUserPosts?username=" + username
+        );
+        setPosts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setLoading(false);
+      }
+    };
 
-  fetchPosts();
-
+    fetchPosts();
   }, [username]);
 
   if (loading) {
@@ -324,7 +457,7 @@ const UserProfilePosts = ({username}) => {
     );
   }
 
-  if (posts.length === 0){
+  if (posts.length === 0) {
     return (
       <Typography variant="h6" color="textSecondary">
         No posts available :\
@@ -333,26 +466,34 @@ const UserProfilePosts = ({username}) => {
   }
 
   return (
-    <Box className="user-profile-posts" sx={{ width: '100%', padding: 2 }}>
+    <Box className="user-profile-posts" sx={{ width: "100%", padding: 2 }}>
       <Typography variant="h5" className="title" sx={{ marginBottom: 2 }}>
         Posts
       </Typography>
       <Card
         sx={{
-          backgroundColor: 'black',
-          color: 'white',
+          backgroundColor: "black",
+          color: "white",
           borderRadius: 1,
-        }}>
-      <Grid container justifyContent="flex-start">
-        {posts.map((post) => (
-          <Grid key={post._id}item xs={12} sm={6} md={4} lg={4} sx={{padding: 1}}>
-            <Post post={post} size="small"/>
+        }}
+      >
+        <Grid container justifyContent="flex-start">
+          {posts.map((post) => (
+            <Grid
+              key={post._id}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={4}
+              sx={{ padding: 1 }}
+            >
+              <Post post={post} size="small" />
             </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Grid>
       </Card>
     </Box>
-    
   );
 };
 
@@ -372,10 +513,9 @@ const UserProfile = () => {
     } else {
       setButtons(false);
     }
+  }, [id, currentUser]);
 
-  }, [id, currentUser.email]);
-
-  //post req 
+  //post req
 
   const [openPostModal, setOpenPostModal] = useState(false);
 
@@ -395,7 +535,7 @@ const UserProfile = () => {
         button={buttons}
       />{" "}
       {/* Pass modal trigger to header */}
-      <UserProfilePosts username={id}/>
+      <UserProfilePosts username={id} />
       {/* The modal for creating a new post */}
       <SocialMediaPostUpload open={openPostModal} onClose={handleCloseModal} />
     </div>

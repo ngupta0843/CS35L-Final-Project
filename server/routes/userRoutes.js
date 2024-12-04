@@ -9,8 +9,8 @@ const {
   getCurrentUser,
   sendFriendRequest,
   getUser,
+  updateProfile,
 } = require("../controllers/users/users.controllers.js");
-
 
 const router = express.Router();
 
@@ -22,5 +22,6 @@ router.get("/test", testGet);
 router.get("/currentUser", getCurrentUser);
 router.post("/sendFriendRequest", sendFriendRequest);
 router.post("/getUser/:id", getUser);
+router.put("/updateProfile", updateProfile);
 
 module.exports = router;
