@@ -5,24 +5,13 @@ import { DateCalendar } from "@mui/x-date-pickers";
 import { Typography } from "@mui/material";
 import dayjs from "dayjs";
 import axios from "axios";
-import "./FitnessCalendar.css"; // Make sure this CSS file is correctly imported
-import { ContactSupportOutlined, Padding } from "@mui/icons-material";
+import "./FitnessCalendar.css";
 
-// Mock Workout Data (more dates)
-const mockWorkouts = [
-  { date: "2024-12-01", title: "Morning Yoga", description: "A full body stretch and relaxation session." },
-  { date: "2024-12-05", title: "HIIT Workout", description: "High-intensity interval training for endurance." },
-  { date: "2024-12-10", title: "Strength Training", description: "Focus on building muscle with weights." },
-  { date: "2024-12-15", title: "Cardio Run", description: "5k run for cardio endurance." },
-];
-
-// Main component
 const FitnessCalendar = ({ user }) => {
   const [currentUser, setCurrentUser] = useState(user);
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedWorkout, setSelectedWorkout] = useState([]); // Change to an empty array initially
+  const [selectedWorkout, setSelectedWorkout] = useState([]);
 
-  // Function to check if a date has a workout
   const hasWorkoutOnDate = async (date) => {
     console.log("Fetching workout data for", date.format('YYYY-MM-DD'));
     try {
@@ -36,33 +25,28 @@ const FitnessCalendar = ({ user }) => {
     }
   };
 
-  // Get workout details for the selected date
   const getWorkoutForSelectedDate = async (date) => {
     console.log("Fetching workout data for", date.format('YYYY-MM-DD'));
     try {
       const response = await axios.get(`http://localhost:8088/api/getExercise/${user.email}`);
       const workouts = response.data.filter(workout => dayjs(workout.date).isSame(date, 'day'));
-      return workouts || []; // Return an empty array if no workouts are found
+      return workouts || [];
     } catch (error) {
       console.error("Error fetching workout data", error);
-      return []; // Return an empty array if there's an error
+      return [];
     }
   };
 
-  // Handle day selection
   const handleDateChange = async (newDate) => {
     setSelectedDate(newDate);
     const workouts = await getWorkoutForSelectedDate(newDate);
-    console.log("Workouts:", workouts);
-    setSelectedWorkout(workouts); // Set the selected workout(s)
-    console.log("Selected workout:", workouts);
+    setSelectedWorkout(workouts);
   };
 
   useEffect(() => {
-    // Initial load for the default selected date
     const fetchInitialWorkout = async () => {
       const workouts = await getWorkoutForSelectedDate(selectedDate);
-      setSelectedWorkout(workouts); // Set workouts for the default date
+      setSelectedWorkout(workouts);
     };
 
     fetchInitialWorkout();
