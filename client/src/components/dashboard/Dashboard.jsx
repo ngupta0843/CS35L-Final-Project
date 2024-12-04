@@ -15,6 +15,7 @@ import {
   Typography
 } from '@mui/material/';
 import {createTheme} from '@mui/material/styles'
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 // Create a custom dark theme
@@ -48,6 +49,12 @@ const darkTheme = createTheme({
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user)
+  const navigate = useNavigate();
+
+  const handleWorkoutLogRedirect = () => {
+      navigate('/workout-log');
+  };
+
   console.log('user in dashboard: ',user);
   return (
     <ThemeProvider theme={darkTheme}>
@@ -131,6 +138,20 @@ const Dashboard = () => {
         <FitnessCalendar />
       </Box>
     </Container>
+    <button 
+                onClick={handleWorkoutLogRedirect} 
+                style={{ 
+                    padding: '10px 20px', 
+                    margin: '20px 0', 
+                    backgroundColor: '#4CAF50', 
+                    color: 'white', 
+                    border: 'none', 
+                    borderRadius: '5px', 
+                    cursor: 'pointer' 
+                }}
+            >
+                Go to Workout Log
+            </button>
     </ThemeProvider>
   );
 };
