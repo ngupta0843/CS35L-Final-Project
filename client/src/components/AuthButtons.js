@@ -30,7 +30,7 @@ const AuthButtons = () => {
 
   const menuItems = [
     { text: "Home", action: () => navigate("/") },
-    { text: "Profile", action: () => navigate("/profile") },
+    { text: "Profile", action: () => navigate(`/profile/${user.user.email}`) },
     { text: "Forum", action: () => navigate("/forum") },
     { text: "Dashboard", action: () => navigate("/dashboard") },
     { text: "Fitness Planner", action: () => navigate("/fitness-planner") },

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import axios from "axios";
-import nikhil from "../../testimages/nikhil_profile_pic.png";
-import sachit from "../../testimages/post1.jpeg";
 import { Avatar, Stack, Button, Box, Typography, Paper } from "@mui/material";
 import "./ForumPage.css";
 function ForumPage() {
@@ -23,7 +21,7 @@ function ForumPage() {
 
   return (
     <Box className="forum-page" sx={{ flex: 1, padding: 5, paddingLeft: 40 }}>
-      <Stack direction="row" spacing={3}>
+      <Stack direction="column" spacing={3} padding={4}>
         {posts.map((post, index) => (
           <Post
             post={post}
