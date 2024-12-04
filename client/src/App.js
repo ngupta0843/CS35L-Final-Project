@@ -14,6 +14,7 @@ import AuthButtons from "./components/AuthButtons";
 import VisitedUser from  "./pages/VisitedUser";
 
 import QA from "./pages/QA";
+import WorkoutLog from './components/dashboard/Logger/WorkoutLog.jsx'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/fitness-planner" element={<QA/>} />
         <Route path="/forum" element={<ForumPage/>} />
+        <Route path="/workout-log" element={<WorkoutLog />} />
         <Route path="/profiles" element={<VisitedUser/>} />
       </Routes>
     </Router>
