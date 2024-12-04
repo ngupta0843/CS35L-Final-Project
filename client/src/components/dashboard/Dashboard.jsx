@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js";
 import { useNavigate } from "react-router-dom";
+import WorkoutCountCard from "./WorkoutCountCard";
 
 import StatCard from "./StatCard";
 import ChecklistCard from "./ChecklistCard";
@@ -178,8 +179,15 @@ const Dashboard = () => {
 
 
           <Grid item xs={12} md={4}>
-            <StatCard title="Workouts Completed" value="5 Workouts" description="+15% increase from last week" color="primary" />
+            <WorkoutCountCard
+              title="Workouts Completed"
+              goal={5}
+              userEmail={user.email} // Logged-in user's email
+              baseURL="http://localhost:8088/api" // Backend API base URL
+            />
           </Grid>
+
+
           <Grid item xs={12} md={4}>
             <ChecklistCard goals={["Complete 10,000 steps", "Hit 3 workout categories", "Burn 500 calories"]} />
           </Grid>
