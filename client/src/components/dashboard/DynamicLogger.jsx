@@ -167,7 +167,7 @@ const DynamicLogger = () => {
         {editLog ? (
           <button onClick={handleUpdateLog}>Update Log</button>
         ) : (
-          <button onClick={handleAddLog}>Add Log</button>
+          <button onClick={handleAddLog} className={styles.addLogButton}>Add Log</button>
         )}
       </div>
 
