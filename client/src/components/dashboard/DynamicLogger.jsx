@@ -24,7 +24,7 @@ const DynamicLogger = () => {
     const fetchLogs = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8088/api/getExercise/${user.email}`
+          `http://localhost:8088/exercise/getExercise/${user.email}`
         );
         setLogs(response.data);
       } catch (error) {
@@ -55,7 +55,7 @@ const DynamicLogger = () => {
       };
   
       const response = await axios.post(
-        "http://localhost:8088/api/addExercise",
+        "http://localhost:8088/exercise/addExercise",
         { data: object }
       );
   
@@ -69,7 +69,7 @@ const DynamicLogger = () => {
   const handleUpdateLog = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:8088/api/editExercise/${editLog._id}`,
+        `http://localhost:8088/exercise/editExercise/${editLog._id}`,
         { data: newLog }
       );
       const updatedLog = response.data;
@@ -85,7 +85,7 @@ const DynamicLogger = () => {
 
   const handleDeleteLog = async (id) => {
     try {
-      await axios.delete(`http://localhost:8088/api/deleteExercise/${id}`);
+      await axios.delete(`http://localhost:8088/exercise/deleteExercise/${id}`);
       setLogs(logs.filter((log) => log._id !== id));
     } catch (error) {
       console.error("Error deleting log:", error);

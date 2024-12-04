@@ -15,7 +15,7 @@ const FitnessCalendar = ({ user }) => {
   const hasWorkoutOnDate = async (date) => {
     console.log("Fetching workout data for", date.format('YYYY-MM-DD'));
     try {
-      const response = await axios.get(`http://localhost:8088/api/getExercise/${user.email}`);
+      const response = await axios.get(`http://localhost:8088/exercise/getExercise/${user.email}`);
       const workout = response.data.some(workout => dayjs(workout.date).isSame(date, 'day'));
       console.log(workout);
       return workout;
@@ -28,7 +28,7 @@ const FitnessCalendar = ({ user }) => {
   const getWorkoutForSelectedDate = async (date) => {
     console.log("Fetching workout data for", date.format('YYYY-MM-DD'));
     try {
-      const response = await axios.get(`http://localhost:8088/api/getExercise/${user.email}`);
+      const response = await axios.get(`http://localhost:8088/exercise/getExercise/${user.email}`);
       const workouts = response.data.filter(workout => dayjs(workout.date).isSame(date, 'day'));
       return workouts || [];
     } catch (error) {
