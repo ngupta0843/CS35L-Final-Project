@@ -103,4 +103,28 @@ const fetchRandomPost = async (req, res) => {
   }
 };
 
-module.exports = { likePost, createPost, getPost, fetchRandomPost };
+const getUserPosts = async(req, res) => {
+  try {
+    const { username } = req.query;
+
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
+    }
+
+    const posts = await Posts.find({ username: username });
+
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for the user" });
+    }
+    console.log(
+      "-------------------------------------------------- getting post: ",
+      posts
+    );
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    res.status(500).json({ message: "Error getting post: ", error });
+  }
+};
+
+module.exports = { likePost, createPost, getPost, fetchRandomPost, getUserPosts };

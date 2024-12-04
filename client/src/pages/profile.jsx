@@ -14,9 +14,10 @@ import {
   Icon,
   Autocomplete,
   CircularProgress,
+  Card
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import { Post } from "../components/posts/post";
+import Post from "./forum-page/Post.jsx";
 import { CameraAlt, Edit } from "@mui/icons-material";
 import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
@@ -295,27 +296,63 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   );
 };
 
-const UserProfilePosts = () => {
+const UserProfilePosts = ({username}) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async() => {
+    try{
+      const response = await axios.get("http://localhost:8088/posts/getUserPosts?username=" + username);
+      setPosts(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      setLoading(false);
+    }
+  };
+
+  fetchPosts();
+
+  }, [username]);
+
+  if (loading) {
+    return (
+      <Typography variant="h6" color="textSecondary">
+        Loading posts...
+      </Typography>
+    );
+  }
+
+  if (posts.length === 0){
+    return (
+      <Typography variant="h6" color="textSecondary">
+        No posts available :\
+      </Typography>
+    );
+  }
+
   return (
-    <Box className="user-profile-posts">
-      <Typography variant="h5" className="title">
+    <Box className="user-profile-posts" sx={{ width: '100%', padding: 2 }}>
+      <Typography variant="h5" className="title" sx={{ marginBottom: 2 }}>
         Posts
       </Typography>
-      <Stack className="posts-container">
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            username="Nikhil"
-            workout="Leg Day"
-            caption="Leg day is the best day!"
-            photo={post}
-            likecount={100}
-            user={{ profile_photo: profilePic, name: "Nikhil" }}
-            size={"small"}
-          />
+      <Card
+        sx={{
+          backgroundColor: 'black',
+          color: 'white',
+          borderRadius: 1,
+        }}>
+      <Grid container justifyContent="flex-start">
+        {posts.map((post) => (
+          <Grid key={post._id}item xs={12} sm={6} md={4} lg={4} sx={{padding: 1}}>
+            <Post post={post} size="small"/>
+            </Grid>
         ))}
-      </Stack>
+      </Grid>
+      </Card>
     </Box>
+    
   );
 };
 
@@ -335,7 +372,10 @@ const UserProfile = () => {
     } else {
       setButtons(false);
     }
+
   }, [id, currentUser.email]);
+
+  //post req 
 
   const [openPostModal, setOpenPostModal] = useState(false);
 
@@ -355,7 +395,7 @@ const UserProfile = () => {
         button={buttons}
       />{" "}
       {/* Pass modal trigger to header */}
-      <UserProfilePosts />
+      <UserProfilePosts username={id}/>
       {/* The modal for creating a new post */}
       <SocialMediaPostUpload open={openPostModal} onClose={handleCloseModal} />
     </div>
