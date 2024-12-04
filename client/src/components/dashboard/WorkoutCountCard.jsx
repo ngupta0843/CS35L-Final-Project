@@ -76,7 +76,7 @@ const WorkoutCountCard = ({ title, goal, userEmail, baseURL }) => {
             sx={{
               fontSize: "15px",
               alignSelf: "flex-end",
-              marginRight: "40px"
+              marginRight: "60px"
             }}
           />
         </Box>
