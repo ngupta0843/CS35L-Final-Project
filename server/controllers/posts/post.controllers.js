@@ -96,7 +96,8 @@ const createPost = async (req, res) => {
 
 const fetchRandomPost = async (req, res) => {
   try {
-    const randomPosts = await Posts.aggregate([{ $sample: { size: 1 } }]);
+    const totalPosts = await Posts.countDocuments();
+    const randomPosts = await Posts.aggregate([{ $sample: { size: totalPosts } }]);
     res.status(200).json(randomPosts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching random post", error });

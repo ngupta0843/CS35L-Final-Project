@@ -131,7 +131,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
         {/* Text Post Content (Distinct from Caption) */}
         {isTextPost && (
           <Box sx={{ my: 3 }}> {/* Increased spacing to distinguish from other elements */}
-            <TextField
+            {/* <TextField
               fullWidth
               multiline
               rows={4}
@@ -154,7 +154,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
                   color: "#fff",  // Input text color
                 },
               }}
-            />
+            /> */}
           </Box>
         )}
 
@@ -188,6 +188,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
         <Box sx={{ my: 3 }}> {/* Added more spacing for distinction */}
           <TextField
             fullWidth
+            multiline
             variant="outlined"
             label="Caption"
             value={caption} // Binding to caption
