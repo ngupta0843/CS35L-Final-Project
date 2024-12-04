@@ -131,8 +131,20 @@ const Dashboard = () => {
         <Grid container spacing={3}>
           {/* Statistic Cards */}
           <Grid item xs={12} md={4}>
-            <StatCard title="Calories Burned" value="12,000 kcal" description="+10% compared to yesterday" color="primary" />
+            <StatCard
+              title="Calories Burned"
+              fetchValue={async () => {
+                const today = new Date().toISOString().split("T")[0];
+                const response = await axios.get(`${baseURL}/workouts/${user.email}/${today}`);
+                const workouts = response.data.workouts || [];
+                const totalSets = workouts.reduce((total, workout) => total + (workout.sets || 0), 0);
+                return `${totalSets * 37} kcal`;
+              }}
+              description="+10% compared to yesterday"
+              color="primary"
+            />
           </Grid>
+
           <Grid item xs={12} md={4}>
             <StatCard title="Workouts Completed" value="5 Workouts" description="+15% increase from last week" color="primary" />
           </Grid>
