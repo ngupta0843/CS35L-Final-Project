@@ -6,7 +6,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useNavigate } from "react-router-dom";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+ChartJS.register(ChartDataLabels);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Custom dark theme
@@ -45,22 +47,41 @@ const Dashboard = () => {
   const baseURL = "http://localhost:8088/api";
 
   useEffect(() => {
-    const fetchWorkoutCategories = async () => {
+    const fetchWeeklyWorkoutCategories = async () => {
       try {
-        const today = new Date().toISOString().split("T")[0];
-        const response = await axios.get(`${baseURL}/workouts/${user.email}/${today}`);
-        const categories = response.data.workouts.reduce((acc, workout) => {
-          acc[workout.category] = (acc[workout.category] || 0) + 1;
-          return acc;
-        }, {});
-        setCategoryData(categories);
+        const today = new Date();
+        const dates = Array.from({ length: 7 }, (_, i) => {
+          const date = new Date(today);
+          date.setDate(today.getDate() - i);
+          return date.toISOString().split("T")[0];
+        });
+  
+        let weeklyCategories = {};
+  
+        for (const date of dates) {
+          try {
+            console.log(`Fetching workouts for date: ${date}`);
+            const response = await axios.get(`${baseURL}/workouts/${user.email}/${date}`);
+            response.data.workouts.forEach((workout) => {
+              weeklyCategories[workout.category] = (weeklyCategories[workout.category] || 0) + 1;
+            });
+          } catch (error) {
+            if (error.response && error.response.status === 404) {
+              console.warn(`No workouts found for ${date}`);
+            } else {
+              console.error(`Error fetching workouts for ${date}:`, error);
+            }
+          }
+        }
+  
+        setCategoryData(weeklyCategories);
       } catch (error) {
-        console.error("Error fetching workout categories:", error);
+        console.error("Error fetching weekly workout categories:", error);
         setCategoryData({});
       }
     };
-
-    if (user.email) fetchWorkoutCategories();
+  
+    if (user.email) fetchWeeklyWorkoutCategories();
   }, [user.email]);
 
   const pieData = {
@@ -70,8 +91,34 @@ const Dashboard = () => {
         data: Object.values(categoryData),
         backgroundColor: ["#64b5f6", "#81c784", "#ba68c8", "#f06292", "#ffd54f"],
         hoverBackgroundColor: ["#42a5f5", "#66bb6a", "#ab47bc", "#ec407a", "#ffca28"],
+        borderColor: "#1E1E1E",
+        borderWidth: 2,
       },
     ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right', // Place legend on the right side
+        labels: {
+          font: {
+            color: "#FFFFFF",
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => tooltipItem.label, // Show only the category name
+        },
+      },
+      datalabels: {
+        display: false, // Disable percentage display
+      },
+    },
+    responsive: true, // Make the chart responsive
+    maintainAspectRatio: false, // Allow resizing the chart
   };
 
   return (
@@ -165,26 +212,21 @@ const Dashboard = () => {
                     borderRadius: 4,
                     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
                     padding: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
                       Workout Categories
                     </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: "100%",
-                      }}
-                    >
+                    <Box sx={{ position: "relative", width: "100%" }}>
                       {Object.keys(categoryData).length > 0 ? (
-                        <Pie data={pieData} options={{ plugins: { legend: { display: false } } }} />
+                        <Pie style= {{ width: '75vh'}}data={pieData} options={options} />
                       ) : (
                         <Typography color="text.secondary" align="center">
-                          No workouts logged today.
+                          No workouts logged in the past week.
                         </Typography>
                       )}
                     </Box>
