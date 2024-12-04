@@ -24,19 +24,20 @@ const getPostSize = (size) => {
   }
 };
 
-function Post({ post, size="medium" }) {
+function Post({ post, size = "medium" }) {
   const { username, workout, caption, photo, likecount, isTextPost } = post;
   console.log(post);
-  const default_profile_photo = "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg"
+  const default_profile_photo =
+    "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg";
   var profilePhoto = post.photo || default_profile_photo;
   if (profilePhoto === "null") {
     profilePhoto = default_profile_photo;
   }
-  return(
+  return (
     <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
       <Card
         sx={{
-          width: getPostSize(size),
+          width: "1000px",
           backgroundColor: "black",
           color: "white",
           border: "2px solid white",
@@ -52,18 +53,16 @@ function Post({ post, size="medium" }) {
         />
         {!isTextPost && (
           <CardMedia
-          component="img"
-          height={getPostSize(size)}
-          aspectRatio="1"
-          image={photo}
-          alt="Post"
-          sx={{ objectFit: "square" }}
-        />)}
+            component="img"
+            height={getPostSize(size)}
+            aspectRatio="1"
+            image={photo}
+            alt="Post"
+            sx={{ objectFit: "square" }}
+          />
+        )}
         <CardContent>
-          {!isTextPost && (
-            <PostActions
-            post={post} />
-          )}
+          {!isTextPost && <PostActions post={post} />}
           <Typography
             variant="body1"
             color="white"
@@ -73,22 +72,23 @@ function Post({ post, size="medium" }) {
               whiteSpace: "normal",
             }}
           >
-            {!isTextPost && (
+            {(!isTextPost && (
               <>
-              <strong>{username}</strong>
-              <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
+                <strong>{username}</strong>
+                <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
               </>
-            ) || caption}
+            )) ||
+              caption}
           </Typography>
           {isTextPost && (
             <>
               <PostActions post={post} />
             </>
-            )}
+          )}
         </CardContent>
       </Card>
     </Box>
-  );      
+  );
 }
 
 export default Post;

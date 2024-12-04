@@ -97,24 +97,33 @@ const createPost = async (req, res) => {
 const fetchRandomPost = async (req, res) => {
   try {
     const randomPosts = await Posts.aggregate([{ $sample: { size: 1 } }]);
-    res.json(randomPosts);
+    res.status(200).json(randomPosts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching random post", error });
   }
 };
 
 const getUserPosts = async(req, res) => {
-  try{
-    const { username} = req.query;
-    if (!username){
-      return res.status(400).json({error: "Username is required."});
+  try {
+    const { username } = req.query;
+
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
     }
 
-    const userPosts = await Posts.find({username});
-    res.status(200).json(userPosts);
-  } catch(error) {
-    console.error("Error fetching user posts:", error);
-    res.status(500).json({error: "Internal server error."});
+    const posts = await Posts.find({ username: username });
+
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for the user" });
+    }
+    console.log(
+      "-------------------------------------------------- getting post: ",
+      posts
+    );
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    res.status(500).json({ message: "Error getting post: ", error });
   }
 };
 

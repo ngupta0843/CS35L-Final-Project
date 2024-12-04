@@ -4,15 +4,17 @@ import CategoryChart from "./CategoryChart";
 import WeeklyStatCard from "./WeeklyStatCard";
 import WorkoutCard from "./WorkoutCard";
 import { counts } from "./data";
+import DynamicLogger from './DynamicLogger';
+import FitnessCalendar from "./FitnessCalendar";
 import {
   Box,
   Stack,
   Container,
   ThemeProvider,
-  createTheme,
   CssBaseline,
   Typography
-} from "@mui/material";
+} from '@mui/material/';
+import {createTheme} from '@mui/material/styles'
 import { useSelector } from "react-redux";
 
 // Create a custom dark theme
@@ -117,8 +119,18 @@ const Dashboard = () => {
           >
             <WorkoutCard />
           </Box>
+          <Box sx={{ backgroundColor: 'background.paper', borderRadius: 2, padding: 2 }}>
+            <DynamicLogger></DynamicLogger>
+          </Box>
         </Stack>
       </Container>
+      <Container maxWidth="lg">
+      <Box sx={{ marginTop: 4 }}>
+
+        {/* Fitness Calendar */}
+        <FitnessCalendar />
+      </Box>
+    </Container>
     </ThemeProvider>
   );
 };

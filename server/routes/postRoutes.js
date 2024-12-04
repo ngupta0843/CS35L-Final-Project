@@ -7,5 +7,5 @@ router.post("/likePost", likePost);
 router.post("/createPost", createPost);
 router.get("/getPost", getPost);
 router.get('/fetchRandomPost', fetchRandomPost);
-router.get('/posts', getUserPosts);
+router.get('/getUserPosts', getUserPosts);
 module.exports = router;
