@@ -24,8 +24,8 @@ const getPostSize = (size) => {
 
 const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
   return (
-    <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
-      <Card sx={{ width: getPostSize(size) }}>
+    <Box sx={{ margin: "0 auto" }}>
+      <Card>
         <CardHeader
           avatar={<Avatar src={user.profile_photo} alt={user.name} />}
           title={username}

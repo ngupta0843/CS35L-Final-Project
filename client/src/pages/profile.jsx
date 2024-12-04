@@ -17,7 +17,7 @@ import {
   Card
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import { Post } from "../components/posts/post";
+import Post from "./forum-page/Post.jsx";
 import { CameraAlt, Edit } from "@mui/icons-material";
 import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
@@ -125,7 +125,6 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
             >
               Edit Profile
             </Button>
-            {/* Button to open modal for creating a post */}
             <Button
               variant="contained"
               color="primary"
@@ -287,7 +286,44 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
   );
 };
 
-const UserProfilePosts = () => {
+const UserProfilePosts = ({username}) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async() => {
+    try{
+      const response = await axios.get("/posts/getUserPosts", {
+        params: { username },
+      });
+      setPosts(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      setLoading(false);
+    }
+  };
+
+  fetchPosts();
+
+  }, [username]);
+
+  if (loading) {
+    return (
+      <Typography variant="h6" color="textSecondary">
+        Loading posts...
+      </Typography>
+    );
+  }
+
+  if (posts.length === 0){
+    return (
+      <Typography variant="h6" color="textSecondary">
+        No posts available :\
+      </Typography>
+    );
+  }
+
   return (
     <Box className="user-profile-posts" sx={{ width: '100%', padding: 2 }}>
       <Typography variant="h5" className="title" sx={{ marginBottom: 2 }}>
@@ -295,24 +331,14 @@ const UserProfilePosts = () => {
       </Typography>
       <Card
         sx={{
-          width:'140%',
           backgroundColor: 'black',
           color: 'white',
           borderRadius: 1,
         }}>
-      <Grid container spacing={1} justifyContent="flex-start">
-        {posts.map((post, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <Post
-              key={index}
-              username="Nikhil"
-              workout="Leg Day"
-              caption="Leg day is the best day!"
-              photo={post}
-              likecount={100}
-              user={{ profile_photo: profilePic, name: "Nikhil" }}
-              size={"small"}
-            />
+      <Grid container justifyContent="flex-start">
+        {posts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} lg={4} sx={{padding: 1}}>
+            <Post post={post} size="small"/>
             </Grid>
         ))}
       </Grid>
