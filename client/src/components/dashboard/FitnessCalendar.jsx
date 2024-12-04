@@ -1,127 +1,174 @@
-// FitnessCalendar.jsx
-
 import React, { useState } from "react";
-import styled from "styled-components";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateCalendar } from "@mui/x-date-pickers";
-import { Card, Typography, Box } from "@mui/material";
-import dayjs from "dayjs";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    TextField,
+    Typography,
+    Card,
+    CardContent,
+    IconButton,
+} from "@mui/material";
+import { Delete, FitnessCenterRounded, TimelapseRounded } from "@mui/icons-material";
 
-// Styled components
-const CalendarContainer = styled(Box)`
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  margin-top: 20px;
-  gap: 20px; /* Space between calendar and workout details */
-`;
+const WorkoutLog = () => {
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [showModal, setShowModal] = useState(false);
+    const [workoutDetails, setWorkoutDetails] = useState({
+        name: "",
+        sets: "",
+        reps: "",
+        weight: "",
+    });
+    const [workouts, setWorkouts] = useState({});
 
-const CalendarWrapper = styled(Box)`
-  flex: 1; /* Take available space for the calendar */
-`;
+    const handleDateClick = (date) => {
+        setSelectedDate(date);
+    };
 
-const WorkoutWrapper = styled(Box)`
-  flex: 0.35;
-  max-width: 400px;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: #333; /* Dark theme background */
-  color: #fff; /* White text for dark theme */
-`;
+    const handleAddWorkout = () => {
+        const formattedDate = selectedDate.toDateString();
+        const newWorkout = { ...workoutDetails };
 
-// Mock Workout Data (more dates)
-const mockWorkouts = [
-  { date: "2024-12-01", title: "Morning Yoga", description: "A full body stretch and relaxation session." },
-  { date: "2024-12-05", title: "HIIT Workout", description: "High-intensity interval training for endurance." },
-  { date: "2024-12-10", title: "Strength Training", description: "Focus on building muscle with weights." },
-  { date: "2024-12-15", title: "Cardio Run", description: "5k run for cardio endurance." },
-];
+        setWorkouts((prev) => ({
+            ...prev,
+            [formattedDate]: [...(prev[formattedDate] || []), newWorkout],
+        }));
 
-// Main component
-const FitnessCalendar = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
+        setShowModal(false);
+        setWorkoutDetails({ name: "", sets: "", reps: "", weight: "" });
+    };
 
-  // Function to check if a date has a workout
-  const hasWorkoutOnDate = (date) => {
-    return mockWorkouts.some(workout => dayjs(workout.date).isSame(date, 'day'));
-  };
+    const handleDeleteWorkout = (index) => {
+        const formattedDate = selectedDate.toDateString();
+        setWorkouts((prev) => ({
+            ...prev,
+            [formattedDate]: prev[formattedDate].filter((_, i) => i !== index),
+        }));
+    };
 
-  // Get workout details for the selected date
-  const getWorkoutForSelectedDate = (date) => {
-    const workout = mockWorkouts.find(workout => dayjs(workout.date).isSame(date, 'day'));
-    return workout || null;
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setWorkoutDetails((prev) => ({ ...prev, [name]: value }));
+    };
 
-  // Handle day selection
-  const handleDateChange = (newDate) => {
-    setSelectedDate(newDate);
-    const workout = getWorkoutForSelectedDate(newDate);
-    setSelectedWorkout(workout);
-  };
+    const selectedDayWorkouts = workouts[selectedDate.toDateString()] || [];
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <CalendarContainer>
-        {/* Calendar Wrapper */}
-        <CalendarWrapper>
-          <DateCalendar
-            value={selectedDate}
-            onChange={handleDateChange}
-            renderDay={(day, _value, DayComponent) => {
-              const workoutOnThisDay = hasWorkoutOnDate(day);
-              return (
-                <div>
-                  {/* Custom rendering for days with workouts */}
-                  <DayComponent />
-                  {workoutOnThisDay && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: 2,
-                        right: 2,
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        backgroundColor: "pink",
-                      }}
+    return (
+        <Box sx={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
+            <Typography variant="h4" gutterBottom>
+                Workout Log
+            </Typography>
+
+            {/* Calendar Component */}
+            <Box sx={{ marginBottom: "20px" }}>
+                <Calendar onClickDay={handleDateClick} value={selectedDate} />
+            </Box>
+
+            {/* Selected Date and Add Workout Button */}
+            <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="20px">
+                <Typography variant="h5">
+                    Workouts for {selectedDate.toDateString()}
+                </Typography>
+                <Button variant="contained" color="primary" onClick={() => setShowModal(true)}>
+                    Add Workout
+                </Button>
+            </Box>
+
+            {/* Display Logged Workouts */}
+            <Box>
+                {selectedDayWorkouts.length === 0 ? (
+                    <Typography>No workouts logged for this day.</Typography>
+                ) : (
+                    <Grid container spacing={2}>
+                        {selectedDayWorkouts.map((workout, index) => (
+                            <Grid item xs={12} sm={6} key={index}>
+                                <Card variant="outlined">
+                                    <CardContent>
+                                        <Typography variant="h6">{workout.name}</Typography>
+                                        <Typography variant="body2">
+                                            {workout.sets} sets x {workout.reps} reps
+                                        </Typography>
+                                        {workout.weight && (
+                                            <Typography variant="body2" display="flex" alignItems="center">
+                                                <FitnessCenterRounded fontSize="small" /> {workout.weight} kg
+                                            </Typography>
+                                        )}
+                                        <IconButton
+                                            color="secondary"
+                                            onClick={() => handleDeleteWorkout(index)}
+                                            sx={{ marginTop: "10px" }}
+                                        >
+                                            <Delete />
+                                        </IconButton>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
+            </Box>
+
+            {/* Modal for Adding Workouts */}
+            <Dialog open={showModal} onClose={() => setShowModal(false)}>
+                <DialogTitle>Log Workout for {selectedDate.toDateString()}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="Exercise Name"
+                        name="name"
+                        fullWidth
+                        margin="normal"
+                        value={workoutDetails.name}
+                        onChange={handleChange}
+                        required
                     />
-                  )}
-                </div>
-              );
-            }}
-          />
-        </CalendarWrapper>
-
-        {/* Workout Details */}
-        <WorkoutWrapper>
-          <Typography variant="h6">Workout on {selectedDate.format("MMMM DD, YYYY")}</Typography>
-          {selectedWorkout ? (
-            <>
-              <WorkoutTitle>{selectedWorkout.title}</WorkoutTitle>
-              <WorkoutDescription>{selectedWorkout.description}</WorkoutDescription>
-            </>
-          ) : (
-            <Typography>No workouts done today!</Typography>
-          )}
-        </WorkoutWrapper>
-      </CalendarContainer>
-    </LocalizationProvider>
-  );
+                    <TextField
+                        label="Sets"
+                        name="sets"
+                        type="number"
+                        fullWidth
+                        margin="normal"
+                        value={workoutDetails.sets}
+                        onChange={handleChange}
+                        required
+                    />
+                    <TextField
+                        label="Reps"
+                        name="reps"
+                        type="number"
+                        fullWidth
+                        margin="normal"
+                        value={workoutDetails.reps}
+                        onChange={handleChange}
+                        required
+                    />
+                    <TextField
+                        label="Weight (kg, optional)"
+                        name="weight"
+                        type="number"
+                        fullWidth
+                        margin="normal"
+                        value={workoutDetails.weight}
+                        onChange={handleChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowModal(false)} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleAddWorkout} variant="contained" color="primary">
+                        Add Workout
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Box>
+    );
 };
 
-// Styled components for workout details
-const WorkoutTitle = styled(Typography)`
-  font-weight: bold;
-  font-size: 18px;
-`;
-
-const WorkoutDescription = styled(Typography)`
-  font-size: 14px;
-  margin-top: 10px;
-`;
-
-export default FitnessCalendar;
+export default WorkoutLog;
