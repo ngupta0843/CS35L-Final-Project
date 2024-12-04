@@ -1,22 +1,7 @@
 import React from "react";
-import CountsCard from "./CountsCard";
-import CategoryChart from "./CategoryChart";
-import WeeklyStatCard from "./WeeklyStatCard";
-import WorkoutCard from "./WorkoutCard";
-import { counts } from "./data";
-import DynamicLogger from './DynamicLogger';
-import FitnessCalendar from "./FitnessCalendar";
-import {
-  Box,
-  Stack,
-  Container,
-  ThemeProvider,
-  CssBaseline,
-  Typography
-} from '@mui/material/';
-import {createTheme} from '@mui/material/styles'
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { Box, Grid, Card, CardContent, Typography, Button, ThemeProvider, CssBaseline } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 // Create a custom dark theme
 const darkTheme = createTheme({
@@ -38,120 +23,144 @@ const darkTheme = createTheme({
     },
   },
   typography: {
-    h3: {
-      color: "#FFFFFF",
+    h5: {
+      fontWeight: 600,
+    },
+    h6: {
+      fontWeight: 500,
     },
     body1: {
       color: "#B3B3B3",
+    },
+    button: {
+      textTransform: "none",
     },
   },
 });
 
 const Dashboard = () => {
-  const user = useSelector((state) => state.user)
   const navigate = useNavigate();
 
+  // Handle navigation to workout log
   const handleWorkoutLogRedirect = () => {
-      navigate('/workout-log');
+    navigate("/workout-log");
   };
 
-  console.log('user in dashboard: ',user);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container
+      <Box
         sx={{
-          paddingTop: "10vh",
+          padding: "5vh 2vw",
           backgroundColor: "background.default",
+          minHeight: "100vh",
           color: "text.primary",
         }}
       >
-        <Typography variant="h5" align="left" gutterBottom>Welcome, {user.firstname}</Typography>
-        <Stack spacing={3}>
-          {/* Counts Cards Section */}
-          <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
-            {counts.map((count, index) => (
-              <Box
-                key={index}
-                sx={{
-                  flex: 1,
-                  backgroundColor: "background.paper",
-                  borderRadius: 2,
-                  padding: 2,
-                }}
-              >
-                <CountsCard
-                  name={count.name}
-                  icon={count.icon}
-                  desc={count.desc}
-                  value={"100"} // Example value for display purposes
-                  color={count.color}
-                  lightColor={count.lightColor}
-                />
-              </Box>
-            ))}
-          </Stack>
+        {/* Welcome Header */}
+        <Typography variant="h5" gutterBottom>
+          Welcome to Your Dashboard
+        </Typography>
 
-          {/* Category Chart and Weekly Stats Section */}
-          <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
-            <Box
-              sx={{
-                flex: 2,
-                backgroundColor: "background.paper",
-                borderRadius: 2,
-                padding: 2,
-              }}
-            >
-              <CategoryChart data={counts} />
-            </Box>
-            <Box
-              sx={{
-                flex: 1,
-                backgroundColor: "background.paper",
-                borderRadius: 2,
-                padding: 2,
-              }}
-            >
-              <WeeklyStatCard data={counts} />
-            </Box>
-          </Stack>
+        <Grid container spacing={3}>
+          {/* Top Section: Two Statistic Cards */}
+          <Grid item xs={12} md={6}>
+            <Card sx={{ backgroundColor: "background.paper", borderRadius: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Calories Burned
+                </Typography>
+                <Typography variant="h4" fontWeight="bold" color="primary">
+                  12,000.00 kcal
+                </Typography>
+                <Typography variant="body2" color="secondary">
+                  +10% Total calories burned today
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
 
-          {/* Workout Card Section */}
-          <Box
+          <Grid item xs={12} md={6}>
+            <Card sx={{ backgroundColor: "background.paper", borderRadius: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Workouts
+                </Typography>
+                <Typography variant="h4" fontWeight="bold" color="primary">
+                  5.00
+                </Typography>
+                <Typography variant="body2" color="secondary">
+                  +10% Total number of workouts today
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Middle Section: Weekly Stats and Categories */}
+          <Grid item xs={12} md={6}>
+            <Card sx={{ backgroundColor: "background.paper", borderRadius: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Weekly Calories Burned
+                </Typography>
+                {/* Placeholder for Chart */}
+                <Box
+                  sx={{
+                    backgroundColor: "#333333",
+                    height: "200px",
+                    borderRadius: "8px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography color="text.secondary">Bar Chart Placeholder</Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card sx={{ backgroundColor: "background.paper", borderRadius: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Workout Categories
+                </Typography>
+                {/* Placeholder for Pie Chart */}
+                <Box
+                  sx={{
+                    backgroundColor: "#333333",
+                    height: "200px",
+                    borderRadius: "8px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography color="text.secondary">Pie Chart Placeholder</Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {/* Button to Redirect to Workout Log */}
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleWorkoutLogRedirect}
             sx={{
-              backgroundColor: "background.paper",
-              borderRadius: 2,
-              padding: 2,
+              fontWeight: "bold",
+              borderRadius: "24px",
+              padding: "10px 20px",
+              boxShadow: "0px 4px 12px rgba(0,0,0,0.2)",
             }}
           >
-            <WorkoutCard />
-          </Box>
-          <Box sx={{ backgroundColor: 'background.paper', borderRadius: 2, padding: 2 }}>
-            <DynamicLogger></DynamicLogger>
-          </Box>
-        </Stack>
-      </Container>
-      <Container maxWidth="lg">
-      <Box sx={{ marginTop: 4 }}>
-
-        {/* Fitness Calendar */}
-        <FitnessCalendar />
+            Go to Workout Log
+          </Button>
+        </Box>
       </Box>
-    </Container>
-    <button 
-                onClick={handleWorkoutLogRedirect} 
-                style={{ 
-                    padding: '10px 20px', 
-                    margin: '20px 0', 
-                    backgroundColor: '#4CAF50', 
-                    color: 'white', 
-                    border: 'none', 
-                    borderRadius: '5px', 
-                    cursor: 'pointer' 
-                }}
-            >
-                Go to Workout Log
-            </button>
     </ThemeProvider>
   );
 };
