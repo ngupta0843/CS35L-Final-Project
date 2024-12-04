@@ -27,18 +27,18 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UserProfile.css";
+import { useParams, useNavigate } from "react-router-dom";
 
 const posts = [post1, post2, post3];
 
-const UserProfileHeader = ({ onCreatePostClick }) => {
+const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  const currentUser = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const getUserList = async () => {
     try {
@@ -109,177 +109,186 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
               Enjoying life, traveling, and capturing moments 📸
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 2,
-            }}
-          >
-            <Button
-              variant="contained"
-              className="edit-button"
-              startIcon={<Edit />}
-            >
-              Edit Profile
-            </Button>
-            {/* Button to open modal for creating a post */}
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CameraAlt />}
-              sx={{ marginTop: 2 }}
-              onClick={onCreatePostClick}
-            >
-              Create a Post
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CameraAlt />}
+          {button && (
+            <Box
               sx={{
-                marginTop: 2,
-              }}
-              onClick={() => {
-                getUserList();
-                setOpen((prev) => !prev);
-              }}
-            >
-              Search for users
-            </Button>
-            <Dialog
-              open={open}
-              onClose={() => setOpen(false)}
-              fullWidth
-              maxWidth="md"
-              sx={{
-                "& .MuiDialog-paper": {
-                  borderRadius: 8, // Rounded corners for a polished look
-                },
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                gap: 2,
               }}
             >
-              {/* Header */}
-              <Box
+              <Button
+                variant="contained"
+                className="edit-button"
+                startIcon={<Edit />}
+              >
+                Edit Profile
+              </Button>
+              {/* Button to open modal for creating a post */}
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CameraAlt />}
+                sx={{ marginTop: 2 }}
+                onClick={onCreatePostClick}
+              >
+                Create a Post
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CameraAlt />}
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  px: 3,
-                  py: 2,
-                  borderBottom: "1px solid #e0e0e0",
+                  marginTop: 2,
+                }}
+                onClick={() => {
+                  getUserList();
+                  setOpen((prev) => !prev);
                 }}
               >
-                <DialogTitle
-                  sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
-                >
-                  Search for Users
-                </DialogTitle>
-
-                <IconButton
-                  onClick={() => setOpen(false)}
-                  sx={{ color: "#9e9e9e", "&:hover": { color: "#000" } }}
-                >
-                  <Icon component={CloseFullscreenIcon} />
-                </IconButton>
-              </Box>
-
-              <DialogContent sx={{ px: 3, py: 2 }}>
-                <Autocomplete
-                  options={users}
-                  getOptionLabel={(option) =>
-                    `${option.name} (${option.email})`
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      placeholder="Search users by name or email"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  )}
-                  onChange={(e, value) => {
-                    e.preventDefault();
-                    setSelectedUser(value);
-                    console.log(value);
+                Search for users
+              </Button>
+              <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                fullWidth
+                maxWidth="md"
+                sx={{
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    px: 3,
+                    py: 2,
+                    borderBottom: "1px solid #e0e0e0",
                   }}
-                  renderOption={(props, option) => (
-                    <Box
-                      {...props}
-                      key={option._id}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 2,
-                        py: 1,
-                        px: 2,
-                        cursor: "pointer",
-                        "&:hover": { backgroundColor: "#f5f5f5" },
-                      }}
-                    >
-                      {/* might have to debug this in the future if it gives issues with pfp loading */}
-                      {!loading ? (
-                        <Avatar sx={{ bgcolor: "#1976d2" }}>
-                          {option.name ? option.name[0].toUpperCase() : "U"}
-                        </Avatar>
-                      ) : (
-                        <CircularProgress />
-                      )}
+                >
+                  <DialogTitle
+                    sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
+                  >
+                    Search for Users
+                  </DialogTitle>
 
-                      <Stack>
-                        <Typography variant="body1">{option.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          {option.email}
-                        </Typography>
+                  <IconButton
+                    onClick={() => setOpen(false)}
+                    sx={{ color: "#9e9e9e", "&:hover": { color: "#000" } }}
+                  >
+                    <Icon component={CloseFullscreenIcon} />
+                  </IconButton>
+                </Box>
+
+                <DialogContent sx={{ px: 3, py: 2 }}>
+                  <Autocomplete
+                    options={users}
+                    getOptionLabel={(option) =>
+                      `${option.name} (${option.email})`
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        placeholder="Search users by name or email"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    )}
+                    onChange={(e, value) => {
+                      e.preventDefault();
+                      setSelectedUser(value);
+                      console.log(value);
+                    }}
+                    renderOption={(props, option) => (
+                      <Box
+                        {...props}
+                        key={option._id}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          py: 1,
+                          px: 2,
+                          cursor: "pointer",
+                          "&:hover": { backgroundColor: "#f5f5f5" },
+                        }}
+                      >
+                        {/* might have to debug this in the future if it gives issues with pfp loading */}
+                        {!loading ? (
+                          <Avatar sx={{ bgcolor: "#1976d2" }}>
+                            {option.name ? option.name[0].toUpperCase() : "U"}
+                          </Avatar>
+                        ) : (
+                          <CircularProgress />
+                        )}
+
+                        <Stack>
+                          <Typography variant="body1">{option.name}</Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {option.email}
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    )}
+                  />
+
+                  {/* Display selected user */}
+                  {selectedUser && (
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant="h6">Selected User</Typography>
+                      <Stack direction="row" alignItems="center" spacing={2}>
+                        <Avatar sx={{ bgcolor: "#1976d2" }}>
+                          {selectedUser.name
+                            ? selectedUser.name[0].toUpperCase()
+                            : "U"}
+                        </Avatar>
+                        <Stack sx={{ flex: 1 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => {
+                                console.log(selectedUser);
+                                navigate(`/profile/${selectedUser.email}`);
+                              }}
+                            >
+                              <Typography variant="body1">
+                                {selectedUser.name}
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary">
+                                {selectedUser.email}
+                              </Typography>
+                            </Box>
+                            <Button
+                              sx={{ ml: "auto" }}
+                              onClick={sendFriendRequest}
+                            >
+                              Send a Friend Request
+                            </Button>
+                          </Box>
+                        </Stack>
                       </Stack>
                     </Box>
                   )}
-                />
-
-                {/* Display selected user */}
-                {selectedUser && (
-                  <Box sx={{ mt: 3 }}>
-                    <Typography variant="h6">Selected User</Typography>
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                      <Avatar sx={{ bgcolor: "#1976d2" }}>
-                        {selectedUser.name
-                          ? selectedUser.name[0].toUpperCase()
-                          : "U"}
-                      </Avatar>
-                      <Stack sx={{ flex: 1 }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Box
-                            sx={{ display: "flex", flexDirection: "column" }}
-                          >
-                            <Typography variant="body1">
-                              {selectedUser.name}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              {selectedUser.email}
-                            </Typography>
-                          </Box>
-                          <Button
-                            sx={{ ml: "auto" }}
-                            onClick={sendFriendRequest}
-                          >
-                            Send a Friend Request
-                          </Button>
-                        </Box>
-                      </Stack>
-                    </Stack>
-                  </Box>
-                )}
-              </DialogContent>
-            </Dialog>
-          </Box>
+                </DialogContent>
+              </Dialog>
+            </Box>
+          )}
         </Box>
       </Stack>
     </Box>
@@ -311,19 +320,40 @@ const UserProfilePosts = () => {
 };
 
 const UserProfile = () => {
-  const [openPostModal, setOpenPostModal] = useState(false); // State to control modal visibility
+  const { id } = useParams();
+  const currentUser = useSelector((state) => state.user);
+
+  //check id of link here
+  //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont
+  // fetch user info from backend on every refresh
+  const [buttons, setButtons] = useState(false);
+
+  useEffect(() => {
+    // check to see if viewed user is the same as current user
+    if (id === currentUser.email) {
+      setButtons(true);
+    } else {
+      setButtons(false);
+    }
+  }, [id, currentUser.email]);
+
+  const [openPostModal, setOpenPostModal] = useState(false);
 
   const handleOpenModal = () => {
-    setOpenPostModal(true); // Open the modal
+    setOpenPostModal(true);
   };
 
   const handleCloseModal = () => {
-    setOpenPostModal(false); // Close the modal
+    setOpenPostModal(false);
   };
 
   return (
     <div>
-      <UserProfileHeader onCreatePostClick={handleOpenModal} />{" "}
+      <UserProfileHeader
+        onCreatePostClick={handleOpenModal}
+        currentUser={currentUser}
+        button={buttons}
+      />{" "}
       {/* Pass modal trigger to header */}
       <UserProfilePosts />
       {/* The modal for creating a new post */}
