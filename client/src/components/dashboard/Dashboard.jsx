@@ -5,6 +5,7 @@ import WeeklyStatCard from "./WeeklyStatCard";
 import WorkoutCard from "./WorkoutCard";
 import { counts } from "./data";
 import DynamicLogger from './DynamicLogger';
+import FitnessCalendar from "./FitnessCalendar";
 import {
   Box,
   Stack,
@@ -123,6 +124,13 @@ const Dashboard = () => {
           </Box>
         </Stack>
       </Container>
+      <Container maxWidth="lg">
+      <Box sx={{ marginTop: 4 }}>
+
+        {/* Fitness Calendar */}
+        <FitnessCalendar />
+      </Box>
+    </Container>
     </ThemeProvider>
   );
 };
