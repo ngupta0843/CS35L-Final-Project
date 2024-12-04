@@ -4,6 +4,7 @@ import CategoryChart from "./CategoryChart";
 import WeeklyStatCard from "./WeeklyStatCard";
 import WorkoutCard from "./WorkoutCard";
 import { counts } from "./data";
+import DynamicLogger from './DynamicLogger';
 import FitnessCalendar from "./FitnessCalendar";
 import {
   Box,
@@ -117,6 +118,9 @@ const Dashboard = () => {
             }}
           >
             <WorkoutCard />
+          </Box>
+          <Box sx={{ backgroundColor: 'background.paper', borderRadius: 2, padding: 2 }}>
+            <DynamicLogger></DynamicLogger>
           </Box>
         </Stack>
       </Container>
