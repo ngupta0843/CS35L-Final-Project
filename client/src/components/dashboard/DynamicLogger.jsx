@@ -23,7 +23,6 @@ const DynamicLogger = () => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        console.log(user.email);
         const response = await axios.get(
           `http://localhost:8088/api/getExercise/${user.email}`
         );
@@ -54,16 +53,13 @@ const DynamicLogger = () => {
         userId: user.email,
         date: new Date(newLog.date).toLocaleDateString(),
       }
-      console.log(user.email);
       const response = await axios.post(
         "http://localhost:8088/api/addExercise", {data: object}
         );
 
-        console.log(response.data)
         const updatedLog = response.data;
 
       setLogs([...logs, updatedLog]);
-      console.log(logs);
     } catch (error) {
       console.error("Error adding exercise", error);
     }

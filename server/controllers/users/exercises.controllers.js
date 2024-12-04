@@ -2,9 +2,7 @@ const ExerciseLog = require("../../models/exerciseLog.js");
 
 exports.createExerciseLog = async (req, res) => {
   try {
-    console.log(req.body.data)
     const { tag, exercise, weight, reps, sets, color, userId, date } = req.body.data;
-    console.log(tag, exercise, weight, reps, sets, color, userId, date);
     const newExercise = new ExerciseLog({
       tag: tag,
       exercise: exercise,
