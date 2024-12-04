@@ -1,36 +1,12 @@
-// FitnessCalendar.jsx
-
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers";
-import { Card, Typography, Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import dayjs from "dayjs";
-
-// Styled components
-const CalendarContainer = styled(Box)`
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  margin-top: 20px;
-  gap: 20px; /* Space between calendar and workout details */
-`;
-
-const CalendarWrapper = styled(Box)`
-  flex: 1; /* Take available space for the calendar */
-`;
-
-const WorkoutWrapper = styled(Box)`
-  flex: 0.35;
-  max-width: 400px;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: #333; /* Dark theme background */
-  color: #fff; /* White text for dark theme */
-`;
+import axios from "axios";
+import "./FitnessCalendar.css"; // Make sure this CSS file is correctly imported
+import { ContactSupportOutlined, Padding } from "@mui/icons-material";
 
 // Mock Workout Data (more dates)
 const mockWorkouts = [
@@ -41,87 +17,106 @@ const mockWorkouts = [
 ];
 
 // Main component
-const FitnessCalendar = () => {
+const FitnessCalendar = ({ user }) => {
+  const [currentUser, setCurrentUser] = useState(user);
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [selectedWorkout, setSelectedWorkout] = useState([]); // Change to an empty array initially
 
   // Function to check if a date has a workout
-  const hasWorkoutOnDate = (date) => {
-    return mockWorkouts.some(workout => dayjs(workout.date).isSame(date, 'day'));
+  const hasWorkoutOnDate = async (date) => {
+    console.log("Fetching workout data for", date.format('YYYY-MM-DD'));
+    try {
+      const response = await axios.get(`http://localhost:8088/api/getExercise/${user.email}`);
+      const workout = response.data.some(workout => dayjs(workout.date).isSame(date, 'day'));
+      console.log(workout);
+      return workout;
+    } catch (error) {
+      console.error("Error fetching workout data", error);
+      return null;
+    }
   };
 
   // Get workout details for the selected date
-  const getWorkoutForSelectedDate = (date) => {
-    const workout = mockWorkouts.find(workout => dayjs(workout.date).isSame(date, 'day'));
-    return workout || null;
+  const getWorkoutForSelectedDate = async (date) => {
+    console.log("Fetching workout data for", date.format('YYYY-MM-DD'));
+    try {
+      const response = await axios.get(`http://localhost:8088/api/getExercise/${user.email}`);
+      const workouts = response.data.filter(workout => dayjs(workout.date).isSame(date, 'day'));
+      return workouts || []; // Return an empty array if no workouts are found
+    } catch (error) {
+      console.error("Error fetching workout data", error);
+      return []; // Return an empty array if there's an error
+    }
   };
 
   // Handle day selection
-  const handleDateChange = (newDate) => {
+  const handleDateChange = async (newDate) => {
     setSelectedDate(newDate);
-    const workout = getWorkoutForSelectedDate(newDate);
-    setSelectedWorkout(workout);
+    const workouts = await getWorkoutForSelectedDate(newDate);
+    console.log("Workouts:", workouts);
+    setSelectedWorkout(workouts); // Set the selected workout(s)
+    console.log("Selected workout:", workouts);
   };
+
+  useEffect(() => {
+    // Initial load for the default selected date
+    const fetchInitialWorkout = async () => {
+      const workouts = await getWorkoutForSelectedDate(selectedDate);
+      setSelectedWorkout(workouts); // Set workouts for the default date
+    };
+
+    fetchInitialWorkout();
+  }, [selectedDate, user]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <CalendarContainer>
+      <div className="calendar-container">
         {/* Calendar Wrapper */}
-        <CalendarWrapper>
+        <div className="calendar-wrapper">
           <DateCalendar
             value={selectedDate}
             onChange={handleDateChange}
             renderDay={(day, _value, DayComponent) => {
               const workoutOnThisDay = hasWorkoutOnDate(day);
               return (
-                <div>
+                <div style={{ position: "relative" }}>
                   {/* Custom rendering for days with workouts */}
                   <DayComponent />
                   {workoutOnThisDay && (
                     <div
-                      style={{
-                        position: "absolute",
-                        bottom: 2,
-                        right: 2,
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        backgroundColor: "pink",
-                      }}
+                      style={{position: "absolute", bottom: 2, right: 2, width: 6, height: 6, borderRadius: "50%",backgroundColor: "pink",}}
                     />
                   )}
                 </div>
               );
             }}
           />
-        </CalendarWrapper>
+        </div>
 
         {/* Workout Details */}
-        <WorkoutWrapper>
-          <Typography variant="h6">Workout on {selectedDate.format("MMMM DD, YYYY")}</Typography>
-          {selectedWorkout ? (
-            <>
-              <WorkoutTitle>{selectedWorkout.title}</WorkoutTitle>
-              <WorkoutDescription>{selectedWorkout.description}</WorkoutDescription>
-            </>
-          ) : (
+        <div className="workout-wrapper">
+          <Typography variant="h6">
+            Workout on {selectedDate.format("MMMM DD, YYYY")}
+          </Typography>
+          {selectedWorkout === null || selectedWorkout.length === 0 ? (
+            // No workouts found for this day
             <Typography>No workouts done today!</Typography>
+          ) : selectedWorkout.length > 0 ? (
+            // Map through the workouts if any
+            selectedWorkout.map((workout, index) => (
+              <div key={index} style={{ marginTop: "15px" }}>
+                <div className="workout-title">{workout.tag}</div>
+                <div className="workout-description">{workout.exercise + " for " + workout.sets + " sets of " + workout.reps + " reps" }</div>
+              </div>
+            ))
+          ) : (
+            // Fallback to loading state
+            <Typography>Loading...</Typography>
           )}
-        </WorkoutWrapper>
-      </CalendarContainer>
+        </div>
+      </div>
     </LocalizationProvider>
   );
 };
-
-// Styled components for workout details
-const WorkoutTitle = styled(Typography)`
-  font-weight: bold;
-  font-size: 18px;
-`;
-
-const WorkoutDescription = styled(Typography)`
-  font-size: 14px;
-  margin-top: 10px;
-`;
 
 export default FitnessCalendar;

@@ -63,7 +63,7 @@ const Dashboard = () => {
       {/* Fitness Calendar Section */}
       <Container maxWidth="lg">
         <Box sx={{ marginTop: 4 }}>
-          <FitnessCalendar />
+          <FitnessCalendar user={user}/>
         </Box>
       </Container>
     </ThemeProvider>

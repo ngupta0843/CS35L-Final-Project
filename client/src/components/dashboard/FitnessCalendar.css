@@ -1,0 +1,33 @@
+.calendar-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 20px;
+    gap: 20px;
+  }
+  
+  .calendar-wrapper {
+    flex: 1;
+  }
+  
+  .workout-wrapper {
+    flex: 0.35;
+    max-width: 400px;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .workout-title {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .workout-description {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
