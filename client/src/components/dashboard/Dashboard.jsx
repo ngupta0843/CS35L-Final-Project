@@ -135,15 +135,47 @@ const Dashboard = () => {
               title="Calories Burned"
               fetchValue={async () => {
                 const today = new Date().toISOString().split("T")[0];
-                const response = await axios.get(`${baseURL}/workouts/${user.email}/${today}`);
-                const workouts = response.data.workouts || [];
-                const totalSets = workouts.reduce((total, workout) => total + (workout.sets || 0), 0);
-                return `${totalSets * 37} kcal`;
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayDate = yesterday.toISOString().split("T")[0];
+
+                try {
+                  const [todayResponse, yesterdayResponse] = await Promise.all([
+                    axios.get(`${baseURL}/workouts/${user.email}/${today}`),
+                    axios.get(`${baseURL}/workouts/${user.email}/${yesterdayDate}`),
+                  ]);
+
+                  const todayWorkouts = todayResponse.data.workouts || [];
+                  const yesterdayWorkouts = yesterdayResponse.data.workouts || [];
+
+                  const todayTotalSets = todayWorkouts.reduce((total, workout) => total + (workout.sets || 0), 0);
+                  const yesterdayTotalSets = yesterdayWorkouts.reduce((total, workout) => total + (workout.sets || 0), 0);
+
+                  const todayCalories = todayTotalSets * 37;
+                  const yesterdayCalories = yesterdayTotalSets * 37;
+
+                  const percentChange = yesterdayCalories
+                    ? ((todayCalories - yesterdayCalories) / yesterdayCalories) * 100
+                    : 0;
+
+                  return {
+                    value: `${todayCalories} kcal`,
+                    description: `${percentChange >= 0 ? "+" : ""}${percentChange.toFixed(2)}% ${
+                      percentChange >= 0 ? "increase" : "decrease"
+                    } from yesterday`,
+                  };
+                } catch (error) {
+                  console.error("Error fetching calories data:", error);
+                  return {
+                    value: "0 kcal",
+                    description: "No data available for comparison",
+                  };
+                }
               }}
-              description="+10% compared to yesterday"
               color="primary"
             />
           </Grid>
+
 
           <Grid item xs={12} md={4}>
             <StatCard title="Workouts Completed" value="5 Workouts" description="+15% increase from last week" color="primary" />
@@ -155,12 +187,12 @@ const Dashboard = () => {
           {/* Charts */}
           <Grid item xs={12} md={6}>
             <Box sx={{ height: "450px" }}>
-              <PieChartCard title="Workout Categories" data={pieData} />
+              <PieChartCard title="Weekly Workout Categories Split" data={pieData} />
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
             <Box sx={{ height: "450px" }}>
-              <BarChartCard title="Weekly Workouts" data={barData} options={barOptions} />
+              <BarChartCard title="Weekly Exercise Count" data={barData} options={barOptions} />
             </Box>
           </Grid>
         </Grid>
