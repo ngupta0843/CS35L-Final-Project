@@ -5,11 +5,13 @@ const StatCard = ({ title, fetchValue, description, color }) => {
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetchValue();
-      setValue(result);
-    };
-    fetchData();
+    if (typeof fetchValue === "function") {
+      const fetchData = async () => {
+        const result = await fetchValue();
+        setValue(result);
+      };
+      fetchData();
+    }
   }, [fetchValue]);
 
   return (
