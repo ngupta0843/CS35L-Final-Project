@@ -24,7 +24,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use("/users", userRoutes);
 app.use("/ml", mlRoutes);
 app.use("/posts", postRoutes);
-app.use("/api", exercisesRoutes);
+// app.use("/api", exercisesRoutes);
 app.use("/api/workouts", workoutRoutes);
 
 /*

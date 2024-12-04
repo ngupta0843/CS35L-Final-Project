@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 const workoutSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String, 
         required: true,
     },
     date: {
@@ -27,3 +26,4 @@ const workoutSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Workout", workoutSchema);
+

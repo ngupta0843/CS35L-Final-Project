@@ -1,10 +1,11 @@
 const Workout = require("../../models/workout.js");
 
+// Add a workout
 const addWorkout = async (req, res) => {
     const { userId, date, workout } = req.body;
 
     if (!userId || !date || !workout) {
-        return res.status(400).json({ message: "User ID, date, and workout are required." });
+        return res.status(400).json({ message: "User email, date, and workout are required." });
     }
 
     try {
@@ -23,6 +24,7 @@ const addWorkout = async (req, res) => {
     }
 };
 
+// Get workouts for a specific date
 const getWorkoutsByDate = async (req, res) => {
     const { userId, date } = req.params;
 
@@ -39,6 +41,7 @@ const getWorkoutsByDate = async (req, res) => {
     }
 };
 
+// Delete a specific workout
 const deleteWorkout = async (req, res) => {
     const { workoutId } = req.params;
 
