@@ -5,23 +5,26 @@ import { Pie } from "react-chartjs-2";
 const PieChartCard = ({ title, data }) => {
   const options = {
     plugins: {
-      tooltip: {
-        enabled: false,
-      },
       legend: {
-        position: "right",
-        align: "center",
+        position: "right", 
         labels: {
-          color: "white",
+          color: "#FFFFFF", 
+          font: {
+            size: 20,
+          },
           padding: 20,
         },
       },
-      datalabels: {
-        display: false,
+    },
+    layout: {
+      padding: {
+        top: 10,
+        bottom: 10,
+        left: 20,
+        right: 30,
       },
     },
-    responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false, 
   };
 
   return (
@@ -30,9 +33,9 @@ const PieChartCard = ({ title, data }) => {
         backgroundColor: "background.paper",
         borderRadius: 4,
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-        padding: "20px",
-        width: "80%",
-        margin: "0 auto",
+        padding: "10px",
+        width: "100%", // Full width
+        height: "450px", // Fixed height
       }}
     >
       <CardContent>
@@ -41,11 +44,10 @@ const PieChartCard = ({ title, data }) => {
         </Typography>
         <Box
           sx={{
-            position: "relative",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center", 
-            width: "100%",
+            alignItems: "center",
+            height: "350px", // Constrain the height
           }}
         >
           {data.labels.length > 0 ? (

@@ -112,8 +112,15 @@ const Dashboard = () => {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: { ticks: { color: "#FFFFFF" }, grid: { color: "#424242" } },
-      y: { ticks: { color: "#FFFFFF" }, grid: { color: "#424242" } },
+      x: { 
+        ticks: { color: "#FFFFFF" },
+        grid: { color: "#424242" },
+        reverse: true, // Reverse the x-axis so the most recent date is on the right
+      },
+      y: { 
+        ticks: { color: "#FFFFFF" },
+        grid: { color: "#424242" },
+      },
     },
   };
 
@@ -135,10 +142,14 @@ const Dashboard = () => {
 
           {/* Charts */}
           <Grid item xs={12} md={6}>
-            <PieChartCard title="Workout Categories" data={pieData} />
+            <Box sx={{ height: "450px" }}>
+              <PieChartCard title="Workout Categories" data={pieData} />
+            </Box>
           </Grid>
           <Grid item xs={12} md={6}>
-            <BarChartCard title="Weekly Workouts" data={barData} options={barOptions} />
+            <Box sx={{ height: "450px" }}>
+              <BarChartCard title="Weekly Workouts" data={barData} options={barOptions} />
+            </Box>
           </Grid>
         </Grid>
 
