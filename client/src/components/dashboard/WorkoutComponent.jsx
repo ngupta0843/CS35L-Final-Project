@@ -48,7 +48,7 @@ const ExerciseLog = ({ log, onDelete, onEdit }) => {
         <strong>Sets:</strong> {log.sets}
       </Typography>
       <Typography variant="body2" sx={{ color: borderColor }}>
-        <strong>Date:</strong> {log.date}
+        <strong>Date:</strong> {log.date.substring(0, 10)}
       </Typography>
       <div>
         <Button variant="contained" color="secondary" onClick={() => onDelete(log._id)} style={{ marginRight: "8px" }}>

@@ -43,7 +43,7 @@ const DynamicLogger = () => {
 
   const handleAddLog = async () => {
     try {
-      let object = {
+      const object = {
         tag: newLog.tag,
         exercise: newLog.exercise,
         weight: newLog.weight,
@@ -51,19 +51,37 @@ const DynamicLogger = () => {
         sets: newLog.sets,
         color: newLog.color,
         userId: user.email,
-        date: new Date(newLog.date).toLocaleDateString(),
-      }
+        date: newLog.date,
+      };
+  
       const response = await axios.post(
-        "http://localhost:8088/api/addExercise", {data: object}
-        );
-
-        const updatedLog = response.data;
-
+        "http://localhost:8088/api/addExercise",
+        { data: object }
+      );
+  
+      const updatedLog = response.data;
       setLogs([...logs, updatedLog]);
     } catch (error) {
       console.error("Error adding exercise", error);
     }
   };
+  
+  const handleUpdateLog = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8088/api/editExercise/${editLog._id}`,
+        { data: newLog }
+      );
+      const updatedLog = response.data;
+  
+      setLogs(logs.map((log) => (log._id === updatedLog._id ? updatedLog : log)));
+      setEditLog(null);
+    } catch (error) {
+      console.error("Error updating log:", error);
+    }
+  };
+  
+  
 
   const handleDeleteLog = async (id) => {
     try {
@@ -85,21 +103,6 @@ const DynamicLogger = () => {
       color: log.color,
       date: new Date(log.date).toLocaleDateString(),
     });
-  };
-
-  const handleUpdateLog = async () => {
-    try{
-    const response = await axios.put(
-      `http://localhost:8088/api/editExercise/${editLog._id}`,
-      { data: newLog}
-    );
-    const updatedLog = response.data;
-
-    setLogs(logs.map((log) => (log._id === updatedLog._id ? updatedLog : log)));
-    setEditLog(null);
-  } catch (error) {
-    console.error("Error updating log:", error);
-  }
   };
 
   return (
