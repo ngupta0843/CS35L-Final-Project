@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import axios from "axios";
-import nikhil from "../../testimages/nikhil_profile_pic.png";
-import sachit from "../../testimages/post1.jpeg";
 import { Avatar, Stack, Button, Box, Typography, Paper } from "@mui/material";
 import "./ForumPage.css";
 function ForumPage() {
