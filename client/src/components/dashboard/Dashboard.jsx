@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js";
 import { useNavigate } from "react-router-dom";
+import WorkoutCountCard from "./WorkoutCountCard";
 
 import StatCard from "./StatCard";
 import ChecklistCard from "./ChecklistCard";
@@ -49,7 +50,7 @@ const Dashboard = () => {
           const date = new Date(today);
           date.setDate(today.getDate() - i);
           return {
-            dateString: date.toISOString().split("T")[0],
+            dateString: date.toLocaleDateString("en-CA"),
             formattedDate: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
           };
         });
@@ -127,28 +128,79 @@ const Dashboard = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Box sx={{ padding: "5vh 2vw", minHeight: "100vh" }}>
+      <Box sx={{ mt: 10, minHeight: "100vh" }}>
         <Grid container spacing={3}>
           {/* Statistic Cards */}
           <Grid item xs={12} md={4}>
-            <StatCard title="Calories Burned" value="12,000 kcal" description="+10% compared to yesterday" color="primary" />
+            <StatCard
+              title="Calories Burned"
+              fetchValue={async () => {
+                const today = new Date().toLocaleDateString("en-CA");
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayDate = yesterday.toLocaleDateString("en-CA");
+
+                try {
+                  const [todayResponse, yesterdayResponse] = await Promise.all([
+                    axios.get(`${baseURL}/workouts/${user.email}/${today}`),
+                    axios.get(`${baseURL}/workouts/${user.email}/${yesterdayDate}`),
+                  ]);
+
+                  const todayWorkouts = todayResponse.data.workouts || [];
+                  const yesterdayWorkouts = yesterdayResponse.data.workouts || [];
+
+                  const todayTotalSets = todayWorkouts.reduce((total, workout) => total + (workout.sets || 0), 0);
+                  const yesterdayTotalSets = yesterdayWorkouts.reduce((total, workout) => total + (workout.sets || 0), 0);
+
+                  const todayCalories = todayTotalSets * 37;
+                  const yesterdayCalories = yesterdayTotalSets * 37;
+
+                  const percentChange = yesterdayCalories
+                    ? ((todayCalories - yesterdayCalories) / yesterdayCalories) * 100
+                    : 0;
+
+                  return {
+                    value: `${todayCalories} kcal`,
+                    description: `${percentChange >= 0 ? "+" : ""}${percentChange.toFixed(2)}% ${
+                      percentChange >= 0 ? "increase" : "decrease"
+                    } from yesterday`,
+                  };
+                } catch (error) {
+                  console.error("Error fetching calories data:", error);
+                  return {
+                    value: "0 kcal",
+                    description: "No data available for comparison",
+                  };
+                }
+              }}
+              color="primary"
+            />
           </Grid>
+
+
           <Grid item xs={12} md={4}>
-            <StatCard title="Workouts Completed" value="5 Workouts" description="+15% increase from last week" color="primary" />
+            <WorkoutCountCard
+              title="Workouts Completed"
+              goal={5}
+              userEmail={user.email} // Logged-in user's email
+              baseURL="http://localhost:8088/api" // Backend API base URL
+            />
           </Grid>
+
+
           <Grid item xs={12} md={4}>
-            <ChecklistCard goals={["Complete 10,000 steps", "Hit 3 workout categories", "Burn 500 calories"]} />
+            <ChecklistCard/>
           </Grid>
 
           {/* Charts */}
           <Grid item xs={12} md={6}>
             <Box sx={{ height: "450px" }}>
-              <PieChartCard title="Workout Categories" data={pieData} />
+              <PieChartCard title="Weekly Workout Categories Split" data={pieData} />
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
             <Box sx={{ height: "450px" }}>
-              <BarChartCard title="Weekly Workouts" data={barData} options={barOptions} />
+              <BarChartCard title="Weekly Exercise Count" data={barData} options={barOptions} />
             </Box>
           </Grid>
         </Grid>
