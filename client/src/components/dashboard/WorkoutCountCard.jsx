@@ -9,10 +9,10 @@ const WorkoutCountCard = ({ title, goal, userEmail, baseURL }) => {
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const today = new Date().toISOString().split("T")[0];
+      const today = new Date().toLocaleDateString("en-CA");
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayDate = yesterday.toISOString().split("T")[0];
+      const yesterdayDate = yesterday.toLocaleDateString("en-CA");
 
       try {
         const [todayResponse, yesterdayResponse] = await Promise.all([
@@ -59,7 +59,7 @@ const WorkoutCountCard = ({ title, goal, userEmail, baseURL }) => {
       <Box sx={{ position: "absolute", top: 16, right: 16, color: "primary.main" }}>
         <FitnessCenterIcon fontSize="large" />
       </Box>
-      <CardContent sx={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <CardContent sx={{ padding: "20px", display: "flex", flexDirection: "column", gap: "7px" }}>
         <Box
           sx={{
             display: "flex",
@@ -76,11 +76,11 @@ const WorkoutCountCard = ({ title, goal, userEmail, baseURL }) => {
             sx={{
               fontSize: "15px",
               alignSelf: "flex-end",
-              marginRight: "60px"
+              marginRight: "36px"
             }}
           />
         </Box>
-        <Box sx={{ display: "flex", alignItems: "baseline", gap: "20px" }}> 
+        <Box sx={{ display: "flex", alignItems: "baseline", gap: "10px", flexDirection: "column"}}> 
           <Typography variant="h4" fontWeight="bold" color="textPrimary">
             {workoutsCompleted} / {goal}
           </Typography>
@@ -99,7 +99,7 @@ const WorkoutCountCard = ({ title, goal, userEmail, baseURL }) => {
         <Typography
           variant="body2"
           color="textSecondary"
-          sx={{ marginTop: "8px" }}
+          sx={{ marginTop: "0px" }}
         >
           Total no of workouts today
         </Typography>

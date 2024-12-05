@@ -25,7 +25,7 @@ const WorkoutLog = () => {
     useEffect(() => {
         const fetchWorkouts = async () => {
             try {
-                const dateKey = selectedDate.toISOString().split("T")[0];
+                const dateKey = selectedDate.toLocaleDateString("en-CA");
                 const response = await axios.get(`${baseURL}/workouts/${user.email}/${dateKey}`);
                 setWorkouts(response.data.workouts || []);
             } catch (error) {
