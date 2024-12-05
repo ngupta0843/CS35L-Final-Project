@@ -9,7 +9,9 @@ const userRoutes = require("./routes/userRoutes.js");
 const mlRoutes = require("./routes/mlRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
 const workoutRoutes = require("./routes/workoutRoutes.js");
-const exercisesRoutes = require("./routes/exercisesRoutes.js")
+// const exercisesRoutes = require("./routes/exercisesRoutes.js")
+const goalRoutes = require('./routes/goalRoutes.js');
+
 
 dotenv.config();
 
@@ -26,6 +28,7 @@ app.use("/ml", mlRoutes);
 app.use("/posts", postRoutes);
 // app.use("/api", exercisesRoutes);
 app.use("/api/workouts", workoutRoutes);
+app.use('/api/goals', goalRoutes);
 
 /*
 app.get('/ml', (req, res) => {
