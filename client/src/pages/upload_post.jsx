@@ -19,34 +19,42 @@ import axios from "axios";
 import {useSelector} from "react-redux";
 
 const SocialMediaPostUpload = ({ open, onClose }) => {
-  const [isTextPost, setIsTextPost] = useState(false); // State to track if it's a text or photo post
+  const [isTextPost, setIsTextPost] = useState(false); 
   const [workoutTitle, setWorkoutTitle] = useState('');
-  const [caption, setCaption] = useState(''); // State for the caption
-  const [postContent, setPostContent] = useState(''); // State for the post content
+  const [caption, setCaption] = useState(''); 
+  const [postContent, setPostContent] = useState(''); 
   const [photo, setPhoto] = useState(null);
   const user = useSelector((state) => state.user);
 
   const handleSwitchChange = () => {
     setIsTextPost(!isTextPost);
-    setPostContent(''); // Reset post content when switching between text and image
-    setCaption(''); // Optional: Reset caption too when switching, but can leave this unchanged if desired
+    setPostContent(''); 
+    setCaption(''); 
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setPhoto(URL.createObjectURL(file)); // Temporarily display the selected photo
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async () => {
+    try{
     const responseUserSchema = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
     const userSchema = responseUserSchema.data;
     const postID = user.email + userSchema.profile_photo.length;
     //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
-    const response = await axios.post("http://localhost:8088/posts/createPost?postID=" + postID + "&postText=" + postContent + "&postImage=" + photo + "&postAuthor=" + user.email + "&postCaption=" + caption + "&postisText=" + isTextPost + "&postWorkoutTitle=" + workoutTitle);
-    console.log(response);
-    onClose(); // Close the modal after submitting
+    const response = await axios.post("http://localhost:8088/posts/createPost?postID=" + postID + "&postText=" + postContent + "&postAuthor=" + user.email + "&postCaption=" + caption + "&postisText=" + isTextPost + "&postWorkoutTitle=" + workoutTitle, {image:photo});
+    console.log(response.body);
+    onClose();
+    } catch(error){
+      console.error("Error creating post:", error);
+    }
   };
 
   return (
@@ -77,7 +85,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
                 sx={{
                   color: "#fff", 
                   '&.Mui-checked': {
-                    color: "#008ABB", // Change the switch color when it's checked
+                    color: "#008ABB", 
                   },
                 }}
               />
@@ -90,7 +98,6 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           />
         </Box>
 
-        {/* If it's a photo post, allow the user to upload a photo */}
         {!isTextPost && (
           <Box sx={{ my: 2 }}>
             <Typography variant="h6" sx={{ color: "#fff" }}>Upload a Photo</Typography>
@@ -108,7 +115,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
                 sx={{
                   backgroundColor: "#008ABB", 
                   color: "#fff", 
-                  '&:hover': { backgroundColor: "#006C8A" }, // Button hover effect
+                  '&:hover': { backgroundColor: "#006C8A" }, 
                   borderRadius: "10px",
                 }}
               >
@@ -128,7 +135,6 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           </Box>
         )}
 
-        {/* Text Post Content (Distinct from Caption) */}
         {isTextPost && (
           <Box sx={{ my: 3 }}> {/* Increased spacing to distinguish from other elements */}
             {/* <TextField
@@ -158,7 +164,6 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           </Box>
         )}
 
-        {/* Optional workout title */}
         <Box sx={{ my: 2 }}>
           <TextField
             fullWidth
@@ -167,45 +172,44 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
             value={workoutTitle}
             onChange={(e) => setWorkoutTitle(e.target.value)}
             sx={{
-              backgroundColor: "#333",  // Dark background for text field
+              backgroundColor: "#333", 
               '& .MuiOutlinedInput-root': {
-                backgroundColor: "#333",  // Input background color
+                backgroundColor: "#333",  
                 '&:hover fieldset': {
-                  borderColor: "#008ABB",  // Hover border color
+                  borderColor: "#008ABB", 
                 },
               },
               '& .MuiInputLabel-root': {
-                color: "#fff",  // Label color
+                color: "#fff", 
               },
               '& .MuiInputBase-input': {
-                color: "#fff",  // Input text color
+                color: "#fff", 
               },
             }}
           />
         </Box>
 
-        {/* Caption */}
-        <Box sx={{ my: 3 }}> {/* Added more spacing for distinction */}
+        <Box sx={{ my: 3 }}>
           <TextField
             fullWidth
             multiline
             variant="outlined"
             label="Caption"
-            value={caption} // Binding to caption
+            value={caption} 
             onChange={(e) => setCaption(e.target.value)}
             sx={{
-              backgroundColor: "#333",  // Dark background for text field
+              backgroundColor: "#333",  
               '& .MuiOutlinedInput-root': {
-                backgroundColor: "#333",  // Input background color
+                backgroundColor: "#333",
                 '&:hover fieldset': {
-                  borderColor: "#008ABB",  // Hover border color
+                  borderColor: "#008ABB", 
                 },
               },
               '& .MuiInputLabel-root': {
-                color: "#fff",  // Label color
+                color: "#fff", 
               },
               '& .MuiInputBase-input': {
-                color: "#fff",  // Input text color
+                color: "#fff",
               },
             }}
           />
@@ -235,7 +239,7 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
             backgroundColor: "#008ABB", 
             color: "#fff",
             '&:hover': {
-              backgroundColor: "#006C8A", // Button hover effect
+              backgroundColor: "#006C8A",
             },
           }}
         >

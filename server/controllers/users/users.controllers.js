@@ -103,6 +103,9 @@ const sendFriendRequest = async (req, res) => {
     }
     user.followers.push(req_user);
     await user.save();
+    const reqUser = await Users.findOne({email: req_user});
+    reqUser.following.push(cur_user);
+    await reqUser.save();
     return res.status(201).json({ message: "Friend request sent" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });

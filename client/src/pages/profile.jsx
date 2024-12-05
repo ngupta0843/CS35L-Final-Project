@@ -15,6 +15,9 @@ import {
   Autocomplete,
   CircularProgress,
   Card,
+  List,
+  ListItem,
+  Divider,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import Post from "./forum-page/Post.jsx";
@@ -37,6 +40,8 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  const [followersOpen, setFollowersOpen] = useState(false);
+  const [followingOpen, setFollowingOpen] = useState(false);
   const [profile, setProfile] = useState({
     firstname: currentUser.firstname || "",
     lastname: currentUser.lastname || "",
@@ -133,15 +138,21 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               </Typography>
               <Typography variant="body2">Posts</Typography>
             </Box>
-            <Box className="stat">
+            <Box className="stat" sx={{cursor: 'pointer'}} onClick={() => setFollowingOpen(true)}>
               <Typography variant="h6" className="count">
-                1.2k
+                {currentUser.followers?.length}
               </Typography>
               <Typography variant="body2">Followers</Typography>
             </Box>
-            <Box className="stat">
+            <Box
+              className="stat"
+              sx={{ cursor: "pointer" }}
+              onClick={() => setFollowersOpen(true)}
+            >
               <Typography variant="h6" className="count">
-                500
+                {currentUser.following.length
+                  ? currentUser.following.length
+                  : 0}
               </Typography>
               <Typography variant="body2">Following</Typography>
             </Box>
@@ -192,6 +203,135 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               >
                 Search for users
               </Button>
+
+              <Dialog
+                open={followersOpen}
+                onClose={() => setFollowersOpen(false)}
+                maxWidth="sm"
+                sx={{
+
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                    backgroundColor: 'rgb(30, 30, 30)',
+                    color: 'white',
+                  },
+                }}
+                fullWidth
+              >
+                <DialogTitle>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                    Following List
+                  </Typography>
+                  <IconButton
+                    edge="end"
+                    color="inherit"
+                    onClick={() => setFollowersOpen(false)}
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      color: "gray",
+                    }}
+                  >
+                    <Box sx={{ padding: 1 }}>
+                      <CloseFullscreenIcon />
+                    </Box>
+                  </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                  <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+                    <List sx={{ padding: 0 }}>
+                      {currentUser.following.length > 0 ? (
+                        currentUser.following.map((follower, index) => (
+                          <div key={index}>
+                            <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                              <Typography variant="body1">
+                                {follower || "Unknown User"}
+                              </Typography>
+                            </ListItem>
+                            {index < currentUser.following.length - 1 && (
+                              <Divider />
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          sx={{ textAlign: "center", padding: 2 }}
+                        >
+                          No followers found.
+                        </Typography>
+                      )}
+                    </List>
+                  </Box>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog
+                open={followingOpen}
+                onClose={() => setFollowingOpen(false)}
+                maxWidth="sm"
+                sx={{
+
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                    backgroundColor: 'rgb(30, 30, 30)',
+                    color: 'white',
+                  },
+                }}
+                fullWidth
+              >
+                <DialogTitle>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                    Followers List
+                  </Typography>
+                  <IconButton
+                    edge="end"
+                    color="inherit"
+                    onClick={() => setFollowingOpen(false)}
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      color: "gray",
+                    }}
+                  >
+                    <Box sx={{ padding: 1 }}>
+                      <CloseFullscreenIcon />
+                    </Box>
+                  </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                  <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+                    <List sx={{ padding: 0 }}>
+                      {currentUser.followers.length > 0 ? (
+                        currentUser.followers.map((follower, index) => (
+                          <div key={index}>
+                            <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                              <Typography variant="body1">
+                                {follower || "Unknown User"}
+                              </Typography>
+                            </ListItem>
+                            {index < currentUser.followers.length - 1 && (
+                              <Divider />
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          sx={{ textAlign: "center", padding: 2 }}
+                        >
+                          No followers found.
+                        </Typography>
+                      )}
+                    </List>
+                  </Box>
+                </DialogContent>
+              </Dialog>
+              
 
               <Dialog
                 open={editOpen}
@@ -466,10 +606,7 @@ const UserProfilePosts = ({ username }) => {
   }
 
   return (
-    <Box className="user-profile-posts" sx={{ width: "100%", padding: 2 }}>
-      <Typography variant="h5" className="title" sx={{ marginBottom: 2 }}>
-        Posts
-      </Typography>
+    <Box className="user-profile-posts" sx={{ width: "100%", paddingLeft: 2, paddingRight:2 }}>
       <Card
         sx={{
           backgroundColor: "black",
@@ -483,8 +620,8 @@ const UserProfilePosts = ({ username }) => {
               key={post._id}
               item
               xs={12}
-              sm={6}
-              md={4}
+              sm={12}
+              md={6}
               lg={4}
               sx={{ padding: 1 }}
             >
@@ -500,6 +637,9 @@ const UserProfilePosts = ({ username }) => {
 const UserProfile = () => {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
+  console.log(currentUser);
+  console.log(currentUser.following);
+  console.log(currentUser.followers);
 
   //check id of link here
   //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont
@@ -526,7 +666,6 @@ const UserProfile = () => {
   const handleCloseModal = () => {
     setOpenPostModal(false);
   };
-
   return (
     <div>
       <UserProfileHeader
@@ -535,6 +674,7 @@ const UserProfile = () => {
         button={buttons}
       />{" "}
       {/* Pass modal trigger to header */}
+      {/* <img src={`data:image/jpeg;base64,${base64String}`} alt="Base64 Image" /> */}
       <UserProfilePosts username={id} />
       {/* The modal for creating a new post */}
       <SocialMediaPostUpload open={openPostModal} onClose={handleCloseModal} />

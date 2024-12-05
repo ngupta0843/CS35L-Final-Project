@@ -1,4 +1,6 @@
-# CS35L-Final-Project
+# CS35L Final Project: Fitness is my Passion
+
+![Fitness_is_my_passion_home](https://github.com/user-attachments/assets/ca5d8fd3-63b5-4633-8675-8530a4f835d9)
 
 ---
 
