@@ -1,4 +1,6 @@
 import React from "react";
+import PostActions from "./PostActions";
+import "./Post.css";
 import {
   Box,
   Card,
@@ -8,45 +10,101 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const getPostSize = (size) => {
-  switch (size) {
-    case "small":
-      return "50%";
-    case "medium":
-      return "80%";
-    case "large":
-      return "100%";
-    default:
-      return "80%";
-  }
+  let width = "70%"; 
+  let height = "auto"; 
+  // switch (size) {
+  //   case "small":
+  //     width = "50%";
+  //     height = "auto";
+  //     break;
+  //   case "medium":
+  //     width = "80%";
+  //     height = "auto";
+  //     break;
+  //   case "large":
+  //     width = "100%";
+  //     height = "auto";
+  //     break;
+  //   default:
+  //     width = "70%";
+  //     height = "auto";
+  //     break;
+  // }
+  return { width, height };
 };
 
-const Post = ({ username, workout, caption, photo, likecount, user, size }) => {
+function Post({ post, size = "medium" }) {
+  const user = useSelector((state) => state.user)
+  const { username, workout, caption, photo, likecount, isTextPost } = post;
+  console.log(post);
+  const default_profile_photo =
+    "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg";
+  var profilePhoto = user || default_profile_photo;
+  if (profilePhoto === "null") {
+    profilePhoto = default_profile_photo;
+  }
+
+  const { width, height } = getPostSize(size);
+
   return (
-    <Box sx={{ margin: "0 auto" }}>
-      <Card>
+    <Box sx={{ width: '80%', margin: "0 auto" }}>
+      <Card
+        sx={{
+          width: "400px",
+          backgroundColor: "black",
+          color: "white",
+          border: "2px solid white",
+          borderRadius: "10px",
+        }}
+      >
         <CardHeader
-          avatar={<Avatar src={user.profile_photo} alt={user.name} />}
-          title={username}
+          avatar={<Avatar src={profilePhoto} alt={username} />}
+          title={<strong>{username}</strong>}
           subheader={workout}
+          titleTypographyProps={{ sx: { fontweight: "bold", color: "white" } }}
+          subheaderTypographyProps={{ sx: { color: "white" } }}
         />
-        <CardMedia
-          component="img"
-          height={getPostSize(size)}
-          aspectRatio="1"
-          image={photo}
-          alt="Post"
-          sx={{ objectFit: "square" }} // Makes sure the image scales well within the card
-        />
+        {!isTextPost && (
+          <CardMedia
+            component="img"
+            height={height}
+            //aspectRatio="1"
+            image={photo}
+            alt="Post"
+            sx={{ objectFit: "cover" }}
+          />
+        )}
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {caption}
+          {!isTextPost && <PostActions post={post} />}
+          <Typography
+            variant="body1"
+            color="white"
+            sx={{
+              wordWrap: "break-word",
+              overflowWrap: "break-word",
+              whiteSpace: "normal",
+            }}
+          >
+            {(!isTextPost && (
+              <>
+                <strong>{username}</strong>
+                <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
+              </>
+            )) ||
+              caption}
           </Typography>
+          {isTextPost && (
+            <>
+              <PostActions post={post} />
+            </>
+          )}
         </CardContent>
       </Card>
     </Box>
   );
-};
+}
 
-export { Post };
+export default Post;
