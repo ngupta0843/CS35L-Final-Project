@@ -98,7 +98,7 @@ const ChecklistCard = () => {
         borderRadius: 4,
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
         padding: "20px",
-        height: "200px",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
