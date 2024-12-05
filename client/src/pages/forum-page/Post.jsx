@@ -10,6 +10,7 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const getPostSize = (size) => {
   switch (size) {
@@ -25,11 +26,12 @@ const getPostSize = (size) => {
 };
 
 function Post({ post, size = "medium" }) {
+  const user = useSelector((state) => state.user)
   const { username, workout, caption, photo, likecount, isTextPost } = post;
   console.log(post);
   const default_profile_photo =
     "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg";
-  var profilePhoto = post.photo || default_profile_photo;
+  var profilePhoto = user.profile_photo || default_profile_photo;
   if (profilePhoto === "null") {
     profilePhoto = default_profile_photo;
   }
