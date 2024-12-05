@@ -50,7 +50,7 @@ const Dashboard = () => {
           const date = new Date(today);
           date.setDate(today.getDate() - i);
           return {
-            dateString: date.toISOString().split("T")[0],
+            dateString: date.toLocaleDateString("en-CA"),
             formattedDate: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
           };
         });
@@ -135,10 +135,10 @@ const Dashboard = () => {
             <StatCard
               title="Calories Burned"
               fetchValue={async () => {
-                const today = new Date().toISOString().split("T")[0];
+                const today = new Date().toLocaleDateString("en-CA");
                 const yesterday = new Date();
                 yesterday.setDate(yesterday.getDate() - 1);
-                const yesterdayDate = yesterday.toISOString().split("T")[0];
+                const yesterdayDate = yesterday.toLocaleDateString("en-CA");
 
                 try {
                   const [todayResponse, yesterdayResponse] = await Promise.all([

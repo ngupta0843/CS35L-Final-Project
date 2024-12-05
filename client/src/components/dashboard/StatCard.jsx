@@ -34,7 +34,7 @@ const StatCard = ({ title, fetchValue, color }) => {
       <Box sx={{ position: "absolute", top: 16, right: 16, color: color }}>
         <LocalFireDepartmentIcon fontSize="large" />
       </Box>
-      <CardContent sx={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <CardContent sx={{ padding: "20px", display: "flex", flexDirection: "column", gap: "7px" }}>
         <Typography
           variant="subtitle1"
           fontWeight="bold"
@@ -42,7 +42,7 @@ const StatCard = ({ title, fetchValue, color }) => {
         >
           {title}
         </Typography>
-        <Box sx={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "baseline", gap: "10px" }}>
           <Typography variant="h4" fontWeight="bold" color="textPrimary">
             {value}
           </Typography>
@@ -50,7 +50,7 @@ const StatCard = ({ title, fetchValue, color }) => {
             variant="subtitle1"
             fontWeight="bold"
             sx={{
-              color: "#90ee90", // Light green shade
+                color: description.toLowerCase().includes("decrease") ? "red" : "#90ee90", // Light green shade
             }}
           >
             {description}
@@ -59,7 +59,7 @@ const StatCard = ({ title, fetchValue, color }) => {
         <Typography
           variant="body2"
           color="textSecondary"
-          sx={{ marginTop: "8px" }}
+          sx={{ marginTop: "2px" }}
         >
           Total calories burned today
         </Typography>
