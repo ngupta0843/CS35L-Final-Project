@@ -9,6 +9,8 @@ const userRoutes = require("./routes/userRoutes.js");
 const mlRoutes = require("./routes/mlRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
 const workoutRoutes = require("./routes/workoutRoutes.js");
+const exercisesRoutes = require("./routes/exercisesRoutes.js")
+const commentRoutes = require("./routes/commentRoutes.js");
 // const exercisesRoutes = require("./routes/exercisesRoutes.js")
 const goalRoutes = require('./routes/goalRoutes.js');
 
@@ -28,6 +30,7 @@ app.use("/ml", mlRoutes);
 app.use("/posts", postRoutes);
 // app.use("/api", exercisesRoutes);
 app.use("/api/workouts", workoutRoutes);
+app.use("/comment", commentRoutes);
 app.use('/api/goals', goalRoutes);
 
 /*
