@@ -16,7 +16,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import { Post } from "../components/posts/post";
+import { Post } from "../../components/posts/post";
 import { CameraAlt, Edit } from "@mui/icons-material";
 import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
