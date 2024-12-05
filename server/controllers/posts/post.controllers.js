@@ -66,7 +66,8 @@ const createPost = async (req, res) => {
       postisText,
       postWorkoutTitle,
     } = req.query;
-    const {image} = req.body;
+    //const {image} = req.body;
+    let image = req.postisText ? req.body : null
     let postImage = image;
   
     // console.log('++++++++++++++++++++++++++++++++++', postImage)
