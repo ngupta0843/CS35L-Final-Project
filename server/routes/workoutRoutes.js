@@ -1,5 +1,5 @@
 const express = require("express");
-const { addWorkout, getWorkoutsByDate, deleteWorkout } = require("../controllers/users/workoutController");
+const { addWorkout, getWorkoutsByDate, deleteWorkout } = require("../controllers/users/workout.controllers.js");
 const router = express.Router();
 
 router.post("/add", addWorkout);
