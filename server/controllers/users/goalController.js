@@ -3,7 +3,7 @@ const Goal = require("../../models/goals.js");
 //create a goal
 const addGoal = async (req, res) => {
     try{
-        const {userId, goal} = req.body;
+        const {userId, goal} = req.body.data;
         if (!userId || !goal) {
             return res.status(400).json({ message: "User email and goal are required." });
         }
@@ -12,11 +12,11 @@ const addGoal = async (req, res) => {
             return res.status(400).json({ message: "You can only have up to 3 goals"});
         }
 
-        const newGaol = new Goal({
+        const newGoal = new Goal({
             userId: userId, 
             goal: goal,
         });
-        await newGaol.save()
+        await newGoal.save()
 
         res.status(201).json(newGoal);
     } catch (error) {
@@ -32,7 +32,7 @@ const getGoals = async (req, res) => {
       } catch (error) {
         res.status(500).json({ message: 'Error fetching goals', error });
       }
-}
+};
 const deleteGoal = async (req, res) => {
     try {
         const { id } = req.params;
@@ -46,10 +46,10 @@ const deleteGoal = async (req, res) => {
       } catch (error) {
         res.status(500).json({ message: 'Error deleting goal', error });
       }
-}
+};
 const editGoal = async (req, res) => {
     const {goal} = req.body.data; //remove .data if does not work?
-    const {id} = reeq.params;
+    const {id} = req.params;
     try {
         const updatedGoal = await Goal.findByIdAndUpdate(
           id,
@@ -63,7 +63,7 @@ const editGoal = async (req, res) => {
       } catch (error) {
         res.status(500).json({ message: 'Error updating goal', error });
       }
-}
+};
 
 module.exports = {
     addGoal,
