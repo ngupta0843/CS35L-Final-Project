@@ -7,15 +7,15 @@ const WorkoutCont = ({ workout, onDelete }) => {
         <Card
             variant="outlined"
             sx={{
-                borderRadius: "12px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                borderRadius: 8,
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
                 padding: "16px",
-                backgroundColor: "#ffffff",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
                 height: "180px", // Make the card slightly shorter
                 width: "100%", // Increase the card's length
+                backgroundColor: "#1E1E1E",
             }}
         >
             {/* Top Row: Trash Icon and Category Tag */}
@@ -60,23 +60,24 @@ const WorkoutCont = ({ workout, onDelete }) => {
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
+                        color: "#FFFFFF",
                     }}
                 >
                     {workout.name}
                 </Typography>
                 <Divider sx={{ marginBottom: "8px" }} />
                 {workout.category === "Cardio" ? (
-                    <Typography variant="body2" display="flex" alignItems="center" mt={1}>
+                    <Typography variant="body2" display="flex" alignItems="center" mt={1} color="#FFFFFF">
                         <TimelapseRounded fontSize="small" sx={{ marginRight: "6px" }} />
                         {workout.duration} minutes
                     </Typography>
                 ) : (
                     <>
-                        <Typography variant="body2" mt={1}>
+                        <Typography variant="body2" mt={1} color="#FFFFFF">
                             <strong>Count:</strong> {workout.sets} sets x {workout.reps} reps
                         </Typography>
                         {workout.weight && (
-                            <Typography variant="body2" display="flex" alignItems="center" mt={1}>
+                            <Typography variant="body2" display="flex" alignItems="center" mt={1} color="#FFFFFF">
                                 <FitnessCenterRounded fontSize="small" sx={{ marginRight: "6px" }} />
                                 {workout.weight} kg
                             </Typography>
