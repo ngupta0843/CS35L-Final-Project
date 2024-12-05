@@ -68,6 +68,7 @@ const createPost = async (req, res) => {
     } = req.query;
     const {image} = req.body;
     let postImage = image;
+  
     // console.log('++++++++++++++++++++++++++++++++++', postImage)
     if (
       !postID ||
@@ -81,23 +82,12 @@ const createPost = async (req, res) => {
         .json({ error: "Missing required query parameters." });
     }
 
-    // let imagePath = null;
-    // if (postImage) {
-    //   const base64Data = postImage.replace(/^data:image\/\w+;base64,/, ""); 
-    //   const buffer = Buffer.from(base64Data, "base64");
-    //   console.log('buffer', buffer);
-    //   imagePath = path.join(__dirname, "uploads", `${postID}.jpg`);
-
-    //   fs.writeFileSync(imagePath, buffer);
-    //   console.log("Image saved to:", imagePath);
-    // }
-
     const newPost = new Posts({
       postID: postID,
       username: postAuthor,
       workout: postWorkoutTitle,
       caption: postCaption,
-      photo: postImage,
+      photo: imagePath,
       text: postText,
       isTextPost: postisText,
       likecount: 0,

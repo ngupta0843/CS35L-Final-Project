@@ -13,16 +13,27 @@ import {
 import { useSelector } from "react-redux";
 
 const getPostSize = (size) => {
-  switch (size) {
-    case "small":
-      return "50%";
-    case "medium":
-      return "80%";
-    case "large":
-      return "100%";
-    default:
-      return "70%";
-  }
+  let width = "70%"; 
+  let height = "auto"; 
+  // switch (size) {
+  //   case "small":
+  //     width = "50%";
+  //     height = "auto";
+  //     break;
+  //   case "medium":
+  //     width = "80%";
+  //     height = "auto";
+  //     break;
+  //   case "large":
+  //     width = "100%";
+  //     height = "auto";
+  //     break;
+  //   default:
+  //     width = "70%";
+  //     height = "auto";
+  //     break;
+  // }
+  return { width, height };
 };
 
 function Post({ post, size = "medium" }) {
@@ -31,15 +42,18 @@ function Post({ post, size = "medium" }) {
   console.log(post);
   const default_profile_photo =
     "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg";
-  var profilePhoto = user.profile_photo || default_profile_photo;
+  var profilePhoto = user || default_profile_photo;
   if (profilePhoto === "null") {
     profilePhoto = default_profile_photo;
   }
+
+  const { width, height } = getPostSize(size);
+
   return (
     <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
       <Card
         sx={{
-          width: "1000px",
+          width: "400px",
           backgroundColor: "black",
           color: "white",
           border: "2px solid white",
@@ -56,11 +70,11 @@ function Post({ post, size = "medium" }) {
         {!isTextPost && (
           <CardMedia
             component="img"
-            height={getPostSize(size)}
-            aspectRatio="1"
+            height={height}
+            //aspectRatio="1"
             image={photo}
             alt="Post"
-            sx={{ objectFit: "square" }}
+            sx={{ objectFit: "cover" }}
           />
         )}
         <CardContent>

@@ -606,10 +606,7 @@ const UserProfilePosts = ({ username }) => {
   }
 
   return (
-    <Box className="user-profile-posts" sx={{ width: "100%", padding: 2 }}>
-      <Typography variant="h5" className="title" sx={{ marginBottom: 2 }}>
-        Posts
-      </Typography>
+    <Box className="user-profile-posts" sx={{ width: "100%", paddingLeft: 2, paddingRight:2 }}>
       <Card
         sx={{
           backgroundColor: "black",
@@ -623,8 +620,8 @@ const UserProfilePosts = ({ username }) => {
               key={post._id}
               item
               xs={12}
-              sm={6}
-              md={4}
+              sm={12}
+              md={6}
               lg={4}
               sx={{ padding: 1 }}
             >
