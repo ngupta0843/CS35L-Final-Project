@@ -1,4 +1,6 @@
 const Posts = require("../../models/postModel.js");
+const fs = require('fs');
+const path = require('path');
 
 const getPost = async (req, res) => {
   try {
@@ -59,12 +61,15 @@ const createPost = async (req, res) => {
     const {
       postID,
       postText,
-      postImage,
       postAuthor,
       postCaption,
       postisText,
       postWorkoutTitle,
     } = req.query;
+    const {image} = req.body;
+    let postImage = image;
+  
+    // console.log('++++++++++++++++++++++++++++++++++', postImage)
     if (
       !postID ||
       !(postText || postImage) ||
@@ -76,12 +81,13 @@ const createPost = async (req, res) => {
         .status(400)
         .json({ error: "Missing required query parameters." });
     }
+
     const newPost = new Posts({
       postID: postID,
       username: postAuthor,
       workout: postWorkoutTitle,
       caption: postCaption,
-      photo: postImage,
+      photo: imagePath,
       text: postText,
       isTextPost: postisText,
       likecount: 0,

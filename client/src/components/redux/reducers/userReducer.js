@@ -8,6 +8,9 @@ const initialState = {
     lastname: null,
     email: null,
     bio: null,
+    profile_photo: null,
+    following: null,
+    followers: null,
   },
   // token: null,
 };
@@ -23,11 +26,19 @@ const userSlice = createSlice({
         firstname: null,
         lastname: null,
         email: null,
+        bio: null,
+        profile_photo: null,
+        following: null,
+        followers: null,
       };
 
       state.user.firstname = action.payload.firstname || null;
       state.user.lastname = action.payload.lastname || null;
       state.user.email = action.payload.email || null;
+      state.user.bio = action.payload.bio || null;
+      state.user.profile_photo = action.payload.profile_photo || null;
+      state.user.following = action.payload.following || null;
+      state.user.followers = action.payload.followers || null;
     },
     logout(state) {
       state.isLoggedIn = false;
