@@ -128,7 +128,7 @@ const Dashboard = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Box sx={{ padding: "5vh 2vw", minHeight: "100vh" }}>
+      <Box sx={{ mt: 10, minHeight: "100vh" }}>
         <Grid container spacing={3}>
           {/* Statistic Cards */}
           <Grid item xs={12} md={4}>
@@ -189,7 +189,7 @@ const Dashboard = () => {
 
 
           <Grid item xs={12} md={4}>
-            <ChecklistCard goals={["Complete 10,000 steps", "Hit 3 workout categories", "Burn 500 calories"]} />
+            <ChecklistCard/>
           </Grid>
 
           {/* Charts */}

@@ -49,10 +49,10 @@ const WorkoutCountCard = ({ title, goal, userEmail, baseURL }) => {
         borderRadius: 4,
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
         padding: "20px",
-        height: "200px",
+        height: "280px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "center",
         position: "relative",
       }}
     >
