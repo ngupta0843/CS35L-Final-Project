@@ -34,6 +34,13 @@ const userSchema = mongoose.Schema({
   saved_workouts: {
     type: JSON,
   },
+  comments: [
+    {
+      type: String,
+      default: [],
+      sparse: true,
+    },
+  ]
 });
 
 const Users = mongoose.model("Users", userSchema);

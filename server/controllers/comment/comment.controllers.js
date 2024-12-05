@@ -75,30 +75,25 @@ const deleteComment = async (req, res) => {
   try {
     const { commentID, commentUserEmail } = req.body;
 
-    // Check if required fields are provided
     if (!commentID || !commentUserEmail) {
       return res.status(400).json({ message: "Invalid request data." });
     }
 
-    // Find the comment
     const comment = await Comment.findOne({ commentID });
     if (!comment) {
       return res.status(404).json({ message: "Comment could not be found." });
     }
 
-    // Find the user who made the comment
     const user = await Users.findOne({ email: commentUserEmail });
     if (!user) {
       return res.status(404).json({ message: "User could not be found." });
     }
 
-    // Remove the comment from the user's comments array
     if (user.comments.includes(commentID)) {
       user.comments = user.comments.filter((id) => id !== commentID);
       await user.save(); // Save the updated user
     }
 
-    // Delete the comment from the database
     const deletionResult = await Comment.findOneAndDelete({ commentID });
     if (!deletionResult) {
       return res.status(404).json({ message: "Comment could not be found for deletion." });
@@ -106,7 +101,6 @@ const deleteComment = async (req, res) => {
 
     console.log("Comment deleted successfully:", deletionResult);
 
-    // Send success response
     res.status(200).json({ message: "Comment deleted successfully." });
   } catch (error) {
     console.error("Error deleting comment:", error);
