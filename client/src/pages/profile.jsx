@@ -120,7 +120,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   return (
     <Box className="user-profile-header">
       <Stack direction="row" spacing={4} alignItems="center">
-        <Avatar alt="Nikhil" src={profilePic} className="avatar" />
+        <Avatar className="avatar" sx={{ fontSize: 30 }}>
+          {currentUser?.email ? currentUser.email[0].toLowerCase() : ""}
+        </Avatar>
         <Box>
           <Typography className="name">
             {currentUser.firstname} {currentUser.lastname}
