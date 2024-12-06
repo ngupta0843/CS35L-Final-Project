@@ -1,52 +1,76 @@
 import React, { useState } from "react";
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
-  Button, 
-  Box, 
-  TextField, 
-  Typography, 
-  FormControlLabel, 
-  Switch, 
-  Card, 
-  CardMedia, 
-  useMediaQuery
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Box,
+  TextField,
+  Typography,
+  FormControlLabel,
+  Switch,
+  Card,
+  CardMedia,
+  useMediaQuery,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import axios from "axios";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const SocialMediaPostUpload = ({ open, onClose }) => {
-  const [isTextPost, setIsTextPost] = useState(false); // State to track if it's a text or photo post
-  const [workoutTitle, setWorkoutTitle] = useState('');
-  const [caption, setCaption] = useState(''); // State for the caption
-  const [postContent, setPostContent] = useState(''); // State for the post content
+  const [isTextPost, setIsTextPost] = useState(false);
+  const [workoutTitle, setWorkoutTitle] = useState("");
+  const [caption, setCaption] = useState("");
+  const [postContent, setPostContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const user = useSelector((state) => state.user);
 
   const handleSwitchChange = () => {
     setIsTextPost(!isTextPost);
-    setPostContent(''); // Reset post content when switching between text and image
-    setCaption(''); // Optional: Reset caption too when switching, but can leave this unchanged if desired
+    setPostContent("");
+    setCaption("");
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setPhoto(URL.createObjectURL(file)); // Temporarily display the selected photo
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async () => {
-    const responseUserSchema = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
-    const userSchema = responseUserSchema.data;
-    const postID = user.email + userSchema.profile_photo.length;
-    //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
-    const response = await axios.post("http://localhost:8088/posts/createPost?postID=" + postID + "&postText=" + postContent + "&postImage=" + photo + "&postAuthor=" + user.email + "&postCaption=" + caption + "&postisText=" + isTextPost + "&postWorkoutTitle=" + workoutTitle);
-    console.log(response);
-    onClose(); // Close the modal after submitting
+    try {
+      const responseUserSchema = await axios.get(
+        "http://localhost:8088/users/currentUser?id=" + user.email
+      );
+      const userSchema = responseUserSchema.data;
+      const postID = user.email + userSchema.profile_photo.length;
+      //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
+      const response = await axios.post(
+        "http://localhost:8088/posts/createPost?postID=" +
+          postID +
+          "&postText=" +
+          postContent +
+          "&postAuthor=" +
+          user.email +
+          "&postCaption=" +
+          caption +
+          "&postisText=" +
+          isTextPost +
+          "&postWorkoutTitle=" +
+          workoutTitle,
+        { image: photo }
+      );
+      console.log(response.body);
+      onClose();
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
   return (
@@ -65,7 +89,9 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
         },
       }}
     >
-      <DialogTitle sx={{ color: "#fff" }}>Create a Social Media Post</DialogTitle>
+      <DialogTitle sx={{ color: "#fff" }}>
+        Create a Social Media Post
+      </DialogTitle>
       <DialogContent sx={{ backgroundColor: "#1e1e1e", color: "#fff" }}>
         <Box sx={{ my: 2 }}>
           <FormControlLabel
@@ -75,9 +101,9 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
                 onChange={handleSwitchChange}
                 name="isTextPost"
                 sx={{
-                  color: "#fff", 
-                  '&.Mui-checked': {
-                    color: "#008ABB", // Change the switch color when it's checked
+                  color: "#fff",
+                  "&.Mui-checked": {
+                    color: "#008ABB",
                   },
                 }}
               />
@@ -90,10 +116,11 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           />
         </Box>
 
-        {/* If it's a photo post, allow the user to upload a photo */}
         {!isTextPost && (
           <Box sx={{ my: 2 }}>
-            <Typography variant="h6" sx={{ color: "#fff" }}>Upload a Photo</Typography>
+            <Typography variant="h6" sx={{ color: "#fff" }}>
+              Upload a Photo
+            </Typography>
             <input
               accept="image/*"
               type="file"
@@ -102,14 +129,21 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
               id="upload-photo"
             />
             <label htmlFor="upload-photo">
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 component="span"
                 sx={{
-                  backgroundColor: "#008ABB", 
-                  color: "#fff", 
-                  '&:hover': { backgroundColor: "#006C8A" }, // Button hover effect
-                  borderRadius: "10px",
+                  mt: 1,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
+
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                    opacity: 0.9,
+                  },
                 }}
               >
                 Choose Photo
@@ -128,10 +162,11 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           </Box>
         )}
 
-        {/* Text Post Content (Distinct from Caption) */}
         {isTextPost && (
-          <Box sx={{ my: 3 }}> {/* Increased spacing to distinguish from other elements */}
-            <TextField
+          <Box sx={{ my: 3 }}>
+            {" "}
+            {/* Increased spacing to distinguish from other elements */}
+            {/* <TextField
               fullWidth
               multiline
               rows={4}
@@ -154,11 +189,10 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
                   color: "#fff",  // Input text color
                 },
               }}
-            />
+            /> */}
           </Box>
         )}
 
-        {/* Optional workout title */}
         <Box sx={{ my: 2 }}>
           <TextField
             fullWidth
@@ -166,45 +200,118 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
             label="Workout Title (Optional)"
             value={workoutTitle}
             onChange={(e) => setWorkoutTitle(e.target.value)}
+            // sx={{
+            //   backgroundColor: "#333",
+            //   '& .MuiOutlinedInput-root': {
+            //     backgroundColor: "#333",
+            //     '&:hover fieldset': {
+            //       borderColor: "#008ABB",
+            //     },
+            //   },
+            //   '& .MuiInputLabel-root': {
+            //     color: "#fff",
+            //   },
+            //   '& .MuiInputBase-input': {
+            //     color: "#fff",
+            //   },
+            // }}
+            inputProps={{ style: { color: "white" } }}
             sx={{
-              backgroundColor: "#333",  // Dark background for text field
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: "#333",  // Input background color
-                '&:hover fieldset': {
-                  borderColor: "#008ABB",  // Hover border color
+              mt: 2,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: "8px",
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+
+                "& .MuiOutlinedInput-inputMultiline": {
+                  color: "white",
                 },
               },
-              '& .MuiInputLabel-root': {
-                color: "#fff",  // Label color
+              "& .MuiInputLabel-root": {
+                color: "white",
               },
-              '& .MuiInputBase-input': {
-                color: "#fff",  // Input text color
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white",
               },
             }}
           />
         </Box>
 
-        {/* Caption */}
-        <Box sx={{ my: 3 }}> {/* Added more spacing for distinction */}
+        <Box sx={{ my: 3 }}>
           <TextField
             fullWidth
+            multiline
             variant="outlined"
             label="Caption"
-            value={caption} // Binding to caption
+            value={caption}
             onChange={(e) => setCaption(e.target.value)}
+            // sx={{
+            //   backgroundColor: "#333",
+            //   "& .MuiOutlinedInput-root": {
+            //     backgroundColor: "#333",
+            //     "&:hover fieldset": {
+            //       borderColor: "#008ABB",
+            //     },
+            //   },
+            //   "& .MuiInputLabel-root": {
+            //     color: "#fff",
+            //   },
+            //   "& .MuiInputBase-input": {
+            //     color: "#fff",
+            //   },
+            // }}
+            inputProps={{ style: { color: "white" } }}
             sx={{
-              backgroundColor: "#333",  // Dark background for text field
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: "#333",  // Input background color
-                '&:hover fieldset': {
-                  borderColor: "#008ABB",  // Hover border color
+              color: "white",
+              mt: 2,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: "8px",
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+
+                "& .MuiOutlinedInput-inputMultiline": {
+                  color: "white",
                 },
               },
-              '& .MuiInputLabel-root': {
-                color: "#fff",  // Label color
+              "& .MuiInputLabel-root": {
+                color: "white",
               },
-              '& .MuiInputBase-input': {
-                color: "#fff",  // Input text color
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white",
               },
             }}
           />
@@ -218,23 +325,28 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           sx={{
             borderRadius: "20px",
             color: "#bb0000",
-            '&:hover': {
+            "&:hover": {
               backgroundColor: alpha("#bb0000", 0.1),
             },
           }}
         >
           Cancel
         </Button>
-        <Button 
-          variant="contained" 
-          onClick={handleSubmit} 
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
           disabled={!caption || (!isTextPost && !photo)}
           sx={{
+            cursor: "pointer",
             borderRadius: "20px",
-            backgroundColor: "#008ABB", 
-            color: "#fff",
-            '&:hover': {
-              backgroundColor: "#006C8A", // Button hover effect
+            backgroundColor: "#008ABB",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#006C8A",
+              color: "white",
+            },
+            "&.Mui-disabled": {
+              color: "white",
             },
           }}
         >

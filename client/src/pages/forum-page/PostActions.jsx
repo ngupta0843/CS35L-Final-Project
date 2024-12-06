@@ -1,35 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Icon, IconButton, Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import CommentsSection from "./CommentsSection";
 
-function PostActions({ username, caption, initialLikeCount }) {
+function PostActions({ post }) {
   const user = useSelector((state) => state.user);
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(initialLikeCount);
-  const [postID, setPostID] = useState(null);
-
-  useEffect(() => {
-    fetchPostID();
-  });
-
-  const fetchPostID = async () => {
-    try {
-      console.log("fetching data request");
-      const response = await axios.get(
-        `http://localhost:8088/posts/getPost?username=${username}&caption=${caption}`
-      );
-      console.log("response: ", response.data);
-      if (response.data.likedUsers.includes(user.email)) {
-        setLiked(true);
-      }
-      setPostID(response.data._id);
-    } catch (error) {
-      console.error("Error fetching postID:", error);
-    }
-  };
+  const [liked, setLiked] = useState(post.likedUsers.includes(user.email));
+  const [likeCount, setLikeCount] = useState(post.likecount);
+  const [showComments, setShowComments] = useState(false); // Toggle state for comments
+  const postID = post._id;
 
   const handleLike = async () => {
     if (!postID) {
@@ -39,35 +21,58 @@ function PostActions({ username, caption, initialLikeCount }) {
 
     try {
       console.log("liking posts request");
-      await axios.post(`http://localhost:8088/posts/likePost`, {
+      const response = await axios.post("http://localhost:8088/posts/likePost", {
         postId: postID,
         user: user.email,
       });
-      setLikeCount((prev) => prev + 1);
-      setLiked(!liked);
+
+      setLiked(response.data.likedUsers.includes(user.email));
+      setLikeCount(response.data.likecount);
+
+      console.log(response);
     } catch (error) {
       console.error("Error liking post:", error);
     }
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+      {/* Like Button */}
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <Tooltip title="Like">
           <IconButton
             onClick={handleLike}
-            sx={{ color: liked ? "red" : "white" }}
+            sx={{ color: liked ? "red" : "white", transition: "color 0.3s ease" }}
           >
             <FavoriteIcon />
           </IconButton>
         </Tooltip>
+
+        {/* Like Count */}
+        <Typography variant="body2" color="white" sx={{ marginTop: 0 }}>
+          {likeCount}
+        </Typography>
+
+        {/* Comment Button */}
         <Tooltip title="Comment">
-          <IconButton color="default" sx={{ color: "white" }}>
+          <IconButton
+            color="default"
+            sx={{ color: "white" }}
+            onClick={() => setShowComments(!showComments)}
+          >
             <CommentIcon />
           </IconButton>
         </Tooltip>
       </div>
+
+      {/* Comments Section */}
+      {showComments && (
+        <div style={{ marginTop: "10px", width: "100%" }}>
+          <CommentsSection postID={post.postID} commentorEmail={user.email}/>
+        </div>
+      )}
     </div>
   );
 }
+
 export default PostActions;

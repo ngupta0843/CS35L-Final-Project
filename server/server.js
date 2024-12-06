@@ -8,6 +8,12 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes.js");
 const mlRoutes = require("./routes/mlRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
+const workoutRoutes = require("./routes/workoutRoutes.js");
+const exercisesRoutes = require("./routes/exercisesRoutes.js")
+const commentRoutes = require("./routes/commentRoutes.js");
+// const exercisesRoutes = require("./routes/exercisesRoutes.js")
+const goalRoutes = require('./routes/goalRoutes.js');
+
 
 dotenv.config();
 
@@ -22,6 +28,10 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use("/users", userRoutes);
 app.use("/ml", mlRoutes);
 app.use("/posts", postRoutes);
+// app.use("/api", exercisesRoutes);
+app.use("/api/workouts", workoutRoutes);
+app.use("/comment", commentRoutes);
+app.use('/api/goals', goalRoutes);
 
 /*
 app.get('/ml', (req, res) => {

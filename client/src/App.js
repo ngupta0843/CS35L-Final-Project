@@ -11,7 +11,10 @@ import Header from "./components/Header";
 import Dashboard from "./components/dashboard/Dashboard";
 import UserProfile from "./pages/profile.jsx";
 import AuthButtons from "./components/AuthButtons";
+import VisitedUser from  "./pages/VisitedUser";
+
 import QA from "./pages/QA";
+import WorkoutLog from './components/dashboard/Logger/WorkoutLog.jsx'
 
 function App() {
   return (
@@ -22,10 +25,12 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/profile/:id" element={<UserProfile />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/fitness-planner" element={<QA/>} />
         <Route path="/forum" element={<ForumPage/>} />
+        <Route path="/workout-log" element={<WorkoutLog />} />
+        <Route path="/profiles" element={<VisitedUser/>} />
       </Routes>
     </Router>
   );

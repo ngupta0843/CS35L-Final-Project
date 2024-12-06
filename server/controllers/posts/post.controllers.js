@@ -1,4 +1,6 @@
 const Posts = require("../../models/postModel.js");
+const fs = require('fs');
+const path = require('path');
 
 const getPost = async (req, res) => {
   try {
@@ -55,12 +57,15 @@ const createPost = async (req, res) => {
     const {
       postID,
       postText,
-      postImage,
       postAuthor,
       postCaption,
       postisText,
       postWorkoutTitle,
     } = req.query;
+    const {image} = req.body;
+    let postImage = image;
+  
+    // console.log('++++++++++++++++++++++++++++++++++', postImage)
     if (
       !postID ||
       !(postText || postImage) ||
@@ -72,12 +77,13 @@ const createPost = async (req, res) => {
         .status(400)
         .json({ error: "Missing required query parameters." });
     }
+
     const newPost = new Posts({
       postID: postID,
       username: postAuthor,
       workout: postWorkoutTitle,
       caption: postCaption,
-      photo: postImage,
+      photo: imagePath,
       text: postText,
       isTextPost: postisText,
       likecount: 0,
@@ -92,11 +98,36 @@ const createPost = async (req, res) => {
 
 const fetchRandomPost = async (req, res) => {
   try {
-    const randomPosts = await Posts.aggregate([{ $sample: { size: 1 } }]);
-    res.json(randomPosts);
+    const totalPosts = await Posts.countDocuments();
+    const randomPosts = await Posts.aggregate([{ $sample: { size: totalPosts } }]);
+    res.status(200).json(randomPosts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching random post", error });
   }
 };
 
-module.exports = { likePost, createPost, getPost, fetchRandomPost };
+const getUserPosts = async(req, res) => {
+  try {
+    const { username } = req.query;
+
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
+    }
+
+    const posts = await Posts.find({ username: username });
+
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for the user" });
+    }
+    console.log(
+      "-------------------------------------------------- getting post: ",
+      posts
+    );
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    res.status(500).json({ message: "Error getting post: ", error });
+  }
+};
+
+module.exports = { likePost, createPost, getPost, fetchRandomPost, getUserPosts };

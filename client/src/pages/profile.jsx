@@ -14,31 +14,46 @@ import {
   Icon,
   Autocomplete,
   CircularProgress,
+  Card,
+  List,
+  ListItem,
+  Divider,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import { Post } from "../components/posts/post";
+import Post from "./forum-page/Post.jsx";
 import { CameraAlt, Edit } from "@mui/icons-material";
 import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
 import post2 from "../testimages/post2.jpeg";
 import post3 from "../testimages/post3.jpeg";
 import SocialMediaPostUpload from "./upload_post";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UserProfile.css";
+import { useParams, useNavigate } from "react-router-dom";
+import { updateUser } from "../components/redux/reducers/userReducer.js";
 
 const posts = [post1, post2, post3];
 
-const UserProfileHeader = ({ onCreatePostClick }) => {
+const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
+  const [followersOpen, setFollowersOpen] = useState(false);
+  const [followingOpen, setFollowingOpen] = useState(false);
+  const [profile, setProfile] = useState({
+    firstname: currentUser?.firstname || "",
+    lastname: currentUser?.lastname || "",
+    bio: currentUser?.bio || "",
+  });
+  const [editOpen, setEditOpen] = useState(false);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  const currentUser = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const getUserList = async () => {
     try {
@@ -46,10 +61,42 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
         `http://localhost:8088/users/getUserList`
       );
 
-      console.log(response.data);
       setUsers(response.data);
     } catch (error) {
       console.log("error from searching: ", error);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      let user = {
+        firstname: profile.firstname,
+        lastname: profile.lastname,
+        bio: profile.bio,
+        email: currentUser.email,
+      };
+      const request = await axios.put(
+        "http://localhost:8088/users/updateProfile",
+        { data: user }
+      );
+      console.log(request.data);
+
+      try {
+        dispatch(
+          updateUser({
+            firstname: request.data.user.name.split(" ")[0],
+            lastname: request.data.user.name.split(" ")[1],
+            bio: request.data.user.bio,
+          })
+        );
+        toast.success("Profile updated successfully!");
+      } catch (dispatchError) {
+        console.log("Dispatch error: ", dispatchError);
+        toast.error("Error updating profile");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error updating profile");
     }
   };
 
@@ -91,241 +138,711 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
               </Typography>
               <Typography variant="body2">Posts</Typography>
             </Box>
-            <Box className="stat">
+            <Box
+              className="stat"
+              sx={{ cursor: "pointer" }}
+              onClick={() => setFollowingOpen(true)}
+            >
               <Typography variant="h6" className="count">
-                1.2k
+                {currentUser?.followers?.length}
               </Typography>
               <Typography variant="body2">Followers</Typography>
             </Box>
-            <Box className="stat">
+            <Box
+              className="stat"
+              sx={{ cursor: "pointer" }}
+              onClick={() => setFollowersOpen(true)}
+            >
               <Typography variant="h6" className="count">
-                500
+                {currentUser?.following?.length
+                  ? currentUser?.following?.length
+                  : 0}
               </Typography>
               <Typography variant="body2">Following</Typography>
             </Box>
           </Stack>
           <Box sx={{ marginTop: 3 }} className="bio">
             <Typography variant="body1">
-              Enjoying life, traveling, and capturing moments 📸
+              {currentUser.bio || "No bio yet!"}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 2,
-            }}
-          >
-            <Button
-              variant="contained"
-              className="edit-button"
-              startIcon={<Edit />}
-            >
-              Edit Profile
-            </Button>
-            {/* Button to open modal for creating a post */}
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CameraAlt />}
-              sx={{ marginTop: 2 }}
-              onClick={onCreatePostClick}
-            >
-              Create a Post
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CameraAlt />}
+          {button && (
+            <Box
               sx={{
-                marginTop: 2,
-              }}
-              onClick={() => {
-                getUserList();
-                setOpen((prev) => !prev);
-              }}
-            >
-              Search for users
-            </Button>
-            <Dialog
-              open={open}
-              onClose={() => setOpen(false)}
-              fullWidth
-              maxWidth="md"
-              sx={{
-                "& .MuiDialog-paper": {
-                  borderRadius: 8, // Rounded corners for a polished look
-                },
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                gap: 2,
               }}
             >
-              {/* Header */}
-              <Box
+              <Button
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  px: 3,
-                  py: 2,
-                  borderBottom: "1px solid #e0e0e0",
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                    opacity: 0.9,
+                  },
+                }}
+                variant="contained"
+                // className="edit-button"
+                startIcon={<Edit />}
+                onClick={() => setEditOpen(true)}
+              >
+                Edit Profile
+              </Button>
+              {/* Button to open modal for creating a post */}
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CameraAlt />}
+                sx={{
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                    opacity: 0.9,
+                  },
+                }}
+                onClick={onCreatePostClick}
+              >
+                Create a Post
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CameraAlt />}
+                sx={{
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                    opacity: 0.9,
+                  },
+                }}
+                onClick={() => {
+                  getUserList();
+                  setOpen((prev) => !prev);
                 }}
               >
-                <DialogTitle
-                  sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
-                >
-                  Search for Users
+                Search for users
+              </Button>
+
+              <Dialog
+                open={followersOpen}
+                onClose={() => setFollowersOpen(false)}
+                maxWidth="sm"
+                sx={{
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                    backgroundColor: "rgb(30, 30, 30)",
+                    color: "white",
+                  },
+                }}
+                fullWidth
+              >
+                <DialogTitle>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                    Following List
+                  </Typography>
+                  <IconButton
+                    edge="end"
+                    color="inherit"
+                    onClick={() => setFollowersOpen(false)}
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      color: "gray",
+                    }}
+                  >
+                    <Box sx={{ padding: 1 }}>
+                      <CloseFullscreenIcon />
+                    </Box>
+                  </IconButton>
                 </DialogTitle>
-
-                <IconButton
-                  onClick={() => setOpen(false)}
-                  sx={{ color: "#9e9e9e", "&:hover": { color: "#000" } }}
-                >
-                  <Icon component={CloseFullscreenIcon} />
-                </IconButton>
-              </Box>
-
-              <DialogContent sx={{ px: 3, py: 2 }}>
-                <Autocomplete
-                  options={users}
-                  getOptionLabel={(option) =>
-                    `${option.name} (${option.email})`
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      placeholder="Search users by name or email"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  )}
-                  onChange={(e, value) => {
-                    e.preventDefault();
-                    setSelectedUser(value);
-                    console.log(value);
-                  }}
-                  renderOption={(props, option) => (
-                    <Box
-                      {...props}
-                      key={option._id}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 2,
-                        py: 1,
-                        px: 2,
-                        cursor: "pointer",
-                        "&:hover": { backgroundColor: "#f5f5f5" },
-                      }}
-                    >
-                      {/* might have to debug this in the future if it gives issues with pfp loading */}
-                      {!loading ? (
-                        <Avatar sx={{ bgcolor: "#1976d2" }}>
-                          {option.name ? option.name[0].toUpperCase() : "U"}
-                        </Avatar>
+                <DialogContent>
+                  <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+                    <List sx={{ padding: 0 }}>
+                      {currentUser?.following?.length > 0 ? (
+                        currentUser?.following.map((follower, index) => (
+                          <div key={index}>
+                            <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                              <Typography variant="body1">
+                                {follower || "Unknown User"}
+                              </Typography>
+                            </ListItem>
+                            {index < currentUser?.following?.length - 1 && (
+                              <Divider />
+                            )}
+                          </div>
+                        ))
                       ) : (
-                        <CircularProgress />
-                      )}
-
-                      <Stack>
-                        <Typography variant="body1">{option.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          {option.email}
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          sx={{ textAlign: "center", padding: 2 }}
+                        >
+                          No followers found.
                         </Typography>
+                      )}
+                    </List>
+                  </Box>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog
+                open={followingOpen}
+                onClose={() => setFollowingOpen(false)}
+                maxWidth="sm"
+                sx={{
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                    backgroundColor: "rgb(30, 30, 30)",
+                    color: "white",
+                  },
+                }}
+                fullWidth
+              >
+                <DialogTitle>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                    Followers List
+                  </Typography>
+                  <IconButton
+                    edge="end"
+                    color="inherit"
+                    onClick={() => setFollowingOpen(false)}
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      color: "gray",
+                    }}
+                  >
+                    <Box sx={{ padding: 1 }}>
+                      <CloseFullscreenIcon />
+                    </Box>
+                  </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                  <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+                    <List sx={{ padding: 0 }}>
+                      {currentUser?.followers?.length > 0 ? (
+                        currentUser?.followers.map((follower, index) => (
+                          <div key={index}>
+                            <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                              <Typography variant="body1">
+                                {follower || "Unknown User"}
+                              </Typography>
+                            </ListItem>
+                            {index < currentUser?.followers?.length - 1 && (
+                              <Divider />
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          sx={{ textAlign: "center", padding: 2 }}
+                        >
+                          No followers found.
+                        </Typography>
+                      )}
+                    </List>
+                  </Box>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog
+                open={editOpen}
+                onClose={() => setEditOpen(false)}
+                fullWidth
+                maxWidth="md"
+                sx={{
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                    backgroundColor: "#1e1e1e",
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    px: 3,
+                    py: 2,
+                    borderBottom: "1px solid #e0e0e0",
+                  }}
+                >
+                  <DialogTitle
+                    sx={{
+                      m: 0,
+                      p: 0,
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "white",
+                    }}
+                  >
+                    Edit your Profile
+                  </DialogTitle>
+
+                  <IconButton
+                    onClick={() => setEditOpen(false)}
+                    sx={{ color: "#9e9e9e", "&:hover": { color: "#000" } }}
+                  >
+                    <Icon component={CloseFullscreenIcon} />
+                  </IconButton>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    height: "auto",
+                    padding: 3,
+                  }}
+                >
+                  <TextField
+                    value={profile.firstname}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setProfile({ ...profile, firstname: e.target.value });
+                    }}
+                    label="First Name"
+                    variant="outlined"
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
+                  />
+
+                  <TextField
+                    value={profile.lastname}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setProfile({ ...profile, lastname: e.target.value });
+                    }}
+                    label="Last Name"
+                    variant="outlined"
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
+                  />
+                  <TextField
+                    value={profile.bio}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setProfile({ ...profile, bio: e.target.value });
+                    }}
+                    label="Bio"
+                    variant="outlined"
+                    inputProps={{ style: { color: "white" } }}
+                    multiline
+                    rows={4}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
+                  />
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      mt: 3,
+                      borderRadius: 3,
+                      background:
+                        "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+
+                      color: "white",
+                      "&:hover": {
+                        background:
+                          "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        opacity: 0.9,
+                      },
+                    }}
+                    onClick={() => {
+                      handleSaveProfile();
+                      setEditOpen(false);
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Dialog>
+
+              <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                fullWidth
+                maxWidth="md"
+                sx={{
+                  "& .MuiDialog-paper": {
+                    borderRadius: 8,
+                    backgroundColor: "#1e1e1e",
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    px: 3,
+                    py: 2,
+                    borderBottom: "1px solid #e0e0e0",
+                  }}
+                >
+                  <DialogTitle
+                    sx={{
+                      m: 0,
+                      p: 0,
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "white",
+                    }}
+                  >
+                    Search for Users
+                  </DialogTitle>
+
+                  <IconButton
+                    onClick={() => setOpen(false)}
+                    sx={{ color: "#9e9e9e", "&:hover": { color: "#000" } }}
+                  >
+                    <Icon component={CloseFullscreenIcon} />
+                  </IconButton>
+                </Box>
+
+                <DialogContent sx={{ px: 3, py: 2 }}>
+                  <Autocomplete
+                    options={users}
+                    getOptionLabel={(option) =>
+                      `${option.name} (${option.email})`
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        placeholder="Search users by name or email"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    )}
+                    onChange={(e, value) => {
+                      e.preventDefault();
+                      setSelectedUser(value);
+                      console.log(value);
+                    }}
+                    renderOption={(props, option) => (
+                      <Box
+                        {...props}
+                        key={option._id}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          py: 1,
+                          px: 2,
+                          cursor: "pointer",
+                          "&:hover": { backgroundColor: "#f5f5f5" },
+                        }}
+                      >
+                        {/* might have to debug this in the future if it gives issues with pfp loading */}
+                        {!loading ? (
+                          <Avatar sx={{ bgcolor: "#1976d2" }}>
+                            {option.name ? option.name[0].toUpperCase() : "U"}
+                          </Avatar>
+                        ) : (
+                          <CircularProgress />
+                        )}
+
+                        <Stack>
+                          <Typography variant="body1">{option.name}</Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {option.email}
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    )}
+                  />
+
+                  {/* Display selected user */}
+                  {selectedUser && (
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant="h6">Selected User</Typography>
+                      <Stack direction="row" alignItems="center" spacing={2}>
+                        <Avatar sx={{ bgcolor: "#1976d2" }}>
+                          {selectedUser.name
+                            ? selectedUser.name[0].toUpperCase()
+                            : "U"}
+                        </Avatar>
+                        <Stack sx={{ flex: 1 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => {
+                                console.log(selectedUser);
+                                navigate(`/profile/${selectedUser.email}`);
+                              }}
+                            >
+                              <Typography variant="body1">
+                                {selectedUser.name}
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary">
+                                {selectedUser.email}
+                              </Typography>
+                            </Box>
+                            <Button
+                              sx={{ ml: "auto" }}
+                              onClick={sendFriendRequest}
+                            >
+                              Send a Friend Request
+                            </Button>
+                          </Box>
+                        </Stack>
                       </Stack>
                     </Box>
                   )}
-                />
-
-                {/* Display selected user */}
-                {selectedUser && (
-                  <Box sx={{ mt: 3 }}>
-                    <Typography variant="h6">Selected User</Typography>
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                      <Avatar sx={{ bgcolor: "#1976d2" }}>
-                        {selectedUser.name
-                          ? selectedUser.name[0].toUpperCase()
-                          : "U"}
-                      </Avatar>
-                      <Stack sx={{ flex: 1 }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Box
-                            sx={{ display: "flex", flexDirection: "column" }}
-                          >
-                            <Typography variant="body1">
-                              {selectedUser.name}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              {selectedUser.email}
-                            </Typography>
-                          </Box>
-                          <Button
-                            sx={{ ml: "auto" }}
-                            onClick={sendFriendRequest}
-                          >
-                            Send a Friend Request
-                          </Button>
-                        </Box>
-                      </Stack>
-                    </Stack>
-                  </Box>
-                )}
-              </DialogContent>
-            </Dialog>
-          </Box>
+                </DialogContent>
+              </Dialog>
+            </Box>
+          )}
         </Box>
       </Stack>
     </Box>
   );
 };
 
-const UserProfilePosts = () => {
-  return (
-    <Box className="user-profile-posts">
-      <Typography variant="h5" className="title">
-        Posts
+const UserProfilePosts = ({ username }) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8088/posts/getUserPosts?username=" + username
+        );
+        setPosts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [username]);
+
+  if (loading) {
+    return (
+      <Box sx={{ backgroundColor: "black", minHeight: "70vh", p: 2 }}>
+        <Typography variant="h6" color="grey">
+          Loading posts...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <Typography variant="h6" color="textSecondary">
+        No posts available :\
       </Typography>
-      <Stack className="posts-container">
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            username="Nikhil"
-            workout="Leg Day"
-            caption="Leg day is the best day!"
-            photo={post}
-            likecount={100}
-            user={{ profile_photo: profilePic, name: "Nikhil" }}
-            size={"small"}
-          />
-        ))}
-      </Stack>
+    );
+  }
+
+  return (
+    <Box
+      className="user-profile-posts"
+      sx={{ width: "100%", paddingLeft: 2, paddingRight: 2, minHeight: "70vh" }}
+    >
+      <Card
+        sx={{
+          backgroundColor: "#121212",
+          color: "white",
+          borderRadius: 1,
+        }}
+      >
+        <Grid container justifyContent="flex-start">
+          {posts.map((post) => (
+            <Grid
+              key={post._id}
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={4}
+              sx={{ padding: 1 }}
+            >
+              <Post post={post} size="small" />
+            </Grid>
+          ))}
+        </Grid>
+      </Card>
     </Box>
   );
 };
 
 const UserProfile = () => {
-  const [openPostModal, setOpenPostModal] = useState(false); // State to control modal visibility
+  const { id } = useParams();
+  const currentUser = useSelector((state) => state.user);
+  console.log(currentUser);
+
+  //check id of link here
+  //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont
+  // fetch user info from backend on every refresh
+  const [buttons, setButtons] = useState(false);
+
+  useEffect(() => {
+    // check to see if viewed user is the same as current user
+    if (id === currentUser.email) {
+      setButtons(true);
+    } else {
+      setButtons(false);
+    }
+  }, [id, currentUser]);
+
+  //post req
+
+  const [openPostModal, setOpenPostModal] = useState(false);
 
   const handleOpenModal = () => {
-    setOpenPostModal(true); // Open the modal
+    setOpenPostModal(true);
   };
 
   const handleCloseModal = () => {
-    setOpenPostModal(false); // Close the modal
+    setOpenPostModal(false);
   };
-
   return (
     <div>
-      <UserProfileHeader onCreatePostClick={handleOpenModal} />{" "}
+      <UserProfileHeader
+        onCreatePostClick={handleOpenModal}
+        currentUser={currentUser}
+        button={buttons}
+      />{" "}
       {/* Pass modal trigger to header */}
-      <UserProfilePosts />
+      {/* <img src={`data:image/jpeg;base64,${base64String}`} alt="Base64 Image" /> */}
+      <UserProfilePosts username={id} />
       {/* The modal for creating a new post */}
       <SocialMediaPostUpload open={openPostModal} onClose={handleCloseModal} />
     </div>

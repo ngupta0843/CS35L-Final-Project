@@ -10,33 +10,50 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const getPostSize = (size) => {
-  switch (size) {
-    case "small":
-      return "50%";
-    case "medium":
-      return "80%";
-    case "large":
-      return "100%";
-    default:
-      return "70%";
-  }
+  let width = "70%"; 
+  let height = "auto"; 
+  // switch (size) {
+  //   case "small":
+  //     width = "50%";
+  //     height = "auto";
+  //     break;
+  //   case "medium":
+  //     width = "80%";
+  //     height = "auto";
+  //     break;
+  //   case "large":
+  //     width = "100%";
+  //     height = "auto";
+  //     break;
+  //   default:
+  //     width = "70%";
+  //     height = "auto";
+  //     break;
+  // }
+  return { width, height };
 };
 
-function Post({ post, size="medium" }) {
+function Post({ post, size = "medium" }) {
+  const user = useSelector((state) => state.user)
   const { username, workout, caption, photo, likecount, isTextPost } = post;
   console.log(post);
-  const default_profile_photo = "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg"
-  var profilePhoto = post.photo || default_profile_photo;
+  const default_profile_photo =
+    "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg";
+  var profilePhoto = user || default_profile_photo;
   if (profilePhoto === "null") {
     profilePhoto = default_profile_photo;
   }
-  return(
-    <Box sx={{ width: getPostSize(size), margin: "0 auto" }}>
+
+  const { width, height } = getPostSize(size);
+
+  return (
+    <Box sx={{ width: '100%', margin: "0 auto" }}>
       <Card
         sx={{
-          width: getPostSize(size),
+          width: "40 vh",
           backgroundColor: "black",
           color: "white",
           border: "2px solid white",
@@ -52,22 +69,16 @@ function Post({ post, size="medium" }) {
         />
         {!isTextPost && (
           <CardMedia
-          component="img"
-          height={getPostSize(size)}
-          aspectRatio="1"
-          image={photo}
-          alt="Post"
-          sx={{ objectFit: "square" }}
-        />)}
+            component="img"
+            height={height}
+            //aspectRatio="1"
+            image={photo}
+            alt="Post"
+            sx={{ objectFit: "cover" }}
+          />
+        )}
         <CardContent>
-          {!isTextPost && (
-            <><PostActions
-            username={username}
-            caption={caption}
-            initialLikeCount={likecount} /><Typography variant="body2" color="white" marginLeft={1}>
-              {likecount}
-            </Typography></>
-          )}
+          {!isTextPost && <PostActions post={post} />}
           <Typography
             variant="body1"
             color="white"
@@ -77,25 +88,23 @@ function Post({ post, size="medium" }) {
               whiteSpace: "normal",
             }}
           >
-            {!isTextPost && (
+            {(!isTextPost && (
               <>
-              <strong>{username}</strong>
-              <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
+                <strong>{username}</strong>
+                <span style={{ marginLeft: "0.3rem" }}>{caption}</span>
               </>
-            ) || caption}
+            )) ||
+              caption}
           </Typography>
           {isTextPost && (
             <>
-              <PostActions username={username} caption={caption} initialLikeCount={likecount} />
-              <Typography variant="body2" color="white" marginLeft={1}>
-                {likecount}
-              </Typography>
+              <PostActions post={post} />
             </>
-            )}
+          )}
         </CardContent>
       </Card>
     </Box>
-  );      
+  );
 }
 
 export default Post;

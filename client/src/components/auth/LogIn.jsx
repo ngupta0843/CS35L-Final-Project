@@ -40,7 +40,6 @@ const LogIn = memo(() => {
       ...user,
       email: e.target.value,
     });
-    console.log(user);
   };
 
   const handleSend = async () => {
@@ -64,11 +63,18 @@ const LogIn = memo(() => {
         console.log("API response data:", response.data);
 
         try {
-          console.log(response.data.result.name, response.data.result.email);
+          console.log(response.data.result)
+          // console.log(response.data.result.name, response.data.result.email);
+          // console.log(response.data.result.followers)
           dispatch(
             login({
-              firstname: response.data.result.name,
+              firstname: response.data.result.name.split(" ")[0],
+              lastname: response.data.result.name.split(" ")[1],
               email: response.data.result.email,
+              bio: response.data.result.bio,
+              profile_photo: response.data.result.profile_photo,
+              following: response.data.result.followers,
+              followers: response.data.result.following,
             })
           );
           console.log("second part");
