@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Post from "./Post";
+import Post from "../../components/posts/Post";
 import axios from "axios";
 import { Avatar, Stack, Button, Box, Typography, Paper } from "@mui/material";
 import "./ForumPage.css";

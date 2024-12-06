@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Box, Typography, TextField, Switch, FormControlLabel, Button, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter'; // Ensure you import necessary icon
-import Icon from '@mui/material/Icon';
-import loadinggif from '../testimages/loading.gif';
+import loadinggif from '../../testimages/loading.gif';
 
 const capitalizeWords = (str) => {
   return str
