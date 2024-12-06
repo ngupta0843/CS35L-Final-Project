@@ -1,50 +1,40 @@
-const sinon = require('sinon');
-const httpMocks = require('node-mocks-http');
-const { callgpt } = require('../controllers/ml/ml.controllers');  // Adjust the path as necessary
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const expect = chai.expect;
 
-jest.setTimeout(90000);  // Increase the timeout for async operations
+const base_url = "http://localhost:8088/ml"; // Assuming BASE_URL is set in your .env
+chai.use(chaiHttp);  // Add chaiHttp as middleware
 
-describe('callgpt Controller', () => {
-    let execMock;
+const orderBody = {
+    "indata": "I would like to make an exercise routine to train my biceps, triceps, and shoulders.",
+    "type": "w"
+};
 
-    beforeEach(() => {
-        // Mock exec to avoid calling the actual Python script
-        execMock = sinon.stub(require('child_process'), 'exec');
-        //cd 
-    });
+it('calling callgpt', function(done) {
+    // Log the request body to ensure it's sent correctly
+    console.log("Request Body Sent: ", orderBody);
 
-    afterEach(() => {
-        // Restore the mock after each test
-        sinon.restore();
-    });
+    chai.request(base_url)
+        .post('/')
+        .send(orderBody)
+        .end(function (err, res) {
+            if (err) {
+                console.log("Error:", err);
+                done(err);  // If error occurs, pass it to done
+                return;
+            }
 
-    it('should return 200 with the result of the Python script on success', (done) => {
-        const req = httpMocks.createRequest({
-            body: {
-                indata: 'biceps, triceps, shoulders',
-                type: 'w',
+            // Log the response to ensure we see what was returned
+            console.log("Response Body:", res.body);
+
+            try {
+                //assert that the response body has a property called 'result'
+                expect(res.body).to.have.property('result');
+                // Other assertions can go here if needed
+                done();  // Signal the completion of the test
+            } catch (assertionError) {
+                console.log("Assertion Error:", assertionError);
+                done(assertionError);  // Call done with the assertion error
             }
         });
-        const res = httpMocks.createResponse();
-
-        // Mock the behavior of exec for successful execution (mocking stdout)
-        execMock.callsArgWith(2, null, 'biceps, triceps, shoulders', null);
-
-        // Override the res.json method to track when it's called
-        const jsonSpy = sinon.spy(res, 'json');
-
-        // Call the controller function
-        callgpt(req, res);
-
-        // We use `setImmediate` to ensure the response processing happens in the next event loop
-        setImmediate(() => {
-            // Now that the response is processed, check that res.json was called with the expected data
-            expect(jsonSpy.calledOnce).toBe(true); // Ensure json was called once
-            expect(res.statusCode).toBe(200);
-            expect(jsonSpy.calledWith({ result: 'biceps, triceps, shoulders' })).toBe(true);
-            done();  // Indicate that the test is complete
-        });
-    });
-
-    // Other test cases here...
 });
