@@ -43,9 +43,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   const [followersOpen, setFollowersOpen] = useState(false);
   const [followingOpen, setFollowingOpen] = useState(false);
   const [profile, setProfile] = useState({
-    firstname: currentUser.firstname || "",
-    lastname: currentUser.lastname || "",
-    bio: currentUser.bio || "",
+    firstname: currentUser?.firstname || "",
+    lastname: currentUser?.lastname || "",
+    bio: currentUser?.bio || "",
   });
   const [editOpen, setEditOpen] = useState(false);
   const [user, setUser] = useState({});
@@ -138,9 +138,13 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               </Typography>
               <Typography variant="body2">Posts</Typography>
             </Box>
-            <Box className="stat" sx={{cursor: 'pointer'}} onClick={() => setFollowingOpen(true)}>
+            <Box
+              className="stat"
+              sx={{ cursor: "pointer" }}
+              onClick={() => setFollowingOpen(true)}
+            >
               <Typography variant="h6" className="count">
-                {currentUser.followers?.length}
+                {currentUser?.followers?.length}
               </Typography>
               <Typography variant="body2">Followers</Typography>
             </Box>
@@ -150,8 +154,8 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               onClick={() => setFollowersOpen(true)}
             >
               <Typography variant="h6" className="count">
-                {currentUser.following.length
-                  ? currentUser.following.length
+                {currentUser?.following?.length
+                  ? currentUser?.following?.length
                   : 0}
               </Typography>
               <Typography variant="body2">Following</Typography>
@@ -172,8 +176,20 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               }}
             >
               <Button
+                sx={{
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                    opacity: 0.9,
+                  },
+                }}
                 variant="contained"
-                className="edit-button"
+                // className="edit-button"
                 startIcon={<Edit />}
                 onClick={() => setEditOpen(true)}
               >
@@ -184,7 +200,18 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 variant="contained"
                 color="primary"
                 startIcon={<CameraAlt />}
-                sx={{ marginTop: 2 }}
+                sx={{
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                    opacity: 0.9,
+                  },
+                }}
                 onClick={onCreatePostClick}
               >
                 Create a Post
@@ -194,7 +221,16 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 color="primary"
                 startIcon={<CameraAlt />}
                 sx={{
-                  marginTop: 2,
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                    opacity: 0.9,
+                  },
                 }}
                 onClick={() => {
                   getUserList();
@@ -209,11 +245,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 onClose={() => setFollowersOpen(false)}
                 maxWidth="sm"
                 sx={{
-
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
-                    backgroundColor: 'rgb(30, 30, 30)',
-                    color: 'white',
+                    backgroundColor: "rgb(30, 30, 30)",
+                    color: "white",
                   },
                 }}
                 fullWidth
@@ -241,15 +276,15 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 <DialogContent>
                   <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
                     <List sx={{ padding: 0 }}>
-                      {currentUser.following.length > 0 ? (
-                        currentUser.following.map((follower, index) => (
+                      {currentUser?.following?.length > 0 ? (
+                        currentUser?.following.map((follower, index) => (
                           <div key={index}>
                             <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
                               <Typography variant="body1">
                                 {follower || "Unknown User"}
                               </Typography>
                             </ListItem>
-                            {index < currentUser.following.length - 1 && (
+                            {index < currentUser?.following?.length - 1 && (
                               <Divider />
                             )}
                           </div>
@@ -273,11 +308,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 onClose={() => setFollowingOpen(false)}
                 maxWidth="sm"
                 sx={{
-
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
-                    backgroundColor: 'rgb(30, 30, 30)',
-                    color: 'white',
+                    backgroundColor: "rgb(30, 30, 30)",
+                    color: "white",
                   },
                 }}
                 fullWidth
@@ -305,15 +339,15 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 <DialogContent>
                   <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
                     <List sx={{ padding: 0 }}>
-                      {currentUser.followers.length > 0 ? (
-                        currentUser.followers.map((follower, index) => (
+                      {currentUser?.followers?.length > 0 ? (
+                        currentUser?.followers.map((follower, index) => (
                           <div key={index}>
                             <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
                               <Typography variant="body1">
                                 {follower || "Unknown User"}
                               </Typography>
                             </ListItem>
-                            {index < currentUser.followers.length - 1 && (
+                            {index < currentUser?.followers?.length - 1 && (
                               <Divider />
                             )}
                           </div>
@@ -331,7 +365,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   </Box>
                 </DialogContent>
               </Dialog>
-              
 
               <Dialog
                 open={editOpen}
@@ -341,6 +374,7 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 sx={{
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
+                    backgroundColor: "#1e1e1e",
                   },
                 }}
               >
@@ -355,7 +389,13 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   }}
                 >
                   <DialogTitle
-                    sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
+                    sx={{
+                      m: 0,
+                      p: 0,
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "white",
+                    }}
                   >
                     Edit your Profile
                   </DialogTitle>
@@ -384,8 +424,43 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     }}
                     label="First Name"
                     variant="outlined"
-                    sx={{ width: "80%", mt: 2 }}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
                   />
+
                   <TextField
                     value={profile.lastname}
                     onChange={(e) => {
@@ -394,7 +469,41 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     }}
                     label="Last Name"
                     variant="outlined"
-                    sx={{ width: "80%", mt: 2 }}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
                   />
                   <TextField
                     value={profile.bio}
@@ -404,14 +513,62 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     }}
                     label="Bio"
                     variant="outlined"
+                    inputProps={{ style: { color: "white" } }}
                     multiline
                     rows={4}
-                    sx={{ width: "80%", mt: 2 }}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
                   />
+
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 3 }}
+                    sx={{
+                      mt: 3,
+                      borderRadius: 3,
+                      background:
+                        "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+
+                      color: "white",
+                      "&:hover": {
+                        background:
+                          "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
+                        opacity: 0.9,
+                      },
+                    }}
                     onClick={() => {
                       handleSaveProfile();
                       setEditOpen(false);
@@ -430,6 +587,7 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 sx={{
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
+                    backgroundColor: "#1e1e1e",
                   },
                 }}
               >
@@ -444,7 +602,13 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   }}
                 >
                   <DialogTitle
-                    sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
+                    sx={{
+                      m: 0,
+                      p: 0,
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "white",
+                    }}
                   >
                     Search for Users
                   </DialogTitle>
@@ -591,9 +755,11 @@ const UserProfilePosts = ({ username }) => {
 
   if (loading) {
     return (
-      <Typography variant="h6" color="textSecondary">
-        Loading posts...
-      </Typography>
+      <Box sx={{ backgroundColor: "black", minHeight: "70vh", p: 2 }}>
+        <Typography variant="h6" color="grey">
+          Loading posts...
+        </Typography>
+      </Box>
     );
   }
 
@@ -606,10 +772,13 @@ const UserProfilePosts = ({ username }) => {
   }
 
   return (
-    <Box className="user-profile-posts" sx={{ width: "100%", paddingLeft: 2, paddingRight:2 }}>
+    <Box
+      className="user-profile-posts"
+      sx={{ width: "100%", paddingLeft: 2, paddingRight: 2, minHeight: "70vh" }}
+    >
       <Card
         sx={{
-          backgroundColor: "black",
+          backgroundColor: "#121212",
           color: "white",
           borderRadius: 1,
         }}
@@ -638,8 +807,6 @@ const UserProfile = () => {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
   console.log(currentUser);
-  console.log(currentUser.following);
-  console.log(currentUser.followers);
 
   //check id of link here
   //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont

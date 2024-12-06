@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
-  Button, 
-  Box, 
-  TextField, 
-  Typography, 
-  FormControlLabel, 
-  Switch, 
-  Card, 
-  CardMedia, 
-  useMediaQuery
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Box,
+  TextField,
+  Typography,
+  FormControlLabel,
+  Switch,
+  Card,
+  CardMedia,
+  useMediaQuery,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import axios from "axios";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const SocialMediaPostUpload = ({ open, onClose }) => {
-  const [isTextPost, setIsTextPost] = useState(false); 
-  const [workoutTitle, setWorkoutTitle] = useState('');
-  const [caption, setCaption] = useState(''); 
-  const [postContent, setPostContent] = useState(''); 
+  const [isTextPost, setIsTextPost] = useState(false);
+  const [workoutTitle, setWorkoutTitle] = useState("");
+  const [caption, setCaption] = useState("");
+  const [postContent, setPostContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const user = useSelector((state) => state.user);
 
   const handleSwitchChange = () => {
     setIsTextPost(!isTextPost);
-    setPostContent(''); 
-    setCaption(''); 
+    setPostContent("");
+    setCaption("");
   };
 
   const handleFileChange = (event) => {
@@ -73,7 +73,9 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
         },
       }}
     >
-      <DialogTitle sx={{ color: "#fff" }}>Create a Social Media Post</DialogTitle>
+      <DialogTitle sx={{ color: "#fff" }}>
+        Create a Social Media Post
+      </DialogTitle>
       <DialogContent sx={{ backgroundColor: "#1e1e1e", color: "#fff" }}>
         <Box sx={{ my: 2 }}>
           <FormControlLabel
@@ -83,9 +85,9 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
                 onChange={handleSwitchChange}
                 name="isTextPost"
                 sx={{
-                  color: "#fff", 
-                  '&.Mui-checked': {
-                    color: "#008ABB", 
+                  color: "#fff",
+                  "&.Mui-checked": {
+                    color: "#008ABB",
                   },
                 }}
               />
@@ -100,7 +102,9 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
 
         {!isTextPost && (
           <Box sx={{ my: 2 }}>
-            <Typography variant="h6" sx={{ color: "#fff" }}>Upload a Photo</Typography>
+            <Typography variant="h6" sx={{ color: "#fff" }}>
+              Upload a Photo
+            </Typography>
             <input
               accept="image/*"
               type="file"
@@ -109,14 +113,21 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
               id="upload-photo"
             />
             <label htmlFor="upload-photo">
-              <Button 
-                variant="contained" 
+              <Button
+                variant="contained"
                 component="span"
                 sx={{
-                  backgroundColor: "#008ABB", 
-                  color: "#fff", 
-                  '&:hover': { backgroundColor: "#006C8A" }, 
-                  borderRadius: "10px",
+                  mt: 1,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
+
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                    opacity: 0.9,
+                  },
                 }}
               >
                 Choose Photo
@@ -136,7 +147,9 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
         )}
 
         {isTextPost && (
-          <Box sx={{ my: 3 }}> {/* Increased spacing to distinguish from other elements */}
+          <Box sx={{ my: 3 }}>
+            {" "}
+            {/* Increased spacing to distinguish from other elements */}
             {/* <TextField
               fullWidth
               multiline
@@ -171,19 +184,55 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
             label="Workout Title (Optional)"
             value={workoutTitle}
             onChange={(e) => setWorkoutTitle(e.target.value)}
+            // sx={{
+            //   backgroundColor: "#333",
+            //   '& .MuiOutlinedInput-root': {
+            //     backgroundColor: "#333",
+            //     '&:hover fieldset': {
+            //       borderColor: "#008ABB",
+            //     },
+            //   },
+            //   '& .MuiInputLabel-root': {
+            //     color: "#fff",
+            //   },
+            //   '& .MuiInputBase-input': {
+            //     color: "#fff",
+            //   },
+            // }}
+            inputProps={{ style: { color: "white" } }}
             sx={{
-              backgroundColor: "#333", 
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: "#333",  
-                '&:hover fieldset': {
-                  borderColor: "#008ABB", 
+              mt: 2,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: "8px",
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+
+                "& .MuiOutlinedInput-inputMultiline": {
+                  color: "white",
                 },
               },
-              '& .MuiInputLabel-root': {
-                color: "#fff", 
+              "& .MuiInputLabel-root": {
+                color: "white",
               },
-              '& .MuiInputBase-input': {
-                color: "#fff", 
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white",
               },
             }}
           />
@@ -195,21 +244,58 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
             multiline
             variant="outlined"
             label="Caption"
-            value={caption} 
+            value={caption}
             onChange={(e) => setCaption(e.target.value)}
+            // sx={{
+            //   backgroundColor: "#333",
+            //   "& .MuiOutlinedInput-root": {
+            //     backgroundColor: "#333",
+            //     "&:hover fieldset": {
+            //       borderColor: "#008ABB",
+            //     },
+            //   },
+            //   "& .MuiInputLabel-root": {
+            //     color: "#fff",
+            //   },
+            //   "& .MuiInputBase-input": {
+            //     color: "#fff",
+            //   },
+            // }}
+            inputProps={{ style: { color: "white" } }}
             sx={{
-              backgroundColor: "#333",  
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: "#333",
-                '&:hover fieldset': {
-                  borderColor: "#008ABB", 
+              color: "white",
+              mt: 2,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: "8px",
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "2px solid transparent",
+                  borderImageSlice: 1,
+                  borderImageSource:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                },
+
+                "& .MuiOutlinedInput-inputMultiline": {
+                  color: "white",
                 },
               },
-              '& .MuiInputLabel-root': {
-                color: "#fff", 
+              "& .MuiInputLabel-root": {
+                color: "white",
               },
-              '& .MuiInputBase-input': {
-                color: "#fff",
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white",
               },
             }}
           />
@@ -223,23 +309,28 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
           sx={{
             borderRadius: "20px",
             color: "#bb0000",
-            '&:hover': {
+            "&:hover": {
               backgroundColor: alpha("#bb0000", 0.1),
             },
           }}
         >
           Cancel
         </Button>
-        <Button 
-          variant="contained" 
-          onClick={handleSubmit} 
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
           disabled={!caption || (!isTextPost && !photo)}
           sx={{
+            cursor: "pointer",
             borderRadius: "20px",
-            backgroundColor: "#008ABB", 
-            color: "#fff",
-            '&:hover': {
+            backgroundColor: "#008ABB",
+            color: "white",
+            "&:hover": {
               backgroundColor: "#006C8A",
+              color: "white",
+            },
+            "&.Mui-disabled": {
+              color: "white",
             },
           }}
         >
