@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -20,7 +20,7 @@ import {
   Divider,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import Post from "../../components/posts/Post";
+import Post from "../../components/posts/Post.jsx";
 import { CameraAlt, Edit } from "@mui/icons-material";
 import profilePic from "../../testimages/nikhil_profile_pic.png";
 import SocialMediaPostUpload from "./upload_post.jsx";
@@ -43,7 +43,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
     bio: currentUser?.bio || "",
   });
   const [editOpen, setEditOpen] = useState(false);
-  const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);

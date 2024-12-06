@@ -1,19 +1,5 @@
 import React, { useState } from "react";
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
-  Button, 
-  Box, 
-  TextField, 
-  Typography, 
-  FormControlLabel, 
-  Switch, 
-  Card, 
-  CardMedia, 
-  useMediaQuery
-} from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, TextField, Typography, FormControlLabel, Switch, Card, CardMedia} from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import axios from "axios";
 import {useSelector} from "react-redux";
