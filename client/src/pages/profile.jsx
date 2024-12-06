@@ -128,16 +128,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
           <Typography className="username">{currentUser.email}</Typography>
           <Stack
             direction="row"
-            spacing={4}
+            spacing={1}
             sx={{ marginTop: 2 }}
             className="stats"
           >
-            <Box className="stat">
-              <Typography variant="h6" className="count">
-                100
-              </Typography>
-              <Typography variant="body2">Posts</Typography>
-            </Box>
             <Box
               className="stat"
               sx={{ cursor: "pointer" }}
