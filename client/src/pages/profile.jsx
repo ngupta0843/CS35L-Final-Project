@@ -63,7 +63,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
 
       setUsers(response.data);
     } catch (error) {
-      console.log("error from searching: ", error);
     }
   };
 
@@ -79,7 +78,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
         "http://localhost:8088/users/updateProfile",
         { data: user }
       );
-      console.log(request.data);
 
       try {
         dispatch(
@@ -91,11 +89,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
         );
         toast.success("Profile updated successfully!");
       } catch (dispatchError) {
-        console.log("Dispatch error: ", dispatchError);
         toast.error("Error updating profile");
       }
     } catch (error) {
-      console.log(error);
       toast.error("Error updating profile");
     }
   };
@@ -109,7 +105,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
       });
       toast.success("Friend request sent!");
     } catch (error) {
-      console.log("error from searching: ", error);
       if (error.response.status === 400) {
         toast.error("You are already friends with this user!");
       }
@@ -635,7 +630,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     onChange={(e, value) => {
                       e.preventDefault();
                       setSelectedUser(value);
-                      console.log(value);
                     }}
                     renderOption={(props, option) => (
                       <Box
@@ -696,7 +690,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                                 cursor: "pointer",
                               }}
                               onClick={() => {
-                                console.log(selectedUser);
                                 navigate(`/profile/${selectedUser.email}`);
                               }}
                             >
@@ -804,7 +797,6 @@ const UserProfilePosts = ({ username }) => {
 const UserProfile = () => {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
-  console.log(currentUser);
 
   //check id of link here
   //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont

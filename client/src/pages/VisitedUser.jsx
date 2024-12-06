@@ -46,10 +46,8 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
         `http://localhost:8088/users/getUserList`
       );
 
-      console.log(response.data);
       setUsers(response.data);
     } catch (error) {
-      console.log("error from searching: ", error);
     }
   };
 
@@ -62,7 +60,6 @@ const UserProfileHeader = ({ onCreatePostClick }) => {
       });
       toast.success("Friend request sent!");
     } catch (error) {
-      console.log("error from searching: ", error);
       if (error.response.status === 400) {
         toast.error("You are already friends with this user!");
       }
