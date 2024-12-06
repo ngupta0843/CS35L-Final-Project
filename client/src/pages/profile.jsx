@@ -761,9 +761,11 @@ const UserProfilePosts = ({ username }) => {
 
   if (posts.length === 0) {
     return (
-      <Typography variant="h6" color="textSecondary">
-        No posts available :\
-      </Typography>
+      <Box sx={{ backgroundColor: "black", minHeight: "70vh", p: 2 }}>
+        <Typography variant="h6" color="grey">
+          No posts available :\
+        </Typography>
+      </Box>
     );
   }
 
