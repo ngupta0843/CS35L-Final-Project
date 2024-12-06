@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import { Avatar, Button, Typography, Stack, Box,} from "@mui/material";
 import Post from "../../components/posts/Post";
 import { CameraAlt, Edit } from "@mui/icons-material";
@@ -16,11 +16,9 @@ const posts = [post1, post2, post3];
 
 const UserProfileHeader = ({ onCreatePostClick }) => {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser] = useState(null);
 
   const currentUser = useSelector((state) => state.user);
 
