@@ -17,27 +17,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
-
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: "dark",
-//     background: {
-//       default: "#121212",
-//       paper: "#1E1E1E",
-//     },
-//     text: {
-//       primary: "#FFFFFF",
-//       secondary: "#B3B3B3",
-//     },
-//     primary: {
-//       main: "#90caf9",
-//     },
-//     secondary: {
-//       main: "#f48fb1",
-//     },
-//   },
-// });
-
 const ChecklistCard = () => {
   const user = useSelector((state) => state.user);
   const [goals, setGoals] = useState([]);
@@ -53,7 +32,6 @@ const ChecklistCard = () => {
         if (user.email) {
           const response = await axios.get(`
           http://localhost:8088/api/goals/getGoal/${user.email}`);
-          console.log(response.data);
           setGoals(response.data);
         }
       } catch (error) {
@@ -115,7 +93,7 @@ const ChecklistCard = () => {
 
   const handleEditGoal = (goal) => {
     setEditingGoal(goal);
-    setNewGoal({ goal: goal.goal }); //add userId?
+    setNewGoal({ goal: goal.goal });
   };
   return (
     <Card

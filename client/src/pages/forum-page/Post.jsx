@@ -15,31 +15,12 @@ import { useSelector } from "react-redux";
 const getPostSize = (size) => {
   let width = "70%"; 
   let height = "auto"; 
-  // switch (size) {
-  //   case "small":
-  //     width = "50%";
-  //     height = "auto";
-  //     break;
-  //   case "medium":
-  //     width = "80%";
-  //     height = "auto";
-  //     break;
-  //   case "large":
-  //     width = "100%";
-  //     height = "auto";
-  //     break;
-  //   default:
-  //     width = "70%";
-  //     height = "auto";
-  //     break;
-  // }
   return { width, height };
 };
 
 function Post({ post, size = "medium" }) {
   const user = useSelector((state) => state.user)
   const { username, workout, caption, photo, likecount, isTextPost } = post;
-  console.log(post);
   const default_profile_photo =
     "https://st4.depositphotos.com/5161043/23536/v/450/depositphotos_235367142-stock-illustration-fitness-logo-design-vector.jpg";
   var profilePhoto = user || default_profile_photo;

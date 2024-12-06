@@ -42,7 +42,6 @@ const SignUp = memo(() => {
       ...user,
       email: e.target.value,
     });
-    console.log(user);
   };
 
   const handleSend = async () => {
@@ -59,7 +58,6 @@ const SignUp = memo(() => {
         email: user.email,
         password: user.password,
       });
-      console.log(response);
       switch (response.status) {
         case 201:
           try {

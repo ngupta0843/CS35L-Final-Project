@@ -17,7 +17,6 @@ const generateUniquePostID = async () => {
 
 const createComment = async (req, res) => {
     const { userEmail, commentMessage, parentPost } = req.body;
-    console.log(req.body);
     try {
         const user = await Users.findOne({ email: userEmail});
         if(!user){
@@ -98,8 +97,6 @@ const deleteComment = async (req, res) => {
     if (!deletionResult) {
       return res.status(404).json({ message: "Comment could not be found for deletion." });
     }
-
-    console.log("Comment deleted successfully:", deletionResult);
 
     res.status(200).json({ message: "Comment deleted successfully." });
   } catch (error) {
