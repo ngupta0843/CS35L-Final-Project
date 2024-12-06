@@ -68,11 +68,10 @@ const createPost = async (req, res) => {
     } = req.query;
     const {image} = req.body;
     let postImage = image;
-  
+    
     // console.log('++++++++++++++++++++++++++++++++++', postImage)
-    if (  // its failing somewhere in this if statment
+    if ( 
       !postID ||
-      !(postText || postImage) ||
       !postAuthor ||
       !postCaption ||
       !postisText
@@ -87,7 +86,7 @@ const createPost = async (req, res) => {
       username: postAuthor,
       workout: postWorkoutTitle,
       caption: postCaption,
-      photo: imagePath,
+      photo: postImage,
       text: postText,
       isTextPost: postisText,
       likecount: 0,
