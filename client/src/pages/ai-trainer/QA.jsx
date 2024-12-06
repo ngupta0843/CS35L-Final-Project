@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Box, Typography, TextField, Switch, FormControlLabel, Button, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Container, Box, Typography, TextField, Button, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import loadinggif from '../../testimages/loading.gif';
 
 const capitalizeWords = (str) => {
