@@ -50,10 +50,10 @@ function Post({ post, size = "medium" }) {
   const { width, height } = getPostSize(size);
 
   return (
-    <Box sx={{ width: '80%', margin: "0 auto" }}>
+    <Box sx={{ width: '100%', margin: "0 auto" }}>
       <Card
         sx={{
-          width: "400px",
+          width: "40 vh",
           backgroundColor: "black",
           color: "white",
           border: "2px solid white",

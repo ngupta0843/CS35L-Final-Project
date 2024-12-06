@@ -557,11 +557,11 @@ const CommentsSection = ({ postID, commentorEmail }) => {
                         </IconButton>
                     )}
                   
-                  {comment.userEmail === commentorEmail && !comment.isEditing && (
+                  {/* {comment.userEmail === commentorEmail && !comment.isEditing && (
                     <IconButton onClick={() => handleEditComment(index)} sx={{ color: "#ffffff" }}>
                       <EditOutlinedIcon />
                     </IconButton>
-                  )}
+                  )} */}
                   {comment.userEmail === commentorEmail && (
                     <IconButton onClick={() => handleDeleteComment(index)} sx={{ color: "#ffffff" }}>
                       <DeleteOutlinedIcon/>
