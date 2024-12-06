@@ -120,7 +120,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   return (
     <Box className="user-profile-header">
       <Stack direction="row" spacing={4} alignItems="center">
-        <Avatar alt="Nikhil" src={profilePic} className="avatar" />
+        <Avatar className="avatar" sx={{ fontSize: 30 }}>
+          {currentUser?.email ? currentUser.email[0].toLowerCase() : ""}
+        </Avatar>
         <Box>
           <Typography className="name">
             {currentUser.firstname} {currentUser.lastname}
@@ -128,16 +130,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
           <Typography className="username">{currentUser.email}</Typography>
           <Stack
             direction="row"
-            spacing={4}
+            spacing={1}
             sx={{ marginTop: 2 }}
             className="stats"
           >
-            <Box className="stat">
-              <Typography variant="h6" className="count">
-                100
-              </Typography>
-              <Typography variant="body2">Posts</Typography>
-            </Box>
             <Box
               className="stat"
               sx={{ cursor: "pointer" }}
@@ -765,9 +761,11 @@ const UserProfilePosts = ({ username }) => {
 
   if (posts.length === 0) {
     return (
-      <Typography variant="h6" color="textSecondary">
-        No posts available :\
-      </Typography>
+      <Box sx={{ backgroundColor: "black", minHeight: "70vh", p: 2 }}>
+        <Typography variant="h6" color="grey">
+          No posts available :\
+        </Typography>
+      </Box>
     );
   }
 
