@@ -48,6 +48,10 @@ const userSlice = createSlice({
       state.user.firstname = action.payload.firstname || state.user.firstname;
       state.user.lastname = action.payload.lastname || state.user.lastname;
       state.user.bio = action.payload.bio || state.user.bio;
+      state.user.profile_photo =
+        action.payload.profile_photo || state.user.profile_photo;
+      state.user.following = action.payload.following || state.user.following;
+      state.user.followers = action.payload.followers || state.user.followers;
     },
   },
 });

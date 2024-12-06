@@ -180,11 +180,11 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   mt: 2,
                   borderRadius: 3,
                   background:
-                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                   color: "white",
                   "&:hover": {
                     background:
-                      "linear-gradient(45deg, #6200e1 30%, #9c27a9 90%)",
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                     opacity: 0.9,
                   },
                 }}
@@ -204,12 +204,11 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   mt: 2,
                   borderRadius: 3,
                   background:
-                    "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
-
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                   color: "white",
                   "&:hover": {
                     background:
-                      "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                     opacity: 0.9,
                   },
                 }}
@@ -225,12 +224,11 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   mt: 2,
                   borderRadius: 3,
                   background:
-                    "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
-
+                    "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                   color: "white",
                   "&:hover": {
                     background:
-                      "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                      "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                     opacity: 0.9,
                   },
                 }}
@@ -436,19 +434,19 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "& input": {
                           color: "white",
@@ -481,19 +479,19 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "& input": {
                           color: "white",
@@ -522,28 +520,27 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                       width: "80%",
                       mt: 2,
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
+                        borderRadius: 8,
                         "& .MuiOutlinedInput-notchedOutline": {
-                          borderRadius: "8px",
+                          borderRadius: 8,
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                           border: "2px solid transparent",
                           borderImageSlice: 1,
                           borderImageSource:
-                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                            "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         },
-
-                        "& .MuiOutlinedInput-inputMultiline": {
+                        "& input": {
                           color: "white",
                         },
                       },
@@ -563,12 +560,12 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                       mt: 3,
                       borderRadius: 3,
                       background:
-                        "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
+                        "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
 
                       color: "white",
                       "&:hover": {
                         background:
-                          "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                          "linear-gradient( 177.7deg,  rgba(59, 78, 84, 1) 4.1%, rgba(150,198,214,1) 93.9% )",
                         opacity: 0.9,
                       },
                     }}
@@ -590,6 +587,7 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 sx={{
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
+                    backgroundColor: "#1e1e1e",
                   },
                 }}
               >
@@ -604,7 +602,13 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   }}
                 >
                   <DialogTitle
-                    sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
+                    sx={{
+                      m: 0,
+                      p: 0,
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "white",
+                    }}
                   >
                     Search for Users
                   </DialogTitle>
