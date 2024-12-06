@@ -176,8 +176,20 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               }}
             >
               <Button
+                sx={{
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(45deg, #6200e1 30%, #9c27a9 90%)",
+                    opacity: 0.9,
+                  },
+                }}
                 variant="contained"
-                className="edit-button"
+                // className="edit-button"
                 startIcon={<Edit />}
                 onClick={() => setEditOpen(true)}
               >
@@ -188,7 +200,19 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 variant="contained"
                 color="primary"
                 startIcon={<CameraAlt />}
-                sx={{ marginTop: 2 }}
+                sx={{
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
+
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                    opacity: 0.9,
+                  },
+                }}
                 onClick={onCreatePostClick}
               >
                 Create a Post
@@ -198,7 +222,17 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 color="primary"
                 startIcon={<CameraAlt />}
                 sx={{
-                  marginTop: 2,
+                  mt: 2,
+                  borderRadius: 3,
+                  background:
+                    "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
+
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                    opacity: 0.9,
+                  },
                 }}
                 onClick={() => {
                   getUserList();
@@ -342,6 +376,7 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 sx={{
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
+                    backgroundColor: "#1e1e1e",
                   },
                 }}
               >
@@ -356,7 +391,13 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   }}
                 >
                   <DialogTitle
-                    sx={{ m: 0, p: 0, fontSize: "1.5rem", fontWeight: 500 }}
+                    sx={{
+                      m: 0,
+                      p: 0,
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "white",
+                    }}
                   >
                     Edit your Profile
                   </DialogTitle>
@@ -385,8 +426,43 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     }}
                     label="First Name"
                     variant="outlined"
-                    sx={{ width: "80%", mt: 2 }}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
                   />
+
                   <TextField
                     value={profile.lastname}
                     onChange={(e) => {
@@ -395,7 +471,41 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     }}
                     label="Last Name"
                     variant="outlined"
-                    sx={{ width: "80%", mt: 2 }}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 8,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: 8,
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "& input": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
                   />
                   <TextField
                     value={profile.bio}
@@ -405,14 +515,63 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     }}
                     label="Bio"
                     variant="outlined"
+                    inputProps={{ style: { color: "white" } }}
                     multiline
                     rows={4}
-                    sx={{ width: "80%", mt: 2 }}
+                    sx={{
+                      width: "80%",
+                      mt: 2,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderRadius: "8px",
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "2px solid transparent",
+                          borderImageSlice: 1,
+                          borderImageSource:
+                            "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+                        },
+
+                        "& .MuiOutlinedInput-inputMultiline": {
+                          color: "white",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "white",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
+                    }}
                   />
+
                   <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 3 }}
+                    sx={{
+                      mt: 3,
+                      borderRadius: 3,
+                      background:
+                        "linear-gradient(45deg, #1E88E5 30%, #1DE9B6 90%)",
+
+                      color: "white",
+                      "&:hover": {
+                        background:
+                          "linear-gradient(45deg, #1976D2 30%, #4FC3F7 90%)",
+                        opacity: 0.9,
+                      },
+                    }}
                     onClick={() => {
                       handleSaveProfile();
                       setEditOpen(false);
@@ -592,9 +751,11 @@ const UserProfilePosts = ({ username }) => {
 
   if (loading) {
     return (
-      <Typography variant="h6" color="textSecondary">
-        Loading posts...
-      </Typography>
+      <Box sx={{ backgroundColor: "black", minHeight: "70vh", p: 2 }}>
+        <Typography variant="h6" color="grey">
+          Loading posts...
+        </Typography>
+      </Box>
     );
   }
 
@@ -609,11 +770,11 @@ const UserProfilePosts = ({ username }) => {
   return (
     <Box
       className="user-profile-posts"
-      sx={{ width: "100%", paddingLeft: 2, paddingRight: 2 }}
+      sx={{ width: "100%", paddingLeft: 2, paddingRight: 2, minHeight: "70vh" }}
     >
       <Card
         sx={{
-          backgroundColor: "black",
+          backgroundColor: "#121212",
           color: "white",
           borderRadius: 1,
         }}
