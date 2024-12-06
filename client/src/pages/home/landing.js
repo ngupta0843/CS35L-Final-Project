@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AuthButtons from '../components/AuthButtons';
+import AuthButtons from '../../components/navigation/AuthButtons';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { Icon } from '@mui/material';
 import { Box, Typography } from '@mui/material';

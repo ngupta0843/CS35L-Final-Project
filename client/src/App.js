@@ -4,16 +4,14 @@ import { CssBaseline } from "@mui/material";
 
 // function imports
 import ForumPage from "./pages/forum-page/ForumPage";
-import LandingPage from "./pages/landing";
+import LandingPage from "./pages/home/landing";
 import LogIn from "./components/auth/LogIn";
 import SignUp from "./components/auth/SignUp";
-import Header from "./components/Header";
 import Dashboard from "./components/dashboard/Dashboard";
-import UserProfile from "./pages/profile.jsx";
-import AuthButtons from "./components/AuthButtons";
-import VisitedUser from  "./pages/VisitedUser";
-
-import QA from "./pages/QA";
+import UserProfile from "./pages/profile/profile.jsx";
+import AuthButtons from "./components/navigation/AuthButtons";
+import VisitedUser from "./pages/profile/VisitedUser";
+import QA from "./pages/ai-trainer/QA";
 import WorkoutLog from './components/dashboard/Logger/WorkoutLog.jsx'
 
 function App() {

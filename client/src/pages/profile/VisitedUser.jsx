@@ -1,32 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  Avatar,
-  Button,
-  Typography,
-  Stack,
-  Box,
-  Grid,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  IconButton,
-  Icon,
-  Autocomplete,
-  CircularProgress,
-} from "@mui/material";
-import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import { Post } from "../../components/posts/post";
+import { Avatar, Button, Typography, Stack, Box,} from "@mui/material";
+import Post from "../../components/posts/Post";
 import { CameraAlt, Edit } from "@mui/icons-material";
-import profilePic from "../testimages/nikhil_profile_pic.png";
-import post1 from "../testimages/post1.jpeg";
-import post2 from "../testimages/post2.jpeg";
-import post3 from "../testimages/post3.jpeg";
 import SocialMediaPostUpload from "./upload_post";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UserProfile.css";
+import profilePic from "../../testimages/nikhil_profile_pic.png";
+import post1 from "../../testimages/post1.jpeg";
+import post2 from "../../testimages/post2.jpeg";
+import post3 from "../../testimages/post3.jpeg";
 
 const posts = [post1, post2, post3];
 

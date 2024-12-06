@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import "./AuthButtons.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../components/redux/reducers/userReducer";
+import { logout } from "./../redux/reducers/userReducer";
 
 const AuthButtons = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
