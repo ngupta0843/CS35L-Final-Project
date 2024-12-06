@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 // Sign in route
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
   try {
     const existingUser = await Users.findOne({ email });
     if (!existingUser) {
@@ -47,7 +46,6 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    console.log(hashedPassword);
     const newUser = new Users({
       email,
       password: hashedPassword,
@@ -62,10 +60,8 @@ const signup = async (req, res) => {
 
 // Test route (for debugging purposes)
 const test = async (req, res) => {
-  console.log("req body", req.body);
   const { name, email, password } = req.body;
   try {
-    console.log(name, email, password);
     const newUser = new Users({ name, email, password });
     await newUser.save();
     res.status(201).json({ message: "Test user created successfully" });
@@ -75,7 +71,6 @@ const test = async (req, res) => {
 };
 
 const testGet = async (req, res) => {
-  console.log("test get", req.body);
   res.status(200).json({ message: "Test GET route" });
 };
 
@@ -135,7 +130,6 @@ const updateProfile = async (req, res) => {
     user.bio = bio ? bio : user.bio ? user.bio : "";
 
     await user.save();
-    console.log(user);
     res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });

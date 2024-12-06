@@ -56,16 +56,9 @@ const LogIn = memo(() => {
         password: user.password,
       });
 
-      console.log(response);
 
       if (response.status === 200) {
-        console.log("first part");
-        console.log("API response data:", response.data);
-
         try {
-          console.log(response.data.result)
-          // console.log(response.data.result.name, response.data.result.email);
-          // console.log(response.data.result.followers)
           dispatch(
             login({
               firstname: response.data.result.name.split(" ")[0],
@@ -77,7 +70,6 @@ const LogIn = memo(() => {
               followers: response.data.result.following,
             })
           );
-          console.log("second part");
           navigate("/dashboard");
         } catch (dispatchError) {
           console.error("Dispatch error:", dispatchError);

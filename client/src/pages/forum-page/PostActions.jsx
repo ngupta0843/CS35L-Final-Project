@@ -20,7 +20,6 @@ function PostActions({ post }) {
     }
 
     try {
-      console.log("liking posts request");
       const response = await axios.post("http://localhost:8088/posts/likePost", {
         postId: postID,
         user: user.email,
@@ -29,7 +28,6 @@ function PostActions({ post }) {
       setLiked(response.data.likedUsers.includes(user.email));
       setLikeCount(response.data.likecount);
 
-      console.log(response);
     } catch (error) {
       console.error("Error liking post:", error);
     }

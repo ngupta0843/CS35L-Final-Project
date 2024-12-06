@@ -9,10 +9,6 @@ const getPost = async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-    console.log(
-      "-------------------------------------------------- getting post: ",
-      post
-    );
     res.json(post);
   } catch (error) {
     res.status(500).json({ message: "Error getting post: ", error });
@@ -23,7 +19,6 @@ const likePost = async (req, res) => {
   try {
     const { postId, user } = req.body;
     if (!postId) {
-      console.log(req);
       return res.status(400).json({ error: "Bad Post ID." });
     }
 
@@ -38,8 +33,6 @@ const likePost = async (req, res) => {
       post.likecount = post.likecount + 1;
       post.likedUsers.push(user);
     }
-
-    console.log("updatedPost: ", post);
 
     if (!post) {
       return res.status(404).json({ error: "Post not found." });
@@ -64,11 +57,9 @@ const createPost = async (req, res) => {
     } = req.query;
     const {image} = req.body;
     let postImage = image;
-  
-    // console.log('++++++++++++++++++++++++++++++++++', postImage)
-    if (
+    
+    if ( 
       !postID ||
-      !(postText || postImage) ||
       !postAuthor ||
       !postCaption ||
       !postisText
@@ -83,7 +74,7 @@ const createPost = async (req, res) => {
       username: postAuthor,
       workout: postWorkoutTitle,
       caption: postCaption,
-      photo: imagePath,
+      photo: postImage,
       text: postText,
       isTextPost: postisText,
       likecount: 0,
@@ -119,10 +110,6 @@ const getUserPosts = async(req, res) => {
     if (posts.length === 0) {
       return res.status(404).json({ message: "No posts found for the user" });
     }
-    console.log(
-      "-------------------------------------------------- getting post: ",
-      posts
-    );
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error getting posts:", error);

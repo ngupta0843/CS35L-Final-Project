@@ -63,7 +63,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
 
       setUsers(response.data);
     } catch (error) {
-      console.log("error from searching: ", error);
     }
   };
 
@@ -79,7 +78,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
         "http://localhost:8088/users/updateProfile",
         { data: user }
       );
-      console.log(request.data);
 
       try {
         dispatch(
@@ -91,11 +89,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
         );
         toast.success("Profile updated successfully!");
       } catch (dispatchError) {
-        console.log("Dispatch error: ", dispatchError);
         toast.error("Error updating profile");
       }
     } catch (error) {
-      console.log(error);
       toast.error("Error updating profile");
     }
   };
@@ -109,7 +105,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
       });
       toast.success("Friend request sent!");
     } catch (error) {
-      console.log("error from searching: ", error);
       if (error.response.status === 400) {
         toast.error("You are already friends with this user!");
       }
@@ -120,7 +115,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   return (
     <Box className="user-profile-header">
       <Stack direction="row" spacing={4} alignItems="center">
-        <Avatar alt="Nikhil" src={profilePic} className="avatar" />
+        <Avatar className="avatar" sx={{ fontSize: 30 }}>
+          {currentUser?.email ? currentUser.email[0].toLowerCase() : ""}
+        </Avatar>
         <Box>
           <Typography className="name">
             {currentUser.firstname} {currentUser.lastname}
@@ -128,16 +125,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
           <Typography className="username">{currentUser.email}</Typography>
           <Stack
             direction="row"
-            spacing={4}
+            spacing={1}
             sx={{ marginTop: 2 }}
             className="stats"
           >
-            <Box className="stat">
-              <Typography variant="h6" className="count">
-                100
-              </Typography>
-              <Typography variant="body2">Posts</Typography>
-            </Box>
             <Box
               className="stat"
               sx={{ cursor: "pointer" }}
@@ -639,7 +630,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                     onChange={(e, value) => {
                       e.preventDefault();
                       setSelectedUser(value);
-                      console.log(value);
                     }}
                     renderOption={(props, option) => (
                       <Box
@@ -700,7 +690,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                                 cursor: "pointer",
                               }}
                               onClick={() => {
-                                console.log(selectedUser);
                                 navigate(`/profile/${selectedUser.email}`);
                               }}
                             >
@@ -765,9 +754,11 @@ const UserProfilePosts = ({ username }) => {
 
   if (posts.length === 0) {
     return (
-      <Typography variant="h6" color="textSecondary">
-        No posts available :\
-      </Typography>
+      <Box sx={{ backgroundColor: "black", minHeight: "70vh", p: 2 }}>
+        <Typography variant="h6" color="grey">
+          No posts available :\
+        </Typography>
+      </Box>
     );
   }
 
@@ -806,7 +797,6 @@ const UserProfilePosts = ({ username }) => {
 const UserProfile = () => {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
-  console.log(currentUser);
 
   //check id of link here
   //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont

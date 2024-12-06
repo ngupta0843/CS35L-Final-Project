@@ -2,7 +2,6 @@ const { exec } = require("child_process");
 
 const callgpt = (req, res) => {
     const { indata, type } = req.body;
-    console.log(`Received request with indata: ${indata} and type: ${type}`);
 
     // Validate inputs
     if (!indata || !type) {
@@ -29,7 +28,6 @@ const callgpt = (req, res) => {
                 return res.status(500).send({ error: stderr });
             }
         }
-        console.log("Python script result:", stdout);
         res.status(200).json({ result: stdout.trim() });
     });
 };

@@ -44,31 +44,14 @@ const SocialMediaPostUpload = ({ open, onClose }) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      const responseUserSchema = await axios.get(
-        "http://localhost:8088/users/currentUser?id=" + user.email
-      );
-      const userSchema = responseUserSchema.data;
-      const postID = user.email + userSchema.profile_photo.length;
-      //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
-      const response = await axios.post(
-        "http://localhost:8088/posts/createPost?postID=" +
-          postID +
-          "&postText=" +
-          postContent +
-          "&postAuthor=" +
-          user.email +
-          "&postCaption=" +
-          caption +
-          "&postisText=" +
-          isTextPost +
-          "&postWorkoutTitle=" +
-          workoutTitle,
-        { image: photo }
-      );
-      console.log(response.body);
-      onClose();
-    } catch (error) {
+    try{
+    const responseUserSchema = await axios.get("http://localhost:8088/users/currentUser?id=" + user.email);
+    const userSchema = responseUserSchema.data;
+    const postID = user.email + userSchema.profile_photo.length;
+    //postID, postText, postImage, postAuthor, postCaption, postisText, postWorkoutTitle
+    const response = await axios.post("http://localhost:8088/posts/createPost?postID=" + postID + "&postAuthor=" + user.email + "&postCaption=" + caption + "&postisText=" + isTextPost + "&postWorkoutTitle=" + workoutTitle, {image:(isTextPost ? null : photo)});
+    onClose();
+    } catch(error){
       console.error("Error creating post:", error);
     }
   };

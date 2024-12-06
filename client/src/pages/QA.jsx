@@ -24,7 +24,6 @@ const QA = () => {
   };
 
   const calculate = async () => {
-    console.log(`Data: ${data_text}, Type: ${type_text}`);
     if (!data_text) {
       alert('Please enter valid text!');
       return;
@@ -32,9 +31,7 @@ const QA = () => {
   
     try {
       const url = `/ml`;
-      console.log(`Making request to: ${url}`);
       const response = await axios.post("http://localhost:8088" + url, { indata: data_text, type: type_text });
-      console.log(response);
       setResult(response.data.result);
     } catch (error) {
       console.error('Error:', error);
