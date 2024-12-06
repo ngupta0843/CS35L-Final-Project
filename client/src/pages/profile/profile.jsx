@@ -26,13 +26,13 @@ import profilePic from "../testimages/nikhil_profile_pic.png";
 import post1 from "../testimages/post1.jpeg";
 import post2 from "../testimages/post2.jpeg";
 import post3 from "../testimages/post3.jpeg";
-import SocialMediaPostUpload from "./upload_post";
+import SocialMediaPostUpload from "./upload_post.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UserProfile.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { updateUser } from "../components/redux/reducers/userReducer.js";
+import { updateUser } from "../../components/redux/reducers/userReducer.js";
 
 const posts = [post1, post2, post3];
 
@@ -43,9 +43,9 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   const [followersOpen, setFollowersOpen] = useState(false);
   const [followingOpen, setFollowingOpen] = useState(false);
   const [profile, setProfile] = useState({
-    firstname: currentUser.firstname || "",
-    lastname: currentUser.lastname || "",
-    bio: currentUser.bio || "",
+    firstname: currentUser?.firstname || "",
+    lastname: currentUser?.lastname || "",
+    bio: currentUser?.bio || "",
   });
   const [editOpen, setEditOpen] = useState(false);
   const [user, setUser] = useState({});
@@ -138,9 +138,13 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               </Typography>
               <Typography variant="body2">Posts</Typography>
             </Box>
-            <Box className="stat" sx={{cursor: 'pointer'}} onClick={() => setFollowingOpen(true)}>
+            <Box
+              className="stat"
+              sx={{ cursor: "pointer" }}
+              onClick={() => setFollowingOpen(true)}
+            >
               <Typography variant="h6" className="count">
-                {currentUser.followers?.length}
+                {currentUser?.followers?.length}
               </Typography>
               <Typography variant="body2">Followers</Typography>
             </Box>
@@ -150,8 +154,8 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
               onClick={() => setFollowersOpen(true)}
             >
               <Typography variant="h6" className="count">
-                {currentUser.following.length
-                  ? currentUser.following.length
+                {currentUser?.following?.length
+                  ? currentUser?.following?.length
                   : 0}
               </Typography>
               <Typography variant="body2">Following</Typography>
@@ -209,11 +213,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 onClose={() => setFollowersOpen(false)}
                 maxWidth="sm"
                 sx={{
-
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
-                    backgroundColor: 'rgb(30, 30, 30)',
-                    color: 'white',
+                    backgroundColor: "rgb(30, 30, 30)",
+                    color: "white",
                   },
                 }}
                 fullWidth
@@ -241,15 +244,15 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 <DialogContent>
                   <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
                     <List sx={{ padding: 0 }}>
-                      {currentUser.following.length > 0 ? (
-                        currentUser.following.map((follower, index) => (
+                      {currentUser?.following?.length > 0 ? (
+                        currentUser?.following.map((follower, index) => (
                           <div key={index}>
                             <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
                               <Typography variant="body1">
                                 {follower || "Unknown User"}
                               </Typography>
                             </ListItem>
-                            {index < currentUser.following.length - 1 && (
+                            {index < currentUser?.following?.length - 1 && (
                               <Divider />
                             )}
                           </div>
@@ -273,11 +276,10 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 onClose={() => setFollowingOpen(false)}
                 maxWidth="sm"
                 sx={{
-
                   "& .MuiDialog-paper": {
                     borderRadius: 8,
-                    backgroundColor: 'rgb(30, 30, 30)',
-                    color: 'white',
+                    backgroundColor: "rgb(30, 30, 30)",
+                    color: "white",
                   },
                 }}
                 fullWidth
@@ -305,15 +307,15 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 <DialogContent>
                   <Box sx={{ maxHeight: "60vh", overflowY: "auto" }}>
                     <List sx={{ padding: 0 }}>
-                      {currentUser.followers.length > 0 ? (
-                        currentUser.followers.map((follower, index) => (
+                      {currentUser?.followers?.length > 0 ? (
+                        currentUser?.followers.map((follower, index) => (
                           <div key={index}>
                             <ListItem sx={{ paddingLeft: 2, paddingRight: 2 }}>
                               <Typography variant="body1">
                                 {follower || "Unknown User"}
                               </Typography>
                             </ListItem>
-                            {index < currentUser.followers.length - 1 && (
+                            {index < currentUser?.followers?.length - 1 && (
                               <Divider />
                             )}
                           </div>
@@ -331,7 +333,6 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                   </Box>
                 </DialogContent>
               </Dialog>
-              
 
               <Dialog
                 open={editOpen}
@@ -606,7 +607,10 @@ const UserProfilePosts = ({ username }) => {
   }
 
   return (
-    <Box className="user-profile-posts" sx={{ width: "100%", paddingLeft: 2, paddingRight:2 }}>
+    <Box
+      className="user-profile-posts"
+      sx={{ width: "100%", paddingLeft: 2, paddingRight: 2 }}
+    >
       <Card
         sx={{
           backgroundColor: "black",
@@ -638,8 +642,6 @@ const UserProfile = () => {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
   console.log(currentUser);
-  console.log(currentUser.following);
-  console.log(currentUser.followers);
 
   //check id of link here
   //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont
