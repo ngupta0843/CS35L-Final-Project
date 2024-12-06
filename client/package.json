@@ -29,6 +29,7 @@
     "react-toastify": "^10.0.6",
     "recharts": "^2.13.3",
     "redux-persist": "^6.0.0",
+    "uuid": "^11.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

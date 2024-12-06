@@ -26,10 +26,7 @@ const postSchema = mongoose.Schema({
     default: []
   },
   photo: {
-    type: String // filepath of photo
-  },
-  text: {
-    type: String
+    type: String // base64
   },
   isTextPost: {
     type: Boolean,
