@@ -20,12 +20,9 @@ import {
   Divider,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import Post from "./forum-page/Post.jsx";
+import Post from "../../components/posts/Post";
 import { CameraAlt, Edit } from "@mui/icons-material";
-import profilePic from "../testimages/nikhil_profile_pic.png";
-import post1 from "../testimages/post1.jpeg";
-import post2 from "../testimages/post2.jpeg";
-import post3 from "../testimages/post3.jpeg";
+import profilePic from "../../testimages/nikhil_profile_pic.png";
 import SocialMediaPostUpload from "./upload_post.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -33,8 +30,6 @@ import { toast } from "react-toastify";
 import "./UserProfile.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { updateUser } from "../../components/redux/reducers/userReducer.js";
-
-const posts = [post1, post2, post3];
 
 const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
   const dispatch = useDispatch();
