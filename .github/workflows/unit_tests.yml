@@ -1,0 +1,33 @@
+name: no bad backend
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  check-env-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check that the ml unit tests run
+        run: |
+          if ! mocha ../server/unit_tests/ml.test.js --timeout 20000; then
+            echo "The ml unit tests failed"
+            exit 1
+          else
+            echo "The ml unit tests ran successfully"
+          fi
+
+      - name: Check that the ml unit tests run
+        run: |
+            if ! mocha ../server/unit_tests/user.test.js --timeout 20000; then
+              echo "The user unit tests failed"
+              exit 1
+            else
+              echo "The user unit tests ran successfully"
+            fi
+      
