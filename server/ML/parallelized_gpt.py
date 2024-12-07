@@ -148,7 +148,7 @@ def format_answer(answer):
                 if (random.choice(to_thirty))
                 else answer + " until failure for " + str(rep_selection) + " reps")
     else:
-        return (random.randint(1, 3) * 100 + "g of " + answer)
+        return answer
 
 # Parallelize final answer formatting
 with ThreadPoolExecutor(max_workers=8) as executor:
@@ -164,4 +164,13 @@ for ans in final_answers_copy:
         final_answers.remove(ans)
         final_answers.append(temp)
 
-print(set(final_answers))
+finalfinal = set()
+if fitness_goal == "w":
+    for i in final_answers:
+        finalfinal.add(i)
+    print(finalfinal)
+else:
+    for i in answers_copy:
+        finalfinal.add(i)
+    print(finalfinal)
+
