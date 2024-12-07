@@ -10,7 +10,7 @@ it('should get a list of users', function(done) {
     console.log("Testing GET /users route");
 
     chai.request(base_url)
-        .get('/users')  // Assuming the route to fetch users is `/users`
+        .get('/getUserList')  // Assuming the route to fetch users is `/users`
         .end(function (err, res) {
             if (err) {
                 console.log("Error:", err);
