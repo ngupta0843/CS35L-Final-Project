@@ -1,7 +1,7 @@
 # CS35L Final Project: Fitness is my Passion
 
 ![Fitness_is_my_passion_home](https://github.com/user-attachments/assets/ca5d8fd3-63b5-4633-8675-8530a4f835d9)
-(https://www.google.com/url?sa=i&url=https%3A%2F%2Fallmemetemplates.wordpress.com%2F2020%2F02%2F02%2Ffitness-is-my-passion%2F&psig=AOvVaw0Ke0Iqa01PxxkW-3ALPCsI&ust=1733620115090000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCODr6L-8lIoDFQAAAAAdAAAAABAJ)
+
 
 ---
 
