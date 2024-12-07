@@ -148,7 +148,7 @@ def format_answer(answer):
                 if (random.choice(to_thirty))
                 else answer + " until failure for " + str(rep_selection) + " reps")
     else:
-        return answer
+        return (random.randint(1, 3) * 100 + "g of " + answer)
 
 # Parallelize final answer formatting
 with ThreadPoolExecutor(max_workers=8) as executor:

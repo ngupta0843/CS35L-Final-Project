@@ -10,6 +10,7 @@ const {
   sendFriendRequest,
   getUser,
   updateProfile,
+  postTest,
 } = require("../controllers/users/users.controllers.js");
 
 const router = express.Router();
@@ -17,11 +18,11 @@ const router = express.Router();
 router.post("/signin", signin);
 router.get("/getUserList", getUserList);
 router.post("/signup", signup);
-router.post("/test", test);
+router.post("/test", postTest);
 router.get("/test", testGet);
 router.get("/currentUser", getCurrentUser);
 router.post("/sendFriendRequest", sendFriendRequest);
-router.post("/getUser/:id", getUser);
+router.post("/getUser", getUser);
 router.put("/updateProfile", updateProfile);
 
 module.exports = router;
