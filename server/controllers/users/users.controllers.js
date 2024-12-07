@@ -2,6 +2,32 @@ const { get } = require("mongoose");
 const Users = require("../../models/userModel.js");
 const bcrypt = require("bcryptjs");
 
+const postTest = async (req, res) => {
+  const { email } = req.body;
+  console.log(email); // This is fine for debugging, but you might want to remove it in production.
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    // Look for a user by email
+    const user = await Users.findOne({ email });
+    
+    // If no user is found, return a 404
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return the user if found
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);  // Log the error for server-side debugging
+    return res.status(500).json({ message: "Something went wrong", error: error.message });
+  }
+}
+
+
 // Sign in route
 const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -108,7 +134,7 @@ const sendFriendRequest = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
     const user = await Users.findOne({ email: id }, {});
     res.status(200).json(user);
@@ -146,4 +172,5 @@ module.exports = {
   sendFriendRequest,
   getUser,
   updateProfile,
+  postTest,
 };

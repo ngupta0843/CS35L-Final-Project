@@ -18,6 +18,7 @@ import {
   List,
   ListItem,
   Divider,
+  Popper,
 } from "@mui/material";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import Post from "./forum-page/Post.jsx";
@@ -613,105 +614,142 @@ const UserProfileHeader = ({ onCreatePostClick, currentUser, button }) => {
                 </Box>
 
                 <DialogContent sx={{ px: 3, py: 2 }}>
-                  <Autocomplete
-                    options={users}
-                    getOptionLabel={(option) =>
-                      `${option.name} (${option.email})`
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        placeholder="Search users by name or email"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                      />
-                    )}
-                    onChange={(e, value) => {
-                      e.preventDefault();
-                      setSelectedUser(value);
-                    }}
-                    renderOption={(props, option) => (
-                      <Box
-                        {...props}
-                        key={option._id}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 2,
-                          py: 1,
-                          px: 2,
-                          cursor: "pointer",
-                          "&:hover": { backgroundColor: "#f5f5f5" },
-                        }}
-                      >
-                        {/* might have to debug this in the future if it gives issues with pfp loading */}
-                        {!loading ? (
-                          <Avatar sx={{ bgcolor: "#1976d2" }}>
-                            {option.name ? option.name[0].toUpperCase() : "U"}
-                          </Avatar>
-                        ) : (
-                          <CircularProgress />
-                        )}
+  <Autocomplete
+    options={users}
+    getOptionLabel={(option) => `${option.name} (${option.email})`}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "transparent",
+              borderImageSlice: 1,
+              borderImageSource: "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+            },
+            "&:hover fieldset": {
+              borderColor: "transparent",
+              borderImageSlice: 1,
+              borderImageSource: "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "transparent",
+              borderImageSlice: 1,
+              borderImageSource: "linear-gradient(45deg, #6200ee 30%, #9c27b0 90%)",
+            },
+            "& input": {
+              color: "white",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
+        }}
+        variant="outlined"
+        placeholder="Search users by name or email"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+    )}
+    onChange={(e, value) => {
+      e.preventDefault();
+      setSelectedUser(value);
+    }}
+    renderOption={(props, option) => (
+      <Box
+        {...props}
+        key={option._id}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          py: 1,
+          px: 2,
+          cursor: "pointer",
+          backgroundColor: "#1e1e1e",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "#333",
+          },
+        }}
+      >
+        {!loading ? (
+          <Avatar sx={{ bgcolor: "#1976d2" }}>
+            {option.name ? option.name[0].toUpperCase() : "U"}
+          </Avatar>
+        ) : (
+          <CircularProgress size={24} />
+        )}
+        <Stack>
+          <Typography variant="body1" color={'grey'}>{option.name}</Typography>
+          <Typography variant="body2" color={'grey'}>
+            {option.email}
+          </Typography>
+        </Stack>
+      </Box>
+    )}
+    ListboxProps={{
+      sx: {
+        maxHeight: 300, 
+        overflowY: "auto", 
+        "& ul": {
+          padding: 0,
+          margin: 0, 
+        },
+      },
+    }}
+    PopperComponent={(props) => (
+      <Popper {...props} placement="bottom-start" color={'white'}/>
+    )}
+  />
 
-                        <Stack>
-                          <Typography variant="body1">{option.name}</Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {option.email}
-                          </Typography>
-                        </Stack>
-                      </Box>
-                    )}
-                  />
+  {/* Display selected user */}
+  {selectedUser && (
+    <Box sx={{ mt: 3 }}>
+      <Typography variant="h6" color={'white'}>Selected User</Typography>
+      <Stack direction="row" alignItems="center" spacing={2}>
+        <Avatar sx={{ bgcolor: "#1976d2" }}>
+          {selectedUser.name
+            ? selectedUser.name[0].toUpperCase()
+            : "U"}
+        </Avatar>
+        <Stack sx={{ flex: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                navigate(`/profile/${selectedUser.email}`);
+              }}
+            >
+              <Typography variant="body1" color={'white'}>{selectedUser.name}</Typography>
+              <Typography variant="body2" color="grey">
+                {selectedUser.email}
+              </Typography>
+            </Box>
+            <Button sx={{ ml: "auto" }} onClick={sendFriendRequest}>
+              Send a Friend Request
+            </Button>
+          </Box>
+        </Stack>
+      </Stack>
+    </Box>
+  )}
+</DialogContent>
 
-                  {/* Display selected user */}
-                  {selectedUser && (
-                    <Box sx={{ mt: 3 }}>
-                      <Typography variant="h6">Selected User</Typography>
-                      <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar sx={{ bgcolor: "#1976d2" }}>
-                          {selectedUser.name
-                            ? selectedUser.name[0].toUpperCase()
-                            : "U"}
-                        </Avatar>
-                        <Stack sx={{ flex: 1 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "row",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => {
-                                navigate(`/profile/${selectedUser.email}`);
-                              }}
-                            >
-                              <Typography variant="body1">
-                                {selectedUser.name}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary">
-                                {selectedUser.email}
-                              </Typography>
-                            </Box>
-                            <Button
-                              sx={{ ml: "auto" }}
-                              onClick={sendFriendRequest}
-                            >
-                              Send a Friend Request
-                            </Button>
-                          </Box>
-                        </Stack>
-                      </Stack>
-                    </Box>
-                  )}
-                </DialogContent>
               </Dialog>
             </Box>
           )}
@@ -797,21 +835,75 @@ const UserProfilePosts = ({ username }) => {
 const UserProfile = () => {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
+  const [user, setUser] = useState({currentUser});
+  const [listofusers, setUsers] = useState([]);
 
   //check id of link here
   //logic -> put this inside of a use effect: if the current user from redux is the same as the user id in the link, show the buttons, otherwise dont
   // fetch user info from backend on every refresh
   const [buttons, setButtons] = useState(false);
 
+  //test useEffect
+  // useEffect(() => {
+  //   testGet();
+
+  // }, [])
+
+  const testGet = async () => {
+    try {
+      console.log('id: ', id);
+      const response = await axios.post("http://localhost:8088/users/test", {email: id});
+      console.log('successful');
+      console.log(response);
+      setUser({
+        firstname: response.data.name.split(" ")[0],
+        lastname: response.data.name.split(" ")[1],
+        bio: response.data.bio,
+        email: response.data.email,
+        followers: response.data.followers,
+        following: response.data.following,
+      })
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     // check to see if viewed user is the same as current user
     if (id === currentUser.email) {
       setButtons(true);
+      setUser(currentUser);
     } else {
+      const getUserList = async () => {
+        try {
+          // const response = await axios.get(
+          //   `http://localhost:8088/users/getUserList`
+          // );
+    
+          // setUsers(response.data);
+          testGet();
+        } catch (error) {
+          console.log('error from useeffect', error);
+        }
+        finally{
+          console.log('new user:  ', user);
+        }
+      };
+      console.log("findig the right user")
       setButtons(false);
+      getUserList();
+      //query to find the user with the id matching id
+      listofusers.forEach((user) => {
+        if (user.email === id) {
+          setUser(user);
+        }
+      });
     }
   }, [id, currentUser]);
-
+  console.log("user", user);
+  console.log("id", id);
+  console.log("current user", currentUser);
   //post req
 
   const [openPostModal, setOpenPostModal] = useState(false);
@@ -827,7 +919,7 @@ const UserProfile = () => {
     <div>
       <UserProfileHeader
         onCreatePostClick={handleOpenModal}
-        currentUser={currentUser}
+        currentUser={user}
         button={buttons}
       />{" "}
       {/* Pass modal trigger to header */}

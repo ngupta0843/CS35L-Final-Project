@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./unit_tests/ml.controller.test.js --timeout 20000",
+    "test": "mocha ./unit_tests/workout.test.js --timeout 20000",
     "dev": "nodemon server.js"
   },
   "keywords": [],
